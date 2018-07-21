@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">The Movie App</string>
+    <string name="search_hint">Search for a Movie, show or person…</string>
+</resources>
