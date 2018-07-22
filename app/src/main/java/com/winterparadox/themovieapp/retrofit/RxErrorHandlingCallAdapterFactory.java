@@ -67,7 +67,7 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
                 HttpException httpException = (HttpException) throwable;
                 String responseBody = httpException.response ().errorBody ().string ();
                 ErrorResponse errorResponse = gson.fromJson (responseBody, ErrorResponse.class);
-                return new Throwable (errorResponse.statusMessage, throwable)
+                return new Throwable (errorResponse.statusMessage, throwable);
             }
             return RetrofitException.error (throwable);
         }

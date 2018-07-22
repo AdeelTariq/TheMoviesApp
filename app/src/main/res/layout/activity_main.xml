@@ -1,29 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".search.MainActivity">
 
-    <EditText
-        android:id="@+id/etSearch"
-        android:hint="@string/search_hint"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:imeOptions="actionSearch"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        style="@style/Widget.Movies.Backdrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="88dp"
+        android:paddingBottom="100dp">
+
+        <include layout="@layout/layout_backdrop_menu"/>
+
+    </LinearLayout>
+
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:elevation="0dp">
 
-</android.support.constraint.ConstraintLayout>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/Widget.Movies.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_menu"
+            app:title="@string/app_name"/>
+    </android.support.design.widget.AppBarLayout>
+
+
+    <FrameLayout
+        android:layout_marginTop="?attr/actionBarSize"
+        android:id="@+id/frontSheet"
+        android:backgroundTint="@color/backgroundColor"
+        android:background="@drawable/front_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Hello World!"/>
+    </FrameLayout>
+
+</FrameLayout>

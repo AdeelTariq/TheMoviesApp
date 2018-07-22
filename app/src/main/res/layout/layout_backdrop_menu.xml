@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.design.button.MaterialButton
+        style="@style/Widget.Movies.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recently_viewed"/>
+
+    <android.support.design.button.MaterialButton
+        style="@style/Widget.Movies.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/favorites"/>
+
+    <android.support.design.button.MaterialButton
+        style="@style/Widget.Movies.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/my_lists"/>
+
+    <android.support.design.button.MaterialButton
+        style="@style/Widget.Movies.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/charts"/>
+
+</merge>

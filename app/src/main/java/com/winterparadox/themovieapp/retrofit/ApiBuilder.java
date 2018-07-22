@@ -2,7 +2,9 @@ package com.winterparadox.themovieapp.retrofit;
 
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -13,6 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiBuilder {
 
     private static final String Base_URL = "https://api.themoviedb.org/3/";
+    private static final String API_KEY = "ffd597419be5a256066dc51c49bc659f";
 
     public static <T> T build (boolean test, Class<T> apiInterface) {
 
@@ -25,6 +28,16 @@ public class ApiBuilder {
 
             httpClient.addInterceptor (logging);
         }
+
+        httpClient.addInterceptor (chain -> {
+            Request request = chain.request ();
+            HttpUrl url = request.url ().newBuilder ()
+                    .addQueryParameter ("api_key", API_KEY)
+                    .build ();
+            request = request.newBuilder ().url (url).build ();
+            return chain.proceed (request);
+        });
+
         OkHttpClient OkHttpClient = httpClient.build ();
         Retrofit retrofit = new Retrofit
                 .Builder ()

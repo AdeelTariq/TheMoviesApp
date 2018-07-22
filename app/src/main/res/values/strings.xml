@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">The Movie App</string>
     <string name="search_hint">Search for a Movie, show or person…</string>
+    <string name="recently_viewed">Recently Viewed</string>
+    <string name="favorites">Favorites</string>
+    <string name="my_lists">My Lists</string>
+    <string name="charts">Charts</string>
 </resources>
