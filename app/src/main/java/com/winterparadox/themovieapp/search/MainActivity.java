@@ -33,5 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar (toolbar);
         toolbar.setNavigationOnClickListener (navigationIconClickListener);
+        frontSheet.setOnClickListener ((v) -> {
+            if ( navigationIconClickListener.isBackdropShown () ) {
+                navigationIconClickListener.onClick (toolbar.getChildAt (1));
+            }
+        });
     }
 }

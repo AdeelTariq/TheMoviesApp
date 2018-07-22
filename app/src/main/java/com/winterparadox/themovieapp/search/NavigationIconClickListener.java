@@ -86,4 +86,8 @@ public class NavigationIconClickListener implements View.OnClickListener {
             }
         }
     }
+
+    public boolean isBackdropShown () {
+        return backdropShown;
+    }
 }
