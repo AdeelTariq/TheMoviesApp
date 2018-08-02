@@ -10,6 +10,15 @@
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
     </style>
 
+    <style name="Theme.Movies.Overlay" parent="Theme.Movies">
+        <item name="colorControlNormal">@color/toolbarIconColor</item>
+        <item name="colorControlActivated">@color/toolbarIconColor</item>
+        <item name="colorControlHighlight">@color/toolbarIconColor</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="searchViewStyle">@style/Widget.Movies.SearchView</item>
+        <item name="homeAsUpIndicator">@drawable/ic_close</item>
+    </style>
+
 
     <style name="Widget.Movies.Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">?attr/colorAccent</item>
@@ -22,16 +31,22 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-
     <style name="Widget.Movies.Button.TextButton"
            parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
-
     <style name="Widget.Movies.Backdrop" parent="">
         <item name="android:background">?attr/colorAccent</item>
     </style>
 
+    <style name="Widget.Movies.SearchView" parent="Widget.AppCompat.SearchView">
+        <item name="closeIcon">@null</item>
+        <item name="searchHintIcon">@null</item>
+        <item name="queryHint">@string/search_hint</item>
+        <item name="goIcon">@drawable/ic_search</item>
+        <item name="queryBackground">@drawable/search_view_background</item>
+        <item name="submitBackground">@drawable/search_view_background</item>
+    </style>
 
 </resources>

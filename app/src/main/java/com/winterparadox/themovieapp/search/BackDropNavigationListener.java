@@ -5,11 +5,12 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.winterparadox.themovieapp.R;
 
@@ -17,33 +18,35 @@ import com.winterparadox.themovieapp.R;
  * {@link View.OnClickListener} used to translate the product grid sheet downward on
  * the Y-axis when the navigation icon in the toolbar is pressed.
  */
-public class NavigationIconClickListener implements View.OnClickListener {
+public class BackDropNavigationListener implements View.OnClickListener {
 
     private final AnimatorSet animatorSet = new AnimatorSet ();
     private Context context;
     private View sheet;
+    private final LinearLayout backdropHolder;
+    private final View menuLayout;
+    private final View seachLayout;
     private Interpolator interpolator;
     private int height;
     private boolean backdropShown = false;
     private Drawable openIcon;
     private Drawable closeIcon;
+    private View iconView;
 
-    NavigationIconClickListener (Context context, View sheet) {
-        this (context, sheet, null);
-    }
-
-    NavigationIconClickListener (Context context, View sheet, @Nullable Interpolator interpolator) {
-        this (context, sheet, interpolator, null, null);
-    }
-
-    NavigationIconClickListener (
-            Context context, View sheet, @Nullable Interpolator interpolator,
-            @Nullable Drawable openIcon, @Nullable Drawable closeIcon) {
+    BackDropNavigationListener (Context context, View iconView, View sheet, LinearLayout
+            backdropHolder,
+                                View menuLayout, View seachLayout,
+                                DecelerateInterpolator decelerateInterpolator,
+                                Drawable drawable, Drawable drawable1) {
         this.context = context;
+        this.iconView = iconView;
         this.sheet = sheet;
-        this.interpolator = interpolator;
-        this.openIcon = openIcon;
-        this.closeIcon = closeIcon;
+        this.backdropHolder = backdropHolder;
+        this.menuLayout = menuLayout;
+        this.seachLayout = seachLayout;
+        this.interpolator = decelerateInterpolator;
+        this.openIcon = drawable;
+        this.closeIcon = drawable1;
 
         DisplayMetrics displayMetrics = new DisplayMetrics ();
         ((Activity) context).getWindowManager ().getDefaultDisplay ().getMetrics (displayMetrics);
@@ -52,6 +55,18 @@ public class NavigationIconClickListener implements View.OnClickListener {
 
     @Override
     public void onClick (View view) {
+
+        backdropHolder.removeAllViews ();
+        backdropHolder.addView (menuLayout);
+
+        toggleBackDrop (view);
+    }
+
+    public void toggle () {
+        toggleBackDrop (iconView);
+    }
+
+    private void toggleBackDrop (View view) {
         backdropShown = !backdropShown;
 
         // Cancel the existing animations
@@ -89,5 +104,31 @@ public class NavigationIconClickListener implements View.OnClickListener {
 
     public boolean isBackdropShown () {
         return backdropShown;
+    }
+
+    public void showSearchBackDrop () {
+        backdropShown = true;
+
+        backdropHolder.removeAllViews ();
+        backdropHolder.addView (seachLayout);
+
+        // Cancel the existing animations
+        animatorSet.removeAllListeners ();
+        animatorSet.end ();
+        animatorSet.cancel ();
+
+        updateIcon (iconView);
+
+        final int translateY = height -
+                context.getResources ().getDimensionPixelSize (R.dimen.default_reveal_height);
+
+        ObjectAnimator animator = ObjectAnimator.ofFloat (sheet, "translationY", backdropShown ?
+                translateY : 0);
+        animator.setDuration (300);
+        if ( interpolator != null ) {
+            animator.setInterpolator (interpolator);
+        }
+        animatorSet.play (animator);
+        animator.start ();
     }
 }
