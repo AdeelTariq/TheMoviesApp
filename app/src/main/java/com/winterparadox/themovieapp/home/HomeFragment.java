@@ -1,6 +1,8 @@
 package com.winterparadox.themovieapp.home;
 
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.Network;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
+import com.winterparadox.themovieapp.common.NetworkUtils;
 
 import java.util.ArrayList;
 
@@ -90,6 +93,33 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
     @Override
+    public void onResume () {
+        super.onResume ();
+        NetworkUtils.registerConnectivityCallback (getActivity (), callback);
+    }
+
+    @Override
+    public void onPause () {
+        NetworkUtils.unregisterConnectivityCallback (getActivity (), callback);
+        super.onPause ();
+    }
+
+
+    ConnectivityManager.NetworkCallback callback = new ConnectivityManager.NetworkCallback () {
+        @Override
+        public void onAvailable (Network network) {
+            if ( getActivity () != null ) {
+                getActivity ().runOnUiThread (() -> presenter.fetchData ());
+            }
+        }
+    };
+
+    @Override
+    public void clearView () {
+        moviesAdapter.clearItems ();
+    }
+
+    @Override
     public void showMovies (ArrayList<Object> movies) {
         moviesAdapter.addMovies (movies);
     }
@@ -112,7 +142,7 @@ public class HomeFragment extends Fragment implements HomeView {
 
     @Override
     public void showError (String message) {
-
+        moviesAdapter.addError (message);
     }
 
     @Override

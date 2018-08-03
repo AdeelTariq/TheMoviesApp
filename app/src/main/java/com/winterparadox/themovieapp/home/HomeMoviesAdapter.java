@@ -114,6 +114,23 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return items == null ? 0 : items.size ();
     }
 
+    public void addError (String message) {
+        if ( this.items == null ) {
+            this.items = new ArrayList<> ();
+        }
+
+        items.clear ();
+        items.add (message);
+        notifyDataSetChanged ();
+    }
+
+    public void clearItems () {
+        if ( items != null ) {
+            items.clear ();
+            notifyDataSetChanged ();
+        }
+    }
+
     static class HeaderItemHolder extends RecyclerView.ViewHolder {
 
         TextView header;
