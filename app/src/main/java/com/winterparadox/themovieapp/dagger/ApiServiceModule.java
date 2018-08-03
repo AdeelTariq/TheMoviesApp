@@ -1,5 +1,7 @@
 package com.winterparadox.themovieapp.dagger;
 
+import android.content.Context;
+
 import com.winterparadox.themovieapp.BuildConfig;
 import com.winterparadox.themovieapp.common.retrofit.ApiBuilder;
 import com.winterparadox.themovieapp.home.HomeApiService;
@@ -18,8 +20,8 @@ public class ApiServiceModule {
 
     @Provides
     @Singleton
-    public HomeApiService provideHomeApiService () {
-        return ApiBuilder.build (BuildConfig.DEBUG, HomeApiService.class);
+    public HomeApiService provideHomeApiService (Context context) {
+        return ApiBuilder.build (context, HomeApiService.class, BuildConfig.DEBUG);
     }
 
 }

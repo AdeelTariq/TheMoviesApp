@@ -3,10 +3,17 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        app:showAsAction="always"
+        android:visible="false"
+        android:id="@+id/action_offline"
+        android:title="@string/offline_mode"
+        android:titleCondensed="@string/offline_mode"/>
+
+    <item
+        app:showAsAction="always|collapseActionView"
         android:id="@+id/action_search"
         android:title="@string/search"
         android:icon="@drawable/ic_search"
-        app:showAsAction="always|collapseActionView"
         app:actionViewClass="android.support.v7.widget.SearchView"/>
 
 </menu>

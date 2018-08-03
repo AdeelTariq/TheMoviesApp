@@ -108,9 +108,13 @@ public class HomeFragment extends Fragment implements HomeView {
     ConnectivityManager.NetworkCallback callback = new ConnectivityManager.NetworkCallback () {
         @Override
         public void onAvailable (Network network) {
-            if ( getActivity () != null ) {
-                getActivity ().runOnUiThread (() -> presenter.fetchData ());
+            if ( getActivity () == null ) {
+                return;
             }
+            if ( !NetworkUtils.isConnected (getActivity ()) ) {
+                return;
+            }
+            getActivity ().runOnUiThread (() -> presenter.fetchData ());
         }
     };
 

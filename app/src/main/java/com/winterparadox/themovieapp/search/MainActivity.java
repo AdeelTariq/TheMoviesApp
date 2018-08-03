@@ -2,6 +2,8 @@ package com.winterparadox.themovieapp.search;
 
 import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
+import android.net.ConnectivityManager;
+import android.net.Network;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.winterparadox.themovieapp.R;
+import com.winterparadox.themovieapp.common.NetworkUtils;
 import com.winterparadox.themovieapp.home.HomeFragment;
 
 import butterknife.BindView;
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.backdropHolder) LinearLayout backdropHolder;
     @BindView(R.id.container) FrameLayout container;
     private BackDropNavigationListener backDropNavigationListener;
+    private MenuItem offlineModeItem;
 
     @SuppressLint("InflateParams")
     @Override
@@ -65,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu (Menu menu) {
         getMenuInflater ().inflate (R.menu.menu_main_search, menu);
+
+        offlineModeItem = menu.findItem (R.id.action_offline);
 
         MenuItem searchItem = menu.findItem (R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView ();
@@ -109,5 +115,42 @@ public class MainActivity extends AppCompatActivity {
 
     private void search (String query) {
 
+    }
+
+    ConnectivityManager.NetworkCallback callback = new ConnectivityManager.NetworkCallback () {
+        @Override
+        public void onAvailable (Network network) {
+            if ( offlineModeItem == null ) {
+                return;
+            }
+            if ( !NetworkUtils.isConnected (MainActivity.this) ) {
+                return;
+            }
+            runOnUiThread (() -> offlineModeItem.setVisible (false));
+        }
+
+        @Override
+        public void onLost (Network network) {
+            if ( offlineModeItem == null ) {
+                return;
+            }
+            if ( NetworkUtils.isConnected (MainActivity.this) ) {
+                return;
+            }
+            runOnUiThread (() -> offlineModeItem.setVisible (true));
+        }
+    };
+
+
+    @Override
+    protected void onResume () {
+        super.onResume ();
+        NetworkUtils.registerConnectivityCallback (this, callback);
+    }
+
+    @Override
+    protected void onPause () {
+        super.onPause ();
+        NetworkUtils.unregisterConnectivityCallback (this, callback);
     }
 }

@@ -1,10 +1,23 @@
 package com.winterparadox.themovieapp.common.beans;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverter;
+import android.arch.persistence.room.TypeConverters;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+@Entity(indices = {@Index("title")})
 public class Movie {
+
+    @PrimaryKey
+    @SerializedName("id")
+    public int id;
 
     @SerializedName("overview")
     public String overview;
@@ -21,8 +34,9 @@ public class Movie {
     @SerializedName("title")
     public String title;
 
+    @TypeConverters(Movie.class)
     @SerializedName("genre_ids")
-    public List<Integer> genreIds;
+    public ArrayList<Integer> genreIds;
 
     @SerializedName("media_type")
     public String mediaType;
@@ -42,8 +56,6 @@ public class Movie {
     @SerializedName("popularity")
     public double popularity;
 
-    @SerializedName("id")
-    public int id;
 
     @SerializedName("adult")
     public boolean adult;
@@ -71,5 +83,25 @@ public class Movie {
                         ",adult = '" + adult + '\'' +
                         ",vote_count = '" + voteCount + '\'' +
                         "}";
+    }
+
+    @TypeConverter
+    public static ArrayList<Integer> storedStringToIntegers (String value) {
+        List<String> strings = Arrays.asList (value.split ("\\s*,\\s*"));
+        ArrayList<Integer> ints = new ArrayList<> ();
+        for ( String string : strings ) {
+            ints.add (Integer.valueOf (string));
+        }
+        return ints;
+    }
+
+    @TypeConverter
+    public static String languagesToStoredString (ArrayList<Integer> il) {
+        String value = "";
+
+        for ( Integer i : il )
+            value += i + ",";
+
+        return value;
     }
 }

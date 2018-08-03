@@ -45,6 +45,7 @@ public class HomePresenterImpl extends HomePresenter {
                         view.hideProgress ();
                     }
                 }, throwable -> {
+                    throwable.printStackTrace ();
                     if ( view != null ) {
                         view.showError (throwable.getMessage ());
                         view.hideProgress ();
@@ -62,6 +63,7 @@ public class HomePresenterImpl extends HomePresenter {
                         view.hideProgress ();
                     }
                 }, throwable -> {
+                    throwable.printStackTrace ();
                     if ( view != null ) {
                         view.showError (throwable.getMessage ());
                         view.hideProgress ();

@@ -1,10 +1,17 @@
 package com.winterparadox.themovieapp.common.retrofit;
 
+import android.content.Context;
+
+import com.winterparadox.themovieapp.common.NetworkUtils;
+
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -20,11 +27,13 @@ public class ApiBuilder {
     public static final String SMALL_POSTER = "w342";
     public static final String MEDIUM_BACKDROP = "w780";
 
-    public static <T> T build (boolean test, Class<T> apiInterface) {
+    public static <T> T build (Context context, Class<T> apiInterface, boolean test) {
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder ();
         httpClient.connectTimeout (5, TimeUnit.MINUTES)
                 .readTimeout (5, TimeUnit.MINUTES);
+
+        // logging
         if ( test ) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor ();
             logging.setLevel (HttpLoggingInterceptor.Level.BODY);
@@ -32,6 +41,47 @@ public class ApiBuilder {
             httpClient.addInterceptor (logging);
         }
 
+        // cache control
+        Interceptor interceptor = chain -> {
+            Request request = chain.request ();
+
+            // Add Cache Control only for GET methods
+            if ( request.method ().equals ("GET") ) {
+                if ( NetworkUtils.isConnected (context) ) {
+                    // 1 day
+                    request = request.newBuilder ()
+                            .header ("Cache-Control", "only-if-cached")
+                            .build ();
+                }
+            }
+            Response originalResponse = chain.proceed (request);
+            return originalResponse.newBuilder ()
+                    .header ("Cache-Control", "max-age=600")
+                    .build ();
+        };
+
+        Interceptor interceptorOffline = chain -> {
+            Request request = chain.request ();
+
+            // Add Cache Control only for GET methods
+            if ( request.method ().equals ("GET") ) {
+                if ( !NetworkUtils.isConnected (context) ) {
+                    // 4 weeks stale
+                    request = request.newBuilder ()
+                            .header ("Cache-Control", "public, max-stale=2419200")
+                            .build ();
+                }
+            }
+            Response originalResponse = chain.proceed (request);
+            return originalResponse.newBuilder ()
+                    .header ("Cache-Control", "max-age=600")
+                    .build ();
+        };
+
+        httpClient.addNetworkInterceptor (interceptor);
+        httpClient.addInterceptor (interceptorOffline);
+
+        // add api key to request
         httpClient.addInterceptor (chain -> {
             Request request = chain.request ();
             HttpUrl url = request.url ().newBuilder ()
@@ -41,6 +91,9 @@ public class ApiBuilder {
             return chain.proceed (request);
         });
 
+        httpClient.cache (new Cache (context.getCacheDir (), 10 * 1024 * 1024));
+
+        // build
         OkHttpClient OkHttpClient = httpClient.build ();
         Retrofit retrofit = new Retrofit
                 .Builder ()
