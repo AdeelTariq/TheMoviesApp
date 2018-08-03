@@ -1,4 +1,4 @@
-package com.winterparadox.themovieapp.retrofit;
+package com.winterparadox.themovieapp.common.retrofit;
 
 import java.io.IOException;
 

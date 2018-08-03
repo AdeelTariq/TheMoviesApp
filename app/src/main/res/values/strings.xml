@@ -6,4 +6,8 @@
     <string name="my_lists">My Lists</string>
     <string name="charts">Charts</string>
     <string name="search">Search</string>
+    <string name="title_home">Home</string>
+    <string name="view_all">View All</string>
+    <string name="popular_title">Popular Movies</string>
+    <string name="latest_title">Latest Movies</string>
 </resources>

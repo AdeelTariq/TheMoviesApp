@@ -7,5 +7,7 @@
     <color name="textColorPrimary">#ffffff</color>
     <color name="toolbarIconColor">@color/textColorPrimary</color>
     <color name="backgroundColor">#3c3c3c</color>
+    <color name="shimmerColor">#33e0e0e0</color>
+    <color name="dimColor">#77212121</color>
     <color name="colorControlActivated">#cd0e01</color>
 </resources>

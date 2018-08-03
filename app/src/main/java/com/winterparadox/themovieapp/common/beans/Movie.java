@@ -1,4 +1,4 @@
-package com.winterparadox.themovieapp.search;
+package com.winterparadox.themovieapp.common.beans;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -7,49 +7,49 @@ import java.util.List;
 public class Movie {
 
     @SerializedName("overview")
-    String overview;
+    public String overview;
 
     @SerializedName("original_language")
-    String originalLanguage;
+    public String originalLanguage;
 
     @SerializedName("original_title")
-    String originalTitle;
+    public String originalTitle;
 
     @SerializedName("video")
-    boolean video;
+    public boolean video;
 
     @SerializedName("title")
-    String title;
+    public String title;
 
     @SerializedName("genre_ids")
-    List<Integer> genreIds;
+    public List<Integer> genreIds;
 
     @SerializedName("media_type")
-    String mediaType;
+    public String mediaType;
 
     @SerializedName("poster_path")
-    String posterPath;
+    public String posterPath;
 
     @SerializedName("backdrop_path")
-    String backdropPath;
+    public String backdropPath;
 
     @SerializedName("release_date")
-    String releaseDate;
+    public String releaseDate;
 
     @SerializedName("vote_average")
-    double voteAverage;
+    public double voteAverage;
 
     @SerializedName("popularity")
-    double popularity;
+    public double popularity;
 
     @SerializedName("id")
-    int id;
+    public int id;
 
     @SerializedName("adult")
-    boolean adult;
+    public boolean adult;
 
     @SerializedName("vote_count")
-    int voteCount;
+    public int voteCount;
 
     @Override
     public String toString () {

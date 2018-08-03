@@ -1,4 +1,4 @@
-package com.winterparadox.themovieapp.search;
+package com.winterparadox.themovieapp.common.beans;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="default_reveal_height">144dp</dimen>
+    <dimen name="default_reveal_height">160dp</dimen>
 </resources>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/backgroundColor"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/title"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/text_shimmer_background"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:background="@color/shimmerColor"
+        android:id="@+id/thumbnail"
+        android:layout_width="0dp"
+        android:layout_height="200dp"/>
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/thumbnail"
+        android:background="@drawable/text_shimmer_background"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        app:layout_constraintTop_toBottomOf="@id/thumbnail"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@id/thumbnail2"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/shimmerColor"
+        android:id="@+id/thumbnail1"
+        android:layout_width="0dp"
+        android:layout_height="184dp"/>
+
+    <ImageView
+        app:layout_constraintStart_toEndOf="@id/thumbnail1"
+        app:layout_constraintEnd_toStartOf="@id/thumbnail3"
+        app:layout_constraintTop_toBottomOf="@id/thumbnail"
+        android:layout_marginTop="8dp"
+        android:background="@color/shimmerColor"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:id="@+id/thumbnail2"
+        android:layout_width="0dp"
+        android:layout_height="184dp"/>
+
+    <ImageView
+        app:layout_constraintStart_toEndOf="@id/thumbnail2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/thumbnail"
+        android:layout_marginTop="8dp"
+        android:background="@color/shimmerColor"
+        android:id="@+id/thumbnail3"
+        android:layout_width="0dp"
+        android:layout_height="184dp"/>
+
+</android.support.constraint.ConstraintLayout>

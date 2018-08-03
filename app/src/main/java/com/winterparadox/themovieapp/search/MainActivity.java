@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.winterparadox.themovieapp.R;
+import com.winterparadox.themovieapp.home.HomeFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,8 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.app_bar) AppBarLayout appBar;
-    @BindView(R.id.frontSheet) FrameLayout frontSheet;
+    @BindView(R.id.frontSheet) LinearLayoutCompat frontSheet;
     @BindView(R.id.backdropHolder) LinearLayout backdropHolder;
+    @BindView(R.id.container) FrameLayout container;
     private BackDropNavigationListener backDropNavigationListener;
 
     @SuppressLint("InflateParams")
@@ -53,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
                 backDropNavigationListener.toggle ();
             }
         });
+
+        getSupportFragmentManager ().beginTransaction ()
+                .add (R.id.container, new HomeFragment (), "home").commit ();
+
     }
 
     @Override

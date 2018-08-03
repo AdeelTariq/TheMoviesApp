@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingTop="88dp"
-        android:paddingBottom="100dp">
+        android:paddingBottom="96dp">
 
         <include layout="@layout/layout_backdrop_menu"/>
 
@@ -39,23 +39,21 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <FrameLayout
+    <android.support.v7.widget.LinearLayoutCompat
         android:layout_marginTop="?attr/actionBarSize"
         android:id="@+id/frontSheet"
+        app:elevation="1dp"
         android:backgroundTint="@color/backgroundColor"
         android:background="@drawable/front_sheet"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/etSearch"
-            android:hint="@string/search_hint"
-            android:lines="1"
-            android:inputType="text"
-            android:imeOptions="actionSearch"
+        <FrameLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"/>
 
-    </FrameLayout>
+    </android.support.v7.widget.LinearLayoutCompat>
 
 </FrameLayout>

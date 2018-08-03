@@ -1,13 +1,13 @@
-package com.winterparadox.themovieapp.retrofit;
+package com.winterparadox.themovieapp.common.beans;
 
 import com.google.gson.annotations.SerializedName;
 
 public class ErrorResponse {
 
     @SerializedName("status_code")
-    Integer statusCode;
+    public int statusCode;
     @SerializedName("status_message")
-    String statusMessage;
+    public String statusMessage;
     Boolean success;
 
 }

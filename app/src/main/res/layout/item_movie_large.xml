@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_movie"
+        android:id="@+id/thumbnail"
+        android:layout_width="0dp"
+        android:layout_height="200dp"/>
+
+    <TextView
+        android:id="@+id/name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="Title"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="8dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:background="@color/dimColor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+</android.support.constraint.ConstraintLayout>

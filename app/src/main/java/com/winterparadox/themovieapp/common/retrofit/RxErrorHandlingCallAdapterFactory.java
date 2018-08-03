@@ -1,6 +1,7 @@
-package com.winterparadox.themovieapp.retrofit;
+package com.winterparadox.themovieapp.common.retrofit;
 
 import com.google.gson.Gson;
+import com.winterparadox.themovieapp.common.beans.ErrorResponse;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
