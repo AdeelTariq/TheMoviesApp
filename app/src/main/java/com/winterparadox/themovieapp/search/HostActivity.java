@@ -73,6 +73,19 @@ public class HostActivity extends AppCompatActivity implements HostView {
     }
 
     @Override
+    public void onBackPressed () {
+        if ( backDropNavigationListener.isBackdropShown () ) {
+            if ( searchItem.isActionViewExpanded () ) {
+                searchItem.collapseActionView ();
+            } else {
+                backDropNavigationListener.toggle ();
+            }
+        } else {
+            super.onBackPressed ();
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu (Menu menu) {
         getMenuInflater ().inflate (R.menu.menu_main_search, menu);
 
@@ -166,7 +179,7 @@ public class HostActivity extends AppCompatActivity implements HostView {
     @Override
     public void openMovie (Movie movie) {
         getSupportFragmentManager ().beginTransaction ()
-                .replace (R.id.container, new MovieDetailsFragment (), movie.title)
+                .replace (R.id.container, MovieDetailsFragment.instance (movie), movie.title)
                 .addToBackStack (movie.title)
                 .commit ();
     }

@@ -6,7 +6,7 @@ package com.winterparadox.themovieapp.common.base;
 
 public abstract class BasePresenter<V extends BaseView> implements Presenter<V> {
 
-    public V view;
+    protected V view;
 
     @Override
     public void attachView (V view) {

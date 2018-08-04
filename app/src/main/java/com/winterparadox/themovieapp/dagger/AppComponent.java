@@ -3,6 +3,7 @@ package com.winterparadox.themovieapp.dagger;
 
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.home.HomeFragment;
+import com.winterparadox.themovieapp.movieDetails.MovieDetailsFragment;
 import com.winterparadox.themovieapp.search.HostActivity;
 
 import javax.inject.Singleton;
@@ -23,4 +24,6 @@ public interface AppComponent {
     void inject (HostActivity target);
 
     void inject (HomeFragment target);
+
+    void inject (MovieDetailsFragment target);
 }

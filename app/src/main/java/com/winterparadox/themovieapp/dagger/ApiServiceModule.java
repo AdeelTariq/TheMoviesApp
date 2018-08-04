@@ -5,6 +5,7 @@ import android.content.Context;
 import com.winterparadox.themovieapp.BuildConfig;
 import com.winterparadox.themovieapp.common.retrofit.ApiBuilder;
 import com.winterparadox.themovieapp.home.HomeApiService;
+import com.winterparadox.themovieapp.movieDetails.MovieDetailsApiService;
 
 import javax.inject.Singleton;
 
@@ -22,6 +23,12 @@ public class ApiServiceModule {
     @Singleton
     public HomeApiService provideHomeApiService (Context context) {
         return ApiBuilder.build (context, HomeApiService.class, BuildConfig.DEBUG);
+    }
+
+    @Provides
+    @Singleton
+    public MovieDetailsApiService provideMovieDetailsApiService (Context context) {
+        return ApiBuilder.build (context, MovieDetailsApiService.class, BuildConfig.DEBUG);
     }
 
 }

@@ -131,6 +131,11 @@ public class HomeFragment extends Fragment implements HomeView, HomeMoviesAdapte
             if ( !NetworkUtils.isConnected (getActivity ()) ) {
                 return;
             }
+
+            if ( moviesAdapter.getItemCount () > 4 ) {
+                return;
+            }
+
             getActivity ().runOnUiThread (() -> presenter.fetchData ());
         }
     };

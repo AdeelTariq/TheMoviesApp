@@ -49,5 +49,9 @@ public class HomeItemDecoration extends DefaultItemDecoration {
         if ( parent.getChildAdapterPosition (view) % 5 == 4 ) {
             outRect.left = 0;
         }
+
+        if ( parent.getChildAdapterPosition (view) == parent.getAdapter ().getItemCount () - 1 ) {
+            outRect.bottom = (int) dpToPx (16);
+        }
     }
 }

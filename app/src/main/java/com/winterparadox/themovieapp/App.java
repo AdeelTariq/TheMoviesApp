@@ -3,9 +3,13 @@ package com.winterparadox.themovieapp;
 
 import android.app.Application;
 
+import com.google.gson.Gson;
+import com.winterparadox.themovieapp.common.Singleton;
 import com.winterparadox.themovieapp.dagger.AppComponent;
 import com.winterparadox.themovieapp.dagger.AppModule;
 import com.winterparadox.themovieapp.dagger.DaggerAppComponent;
+
+import javax.inject.Inject;
 
 import cat.ereza.customactivityoncrash.config.CaocConfig;
 
@@ -16,6 +20,8 @@ import cat.ereza.customactivityoncrash.config.CaocConfig;
 public class App extends android.app.Application {
 
     private AppComponent appComponent;
+
+    @Inject Gson gson;
 
     @Override
     public void onCreate () {
@@ -29,6 +35,7 @@ public class App extends android.app.Application {
 
         getAppComponent ().inject (this);
 
+        Singleton.gson = gson;
     }
 
 

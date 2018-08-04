@@ -6,6 +6,6 @@
     android:foreground="?attr/selectableItemBackground"
     android:paddingTop="16dp"
     android:paddingBottom="16dp"
-    style="@style/TextAppearance.Movies.Text.SubHeader2"
+    style="@style/TextAppearance.Movies.Text.Small.HighEmphasis.MediumBold"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"/>

@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Movies">
-        <activity android:name=".search.HostActivity">
+        <activity
+            android:name=".search.HostActivity"
+            android:screenOrientation="userPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

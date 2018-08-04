@@ -36,4 +36,11 @@
         app:icon="@drawable/ic_charts"
         android:text="@string/charts"/>
 
+
+    <ImageView
+        app:srcCompat="@drawable/tmdb_powered_by"
+        android:layout_gravity="end"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

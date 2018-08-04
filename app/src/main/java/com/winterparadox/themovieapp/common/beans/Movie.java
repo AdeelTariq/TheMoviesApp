@@ -7,26 +7,24 @@ import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
 
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
+import com.winterparadox.themovieapp.common.Singleton;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Entity(indices = {@Index("title")})
-public class Movie {
+public class Movie implements Serializable {
 
     @PrimaryKey
     @SerializedName("id")
     public int id;
 
-    @SerializedName("overview")
-    public String overview;
-
     @SerializedName("original_language")
     public String originalLanguage;
 
-    @SerializedName("original_title")
-    public String originalTitle;
+    @SerializedName("imdb_id")
+    public String imdbId;
 
     @SerializedName("video")
     public boolean video;
@@ -34,18 +32,36 @@ public class Movie {
     @SerializedName("title")
     public String title;
 
-    @TypeConverters(Movie.class)
-    @SerializedName("genre_ids")
-    public ArrayList<Integer> genreIds;
+    @SerializedName("backdrop_path")
+    public String backdropPath;
 
-    @SerializedName("media_type")
-    public String mediaType;
+    @SerializedName("revenue")
+    public int revenue;
+
+    @TypeConverters(Movie.class)
+    @SerializedName("genres")
+    public ArrayList<GenresItem> genres;
+
+    @SerializedName("popularity")
+    public double popularity;
+
+    @SerializedName("vote_count")
+    public int voteCount;
+
+    @SerializedName("budget")
+    public int budget;
+
+    @SerializedName("overview")
+    public String overview;
+
+    @SerializedName("original_title")
+    public String originalTitle;
+
+    @SerializedName("runtime")
+    public int runtime;
 
     @SerializedName("poster_path")
     public String posterPath;
-
-    @SerializedName("backdrop_path")
-    public String backdropPath;
 
     @SerializedName("release_date")
     public String releaseDate;
@@ -53,55 +69,87 @@ public class Movie {
     @SerializedName("vote_average")
     public double voteAverage;
 
-    @SerializedName("popularity")
-    public double popularity;
-
+    @SerializedName("tagline")
+    public String tagline;
 
     @SerializedName("adult")
     public boolean adult;
 
-    @SerializedName("vote_count")
-    public int voteCount;
+    @SerializedName("homepage")
+    public String homepage;
+
+    @SerializedName("status")
+    public String status;
+
+    @TypeConverters(Movie.class)
+    @SerializedName("release_dates")
+    public ReleaseDates releaseDates;
+
+
+    @TypeConverters(Movie.class)
+    @SerializedName("credits")
+    public Credits credits;
+
 
     @Override
     public String toString () {
         return
-                "Movie{" +
-                        "overview = '" + overview + '\'' +
-                        ",original_language = '" + originalLanguage + '\'' +
-                        ",original_title = '" + originalTitle + '\'' +
+                "Movie1{" +
+                        "original_language = '" + originalLanguage + '\'' +
+                        ",imdb_id = '" + imdbId + '\'' +
                         ",video = '" + video + '\'' +
                         ",title = '" + title + '\'' +
-                        ",genre_ids = '" + genreIds + '\'' +
-                        ",poster_path = '" + posterPath + '\'' +
                         ",backdrop_path = '" + backdropPath + '\'' +
+                        ",revenue = '" + revenue + '\'' +
+                        ",genres = '" + genres + '\'' +
+                        ",popularity = '" + popularity + '\'' +
+                        ",id = '" + id + '\'' +
+                        ",vote_count = '" + voteCount + '\'' +
+                        ",budget = '" + budget + '\'' +
+                        ",overview = '" + overview + '\'' +
+                        ",original_title = '" + originalTitle + '\'' +
+                        ",runtime = '" + runtime + '\'' +
+                        ",poster_path = '" + posterPath + '\'' +
                         ",release_date = '" + releaseDate + '\'' +
                         ",vote_average = '" + voteAverage + '\'' +
-                        ",popularity = '" + popularity + '\'' +
-                        ",media_type = '" + mediaType + '\'' +
-                        ",id = '" + id + '\'' +
+                        ",tagline = '" + tagline + '\'' +
                         ",adult = '" + adult + '\'' +
-                        ",vote_count = '" + voteCount + '\'' +
+                        ",homepage = '" + homepage + '\'' +
+                        ",status = '" + status + '\'' +
                         "}";
     }
 
     @TypeConverter
-    public static ArrayList<Integer> storedStringToIntegers (String value) {
-        List<String> strings = Arrays.asList (value.split ("\\s*,\\s*"));
-        ArrayList<Integer> ints = new ArrayList<> ();
-        for ( String string : strings ) {
-            ints.add (Integer.valueOf (string));
-        }
-        return ints;
+    public static ArrayList<GenresItem> storedStringToList (String value) {
+        return Singleton.gson.fromJson (value, new TypeToken<ArrayList<GenresItem>> () {
+        }.getType ());
     }
 
     @TypeConverter
-    public static String languagesToStoredString (ArrayList<Integer> il) {
-        String value = "";
-
-        for ( Integer i : il )
-            value += i + ",";
-
-        return value;
+    public static String listToStoredString (ArrayList<GenresItem> arrayList) {
+        return Singleton.gson.toJson (arrayList);
     }
+
+    @TypeConverter
+    public static ReleaseDates storedStringToReleaseDates (String value) {
+        return Singleton.gson.fromJson (value, new TypeToken<ReleaseDates> () {
+        }.getType ());
+    }
+
+    @TypeConverter
+    public static String releaseDatesToStoredString (ReleaseDates dates) {
+        return Singleton.gson.toJson (dates);
+    }
+
+    @TypeConverter
+    public static Credits storedStringToCredits (String value) {
+        return Singleton.gson.fromJson (value, new TypeToken<Credits> () {
+        }.getType ());
+    }
+
+    @TypeConverter
+    public static String creditsToStoredString (Credits credits) {
+        return Singleton.gson.toJson (credits);
+    }
+
 }

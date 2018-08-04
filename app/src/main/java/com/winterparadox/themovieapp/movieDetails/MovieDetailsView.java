@@ -1,0 +1,11 @@
+package com.winterparadox.themovieapp.movieDetails;
+
+import com.winterparadox.themovieapp.common.base.BaseView;
+import com.winterparadox.themovieapp.common.beans.Movie;
+
+public interface MovieDetailsView extends BaseView {
+
+    void showMovie (Movie movie, String year);
+
+    void showAdditionalDetails (Movie movie, String ageRating, String runtime, String genres);
+}
