@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/ivBackdrop"
+        android:background="@drawable/movie_backdrop_shimmer_background"
+        android:layout_width="0dp"
+        android:layout_height="200dp"/>
+
+    <ImageView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/ivBackdrop"
+        app:layout_constraintTop_toBottomOf="@id/ivBackdrop"
+        android:background="@drawable/image_shimmer_background"
+        android:layout_marginStart="24dp"
+        android:id="@+id/ivPoster"
+        android:layout_width="104dp"
+        android:layout_height="152dp"/>
+
+    <TextView
+        android:id="@+id/tvTitle"
+        app:layout_constraintStart_toEndOf="@id/ivPoster"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivBackdrop"
+        android:layout_margin="16dp"
+        tools:text="Movie Title"
+        style="@style/TextAppearance.Movies.Text.Header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+</android.support.constraint.ConstraintLayout>

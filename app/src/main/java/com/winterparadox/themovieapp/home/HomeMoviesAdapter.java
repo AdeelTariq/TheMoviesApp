@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.GlideApp;
 import com.winterparadox.themovieapp.common.beans.Movie;
@@ -27,9 +30,16 @@ import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.SMALL_POS
 public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int HEADER = 0, MOVIE_LARGE = 1, MOVIE_SMALL = 2;
+    private final RequestOptions requestOptions;
     private List<Object> items;
+    private ClickListener listener;
 
-    public HomeMoviesAdapter () {
+    public HomeMoviesAdapter (ClickListener listener) {
+        this.listener = listener;
+
+        requestOptions = new RequestOptions ()
+                .transforms (new CenterCrop (), new RoundedCorners (4));
+
     }
 
     public void addMovies (ArrayList<Object> movies) {
@@ -79,28 +89,39 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private void bindMovie (MovieItemHolder viewHolder, Movie movie) {
+
         GlideApp.with (viewHolder.itemView)
                 .load (Uri.parse (IMAGE + MEDIUM_BACKDROP + movie.backdropPath))
-                .centerCrop ()
+                .apply (requestOptions)
                 .into (viewHolder.thumbnail);
         viewHolder.name.setText (movie.title);
+
+        viewHolder.itemView.setOnClickListener (v -> listener.onMovieClick (movie));
     }
 
     private void bindMovie (MovieItemHolder viewHolder, Movie movie, boolean isLast) {
         GlideApp.with (viewHolder.itemView)
                 .load (Uri.parse (IMAGE + SMALL_POSTER + movie.posterPath))
-                .centerCrop ()
+                .apply (requestOptions)
                 .into (viewHolder.thumbnail);
 
         if ( isLast ) {
             viewHolder.viewAll.setVisibility (View.VISIBLE);
+            viewHolder.viewAll.setOnClickListener (v -> {
+                listener.onSubHeaderClick (0);
+            });
         } else {
             viewHolder.viewAll.setVisibility (View.GONE);
         }
+
+        viewHolder.itemView.setOnClickListener (v -> listener.onMovieClick (movie));
     }
 
     private void bindHeader (HeaderItemHolder viewHolder, String header) {
         viewHolder.header.setText (header);
+        viewHolder.itemView.setOnClickListener (v -> {
+            listener.onSubHeaderClick (0);
+        });
     }
 
     @Override
@@ -155,5 +176,11 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super (itemView);
             ButterKnife.bind (this, itemView);
         }
+    }
+
+    interface ClickListener {
+        void onMovieClick (Movie movie);
+
+        void onSubHeaderClick (int header);
     }
 }

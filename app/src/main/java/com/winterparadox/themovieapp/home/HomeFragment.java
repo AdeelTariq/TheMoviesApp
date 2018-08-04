@@ -11,12 +11,16 @@ import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.NetworkUtils;
+import com.winterparadox.themovieapp.common.beans.Movie;
+import com.winterparadox.themovieapp.common.views.OnScrollObserver;
+import com.winterparadox.themovieapp.search.HostView;
 
 import java.util.ArrayList;
 
@@ -26,12 +30,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class HomeFragment extends Fragment implements HomeView {
+public class HomeFragment extends Fragment implements HomeView, HomeMoviesAdapter.ClickListener {
 
     @Inject HomePresenter presenter;
 
     @BindView(R.id.tvHeader) TextView tvHeader;
     @BindView(R.id.recyclerView) ShimmerRecyclerView recyclerView;
+    @BindView(R.id.scrollIndicator) ImageView scrollIndicator;
     Unbinder unbinder;
     private HomeMoviesAdapter moviesAdapter;
 
@@ -77,8 +82,20 @@ public class HomeFragment extends Fragment implements HomeView {
         dividerItemDecoration.setDrawable (new ColorDrawable (0x00000000));
         recyclerView.addItemDecoration (dividerItemDecoration);
 
-        moviesAdapter = new HomeMoviesAdapter ();
+        moviesAdapter = new HomeMoviesAdapter (this);
         recyclerView.setAdapter (moviesAdapter);
+
+        recyclerView.addOnScrollListener (new OnScrollObserver () {
+            @Override
+            public void onScrolling () {
+                scrollIndicator.setVisibility (View.VISIBLE);
+            }
+
+            @Override
+            public void onScrollToTop () {
+                scrollIndicator.setVisibility (View.GONE);
+            }
+        });
 
         presenter.fetchData ();
 
@@ -128,6 +145,15 @@ public class HomeFragment extends Fragment implements HomeView {
         moviesAdapter.addMovies (movies);
     }
 
+    @Override
+    public void onMovieClick (Movie movie) {
+        ((HostView) getActivity ()).openMovie (movie);
+    }
+
+    @Override
+    public void onSubHeaderClick (int header) {
+
+    }
 
     @Override
     public void showProgress () {

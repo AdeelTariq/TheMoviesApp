@@ -4,13 +4,4 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <EditText
-        android:id="@+id/etSearch"
-        android:hint="@string/search_hint"
-        android:lines="1"
-        android:inputType="text"
-        android:imeOptions="actionSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
 </FrameLayout>

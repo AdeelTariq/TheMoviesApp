@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/tvHeader"
         android:text="@string/title_home"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        style="@style/TextAppearance.Movies.Text.SubHeader"
         android:padding="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,5 +30,17 @@
         android:paddingBottom="8dp"
         android:layout_width="0dp"
         android:layout_height="0dp"/>
+
+    <ImageView
+        app:layout_behavior="com.winterparadox.themovieapp.common.views.ScrollAwareFABBehavior"
+        android:id="@+id/scrollIndicator"
+        android:background="@color/shimmerColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tvHeader"
+        android:layout_width="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_height="1dp"/>
 
 </android.support.constraint.ConstraintLayout>

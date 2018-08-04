@@ -1,9 +1,9 @@
-package com.winterparadox.themovieapp.common.views;
+package com.winterparadox.themovieapp.common;
 
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
-public class Utils {
+public class UiUtils {
 
     public static float pxToDp (float px) {
         DisplayMetrics metrics = Resources.getSystem ().getDisplayMetrics ();

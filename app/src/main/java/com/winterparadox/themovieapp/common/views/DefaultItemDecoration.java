@@ -6,7 +6,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import static com.winterparadox.themovieapp.common.views.Utils.dpToPx;
+import static com.winterparadox.themovieapp.common.UiUtils.dpToPx;
 
 public class DefaultItemDecoration extends DividerItemDecoration {
 

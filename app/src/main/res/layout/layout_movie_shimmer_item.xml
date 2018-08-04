@@ -24,7 +24,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
-        android:background="@color/shimmerColor"
+        android:background="@drawable/image_shimmer_background"
         android:id="@+id/thumbnail"
         android:layout_width="0dp"
         android:layout_height="200dp"/>
@@ -47,7 +47,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toStartOf="@id/thumbnail2"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/shimmerColor"
+        android:background="@drawable/image_shimmer_background"
         android:id="@+id/thumbnail1"
         android:layout_width="0dp"
         android:layout_height="184dp"/>
@@ -57,7 +57,7 @@
         app:layout_constraintEnd_toStartOf="@id/thumbnail3"
         app:layout_constraintTop_toBottomOf="@id/thumbnail"
         android:layout_marginTop="8dp"
-        android:background="@color/shimmerColor"
+        android:background="@drawable/image_shimmer_background"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:id="@+id/thumbnail2"
@@ -69,7 +69,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/thumbnail"
         android:layout_marginTop="8dp"
-        android:background="@color/shimmerColor"
+        android:background="@drawable/image_shimmer_background"
         android:id="@+id/thumbnail3"
         android:layout_width="0dp"
         android:layout_height="184dp"/>

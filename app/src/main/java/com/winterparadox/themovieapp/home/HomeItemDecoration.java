@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.winterparadox.themovieapp.common.views.DefaultItemDecoration;
 
-import static com.winterparadox.themovieapp.common.views.Utils.dpToPx;
+import static com.winterparadox.themovieapp.common.UiUtils.dpToPx;
 
 public class HomeItemDecoration extends DefaultItemDecoration {
 

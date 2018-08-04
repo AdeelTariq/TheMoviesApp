@@ -18,12 +18,14 @@ import android.widget.LinearLayout;
 
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.NetworkUtils;
+import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.home.HomeFragment;
+import com.winterparadox.themovieapp.movieDetails.MovieDetailsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class HostActivity extends AppCompatActivity implements HostView {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.app_bar) AppBarLayout appBar;
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.backdropHolder) LinearLayout backdropHolder;
     @BindView(R.id.container) FrameLayout container;
     private BackDropNavigationListener backDropNavigationListener;
-    private MenuItem offlineModeItem;
+    private MenuItem offlineModeItem, searchItem;
 
     @SuppressLint("InflateParams")
     @Override
@@ -57,7 +59,11 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener (backDropNavigationListener);
         frontSheet.setOnClickListener ((v) -> {
             if ( backDropNavigationListener.isBackdropShown () ) {
-                backDropNavigationListener.toggle ();
+                if ( searchItem.isActionViewExpanded () ) {
+                    searchItem.collapseActionView ();
+                } else {
+                    backDropNavigationListener.toggle ();
+                }
             }
         });
 
@@ -71,8 +77,11 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater ().inflate (R.menu.menu_main_search, menu);
 
         offlineModeItem = menu.findItem (R.id.action_offline);
+        if ( !NetworkUtils.isConnected (this) ) {
+            offlineModeItem.setVisible (true);
+        }
 
-        MenuItem searchItem = menu.findItem (R.id.action_search);
+        searchItem = menu.findItem (R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView ();
 
         searchView.setSubmitButtonEnabled (true);
@@ -123,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             if ( offlineModeItem == null ) {
                 return;
             }
-            if ( !NetworkUtils.isConnected (MainActivity.this) ) {
+            if ( !NetworkUtils.isConnected (HostActivity.this) ) {
                 return;
             }
             runOnUiThread (() -> offlineModeItem.setVisible (false));
@@ -134,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
             if ( offlineModeItem == null ) {
                 return;
             }
-            if ( NetworkUtils.isConnected (MainActivity.this) ) {
+            if ( NetworkUtils.isConnected (HostActivity.this) ) {
                 return;
             }
             runOnUiThread (() -> offlineModeItem.setVisible (true));
@@ -152,5 +161,33 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause () {
         super.onPause ();
         NetworkUtils.unregisterConnectivityCallback (this, callback);
+    }
+
+    @Override
+    public void openMovie (Movie movie) {
+        getSupportFragmentManager ().beginTransaction ()
+                .replace (R.id.container, new MovieDetailsFragment (), movie.title)
+                .addToBackStack (movie.title)
+                .commit ();
+    }
+
+    @Override
+    public void showProgress () {
+
+    }
+
+    @Override
+    public void hideProgress () {
+
+    }
+
+    @Override
+    public void showMessage (String message) {
+
+    }
+
+    @Override
+    public void showError (String message) {
+
     }
 }
