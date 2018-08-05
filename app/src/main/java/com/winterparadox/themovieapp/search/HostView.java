@@ -4,7 +4,10 @@ import com.winterparadox.themovieapp.common.base.BaseView;
 import com.winterparadox.themovieapp.common.beans.Movie;
 
 public interface HostView extends BaseView {
-
-    void openMovie (Movie movie);
+    /**
+     * @param movie movie to be opened
+     * @param view  View object being passed as Object
+     */
+    void openMovie (Movie movie, Object view);
 
 }

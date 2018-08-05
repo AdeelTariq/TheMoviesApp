@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.GlideApp;
 import com.winterparadox.themovieapp.common.beans.Movie;
+import com.winterparadox.themovieapp.common.views.TransitionNames;
 
 import java.util.List;
 
@@ -55,8 +56,10 @@ public class MoviesDetailsMoviesAdapter extends RecyclerView.Adapter<MoviesDetai
                 .centerCrop ()
                 .into (itemHolder.thumbnail);
 
+        itemHolder.thumbnail.setTransitionName (TransitionNames.MOVIE_POSTER + movie.id);
 
-        itemHolder.itemView.setOnClickListener (v -> listener.onMovieClick (movie));
+        itemHolder.itemView.setOnClickListener (v -> listener.onMovieClick (movie, itemHolder
+                .thumbnail));
 
     }
 
@@ -76,6 +79,6 @@ public class MoviesDetailsMoviesAdapter extends RecyclerView.Adapter<MoviesDetai
     }
 
     interface ClickListener {
-        void onMovieClick (Movie member);
+        void onMovieClick (Movie member, View element);
     }
 }

@@ -149,8 +149,8 @@ public class HomeFragment extends Fragment implements HomeView, HomeMoviesAdapte
     }
 
     @Override
-    public void onMovieClick (Movie movie) {
-        ((HostView) getActivity ()).openMovie (movie);
+    public void onMovieClick (Movie movie, View element) {
+        ((HostView) getActivity ()).openMovie (movie, element);
     }
 
     @Override

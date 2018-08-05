@@ -92,7 +92,10 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
                         view.hideProgress ();
                     }
                 }, throwable -> {
-                    view.showError (throwable.getMessage ());
+                    if ( view != null ) {
+                        view.hideProgress ();
+                        view.showError (throwable.getMessage ());
+                    }
                     throwable.printStackTrace ();
                 });
     }

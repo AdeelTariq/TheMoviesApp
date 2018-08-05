@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.GlideApp;
 import com.winterparadox.themovieapp.common.beans.Movie;
+import com.winterparadox.themovieapp.common.views.TransitionNames;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +90,9 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 .into (viewHolder.thumbnail);
         viewHolder.name.setText (movie.title);
 
-        viewHolder.itemView.setOnClickListener (v -> listener.onMovieClick (movie));
+        viewHolder.thumbnail.setTransitionName (TransitionNames.MOVIE_BACKDROP + movie.id);
+        viewHolder.itemView.setOnClickListener (v -> listener.onMovieClick (movie, viewHolder
+                .thumbnail));
     }
 
     private void bindMovie (MovieItemHolder viewHolder, Movie movie, boolean isLast) {
@@ -98,23 +101,20 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 .centerCrop ()
                 .into (viewHolder.thumbnail);
 
+        viewHolder.thumbnail.setTransitionName (TransitionNames.MOVIE_POSTER + movie.id);
         if ( isLast ) {
             viewHolder.viewAll.setVisibility (View.VISIBLE);
-            viewHolder.viewAll.setOnClickListener (v -> {
-                listener.onSubHeaderClick (0);
-            });
+            viewHolder.viewAll.setOnClickListener (v -> listener.onSubHeaderClick (0));
         } else {
             viewHolder.viewAll.setVisibility (View.GONE);
         }
 
-        viewHolder.itemView.setOnClickListener (v -> listener.onMovieClick (movie));
+        viewHolder.itemView.setOnClickListener (v -> listener.onMovieClick (movie, viewHolder.thumbnail));
     }
 
     private void bindHeader (HeaderItemHolder viewHolder, String header) {
         viewHolder.header.setText (header);
-        viewHolder.itemView.setOnClickListener (v -> {
-            listener.onSubHeaderClick (0);
-        });
+        viewHolder.itemView.setOnClickListener (v -> listener.onSubHeaderClick (0));
     }
 
     @Override
@@ -172,7 +172,7 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     interface ClickListener {
-        void onMovieClick (Movie movie);
+        void onMovieClick (Movie movie, View element);
 
         void onSubHeaderClick (int header);
     }

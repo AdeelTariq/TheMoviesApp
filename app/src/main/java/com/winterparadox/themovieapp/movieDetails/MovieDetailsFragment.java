@@ -5,6 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.Barrier;
+import android.support.transition.ChangeBounds;
+import android.support.transition.ChangeImageTransform;
+import android.support.transition.ChangeTransform;
+import android.support.transition.Fade;
+import android.support.transition.TransitionSet;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -27,6 +33,8 @@ import com.winterparadox.themovieapp.common.GlideApp;
 import com.winterparadox.themovieapp.common.beans.CastMember;
 import com.winterparadox.themovieapp.common.beans.CrewMember;
 import com.winterparadox.themovieapp.common.beans.Movie;
+import com.winterparadox.themovieapp.common.views.TransitionNames;
+import com.winterparadox.themovieapp.search.HostView;
 
 import javax.inject.Inject;
 
@@ -37,6 +45,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.supercharge.shimmerlayout.ShimmerLayout;
 
+import static android.support.transition.TransitionSet.ORDERING_TOGETHER;
 import static android.support.v7.widget.LinearLayoutManager.HORIZONTAL;
 import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.IMAGE;
 import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.MEDIUM_BACKDROP;
@@ -75,6 +84,15 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
 
     public static MovieDetailsFragment instance (Movie movie) {
         MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment ();
+
+        TransitionSet transition = new TransitionSet ()
+                .setOrdering (ORDERING_TOGETHER)
+                .addTransition (new ChangeBounds ())
+                .addTransition (new ChangeImageTransform ())
+                .addTransition (new ChangeTransform ());
+        movieDetailsFragment.setSharedElementEnterTransition (transition);
+        movieDetailsFragment.setSharedElementReturnTransition (new Fade ());
+
         Bundle args = new Bundle ();
         args.putSerializable (MOVIE, movie);
         movieDetailsFragment.setArguments (args);
@@ -100,7 +118,6 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
                               @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate (R.layout.fragment_movie_details, container, false);
         unbinder = ButterKnife.bind (this, view);
-
 
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager (getActivity (),
                 HORIZONTAL, false);
@@ -163,6 +180,8 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         tvPlot.setText (movie.overview);
         circularVotes.setProgress (movie.voteAverage * 10, 100);
 
+        ivBackdrop.setTransitionName (TransitionNames.MOVIE_BACKDROP + movie.id);
+        ivPoster.setTransitionName (TransitionNames.MOVIE_POSTER + movie.id);
     }
 
     @Override
@@ -212,8 +231,8 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     }
 
     @Override
-    public void onMovieClick (Movie member) {
-
+    public void onMovieClick (Movie movie, View element) {
+        ((HostView) getActivity ()).openMovie (movie, element);
     }
 
     @Override
@@ -223,6 +242,6 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
 
     @Override
     public void showError (String message) {
-
+        Toast.makeText (getActivity (), message, Toast.LENGTH_LONG).show ();
     }
 }

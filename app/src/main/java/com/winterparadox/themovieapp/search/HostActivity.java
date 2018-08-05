@@ -177,8 +177,10 @@ public class HostActivity extends AppCompatActivity implements HostView {
     }
 
     @Override
-    public void openMovie (Movie movie) {
+    public void openMovie (Movie movie, Object view) {
+        View element = ((View) view);
         getSupportFragmentManager ().beginTransaction ()
+                .addSharedElement (element, element.getTransitionName ())
                 .replace (R.id.container, MovieDetailsFragment.instance (movie), movie.title)
                 .addToBackStack (movie.title)
                 .commit ();
