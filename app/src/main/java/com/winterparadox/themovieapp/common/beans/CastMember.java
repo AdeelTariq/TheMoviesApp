@@ -5,28 +5,28 @@ import com.google.gson.annotations.SerializedName;
 public class CastMember {
 
     @SerializedName("cast_id")
-    private int castId;
+    public int castId;
 
     @SerializedName("character")
-    private String character;
+    public String character;
 
     @SerializedName("gender")
-    private int gender;
+    public int gender;
 
     @SerializedName("credit_id")
-    private String creditId;
+    public String creditId;
 
     @SerializedName("name")
-    private String name;
+    public String name;
 
     @SerializedName("profile_path")
-    private String profilePath;
+    public String profilePath;
 
     @SerializedName("id")
-    private int id;
+    public int id;
 
     @SerializedName("order")
-    private int order;
+    public int order;
 
     @Override
     public String toString () {

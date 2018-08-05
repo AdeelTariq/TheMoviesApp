@@ -39,21 +39,21 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <android.support.v7.widget.LinearLayoutCompat
+    <FrameLayout
         android:layout_marginTop="?attr/actionBarSize"
         android:id="@+id/frontSheet"
-        app:elevation="1dp"
-        android:backgroundTint="@color/backgroundColor"
+        android:elevation="1dp"
         android:background="@drawable/front_sheet"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
+        <com.winterparadox.themovieapp.common.views.RoundCornerFrameLayout
             android:id="@+id/container"
+            app:corner_radius="24dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-    </android.support.v7.widget.LinearLayoutCompat>
+    </FrameLayout>
 
 </FrameLayout>

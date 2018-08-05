@@ -85,10 +85,13 @@ public class Movie implements Serializable {
     @SerializedName("release_dates")
     public ReleaseDates releaseDates;
 
-
     @TypeConverters(Movie.class)
     @SerializedName("credits")
     public Credits credits;
+
+    @TypeConverters(Movie.class)
+    @SerializedName("similar")
+    public Similar similar;
 
 
     @Override
@@ -150,6 +153,17 @@ public class Movie implements Serializable {
     @TypeConverter
     public static String creditsToStoredString (Credits credits) {
         return Singleton.gson.toJson (credits);
+    }
+
+    @TypeConverter
+    public static Similar storedStringToSimilar (String value) {
+        return Singleton.gson.fromJson (value, new TypeToken<Credits> () {
+        }.getType ());
+    }
+
+    @TypeConverter
+    public static String similarToStoredString (Similar similar) {
+        return Singleton.gson.toJson (similar);
     }
 
 }

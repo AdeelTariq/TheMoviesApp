@@ -2,6 +2,7 @@ package com.winterparadox.themovieapp.common.views;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,6 +15,7 @@ public class DefaultItemDecoration extends DividerItemDecoration {
 
     public DefaultItemDecoration (Context context, int orientation) {
         super (context, orientation);
+        setDrawable (new ColorDrawable (0x00000000));
     }
 
     public void setDefaultOffset (int defaultOffset) {

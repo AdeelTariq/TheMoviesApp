@@ -7,11 +7,11 @@ import android.net.Network;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -29,7 +29,7 @@ public class HostActivity extends AppCompatActivity implements HostView {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.app_bar) AppBarLayout appBar;
-    @BindView(R.id.frontSheet) LinearLayoutCompat frontSheet;
+    @BindView(R.id.frontSheet) View frontSheet;
     @BindView(R.id.backdropHolder) LinearLayout backdropHolder;
     @BindView(R.id.container) FrameLayout container;
     private BackDropNavigationListener backDropNavigationListener;

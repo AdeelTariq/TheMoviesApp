@@ -2,15 +2,15 @@ package com.winterparadox.themovieapp.common.beans;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Credits {
 
     @SerializedName("cast")
-    private ArrayList<CastMember> cast;
+    public List<CastMember> cast;
 
     @SerializedName("crew")
-    private ArrayList<CrewMember> crew;
+    public List<CrewMember> crew;
 
     @Override
     public String toString () {

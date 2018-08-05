@@ -6,6 +6,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.Barrier;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +20,12 @@ import android.widget.TextView;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.GlideApp;
-import com.winterparadox.themovieapp.common.UiUtils;
+import com.winterparadox.themovieapp.common.beans.CastMember;
+import com.winterparadox.themovieapp.common.beans.CrewMember;
 import com.winterparadox.themovieapp.common.beans.Movie;
 
 import javax.inject.Inject;
@@ -30,13 +36,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.supercharge.shimmerlayout.ShimmerLayout;
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
+import static android.support.v7.widget.LinearLayoutManager.HORIZONTAL;
 import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.IMAGE;
 import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.MEDIUM_BACKDROP;
 import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.SMALL_POSTER;
 
-public class MovieDetailsFragment extends Fragment implements MovieDetailsView {
+public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
+        MoviesDetailsCastAdapter.ClickListener, MoviesDetailsCrewAdapter.ClickListener,
+        MoviesDetailsMoviesAdapter.ClickListener {
 
     private static final String MOVIE = "movie";
     @BindView(R.id.ivBackdrop) ImageView ivBackdrop;
@@ -52,12 +60,18 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView {
     @BindView(R.id.captionAdd) TextView captionAdd;
     @BindView(R.id.tvInfo) TextView tvInfo;
     @BindView(R.id.shimmerLayout) ShimmerLayout shimmerLayout;
+    @BindView(R.id.rvCast) ShimmerRecyclerView rvCast;
+    @BindView(R.id.rvCrew) RecyclerView rvCrew;
+    @BindView(R.id.rvSimilar) RecyclerView rvSimilar;
 
     private Movie movie;
     private RequestOptions requestOptions;
     Unbinder unbinder;
 
     @Inject MovieDetailsPresenter presenter;
+    private MoviesDetailsCastAdapter castAdapter;
+    private MoviesDetailsCrewAdapter crewAdapter;
+    private MoviesDetailsMoviesAdapter movieAdapter;
 
     public static MovieDetailsFragment instance (Movie movie) {
         MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment ();
@@ -87,6 +101,39 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView {
         View view = inflater.inflate (R.layout.fragment_movie_details, container, false);
         unbinder = ButterKnife.bind (this, view);
 
+
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager (getActivity (),
+                HORIZONTAL, false);
+        rvCast.setLayoutManager (linearLayoutManager1);
+        CastItemDecoration decor = new CastItemDecoration (getActivity (), DividerItemDecoration
+                .HORIZONTAL);
+        decor.setDefaultOffset (8);
+        decor.setLastItemEndOffset (24);
+        rvCast.addItemDecoration (decor);
+        castAdapter = new MoviesDetailsCastAdapter (this);
+        rvCast.setAdapter (castAdapter);
+
+
+        LinearLayoutManager gridManager = new GridLayoutManager (getActivity (), 2,
+                HORIZONTAL, false);
+        rvCrew.setLayoutManager (gridManager);
+        CrewItemDecoration decorCrew = new CrewItemDecoration (getActivity (),
+                DividerItemDecoration.HORIZONTAL);
+        decorCrew.setDefaultOffset (16);
+        decorCrew.setHorizontal (48);
+        rvCrew.addItemDecoration (decorCrew);
+        crewAdapter = new MoviesDetailsCrewAdapter (this);
+        rvCrew.setAdapter (crewAdapter);
+
+
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager (getActivity (),
+                HORIZONTAL, false);
+        rvSimilar.setLayoutManager (linearLayoutManager2);
+        rvSimilar.addItemDecoration (decor);
+        movieAdapter = new MoviesDetailsMoviesAdapter (this);
+        rvSimilar.setAdapter (movieAdapter);
+
+
         presenter.attachView (this, movie);
 
         return view;
@@ -101,13 +148,9 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView {
 
     @Override
     public void showMovie (Movie movie, String year) {
-        RequestOptions requestOptions1 = new RequestOptions ()
-                .transforms (new CenterCrop (),
-                        new RoundedCornersTransformation ((int) UiUtils.dpToPx (24), 0,
-                                RoundedCornersTransformation.CornerType.TOP));
         GlideApp.with (getActivity ())
                 .load (Uri.parse (IMAGE + MEDIUM_BACKDROP + movie.backdropPath))
-                .apply (requestOptions1)
+                .centerCrop ()
                 .into (ivBackdrop);
 
         GlideApp.with (getActivity ())
@@ -118,7 +161,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView {
         tvTitle.setText (movie.title);
         tvYear.setText (year);
         tvPlot.setText (movie.overview);
-        circularVotes.setProgress (movie.voteAverage, 10);
+        circularVotes.setProgress (movie.voteAverage * 10, 100);
 
     }
 
@@ -129,6 +172,9 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView {
         tvInfo.setText (String.format ("%s\t\t|\t\t%s\t\t|\t\t%s\n%s", ageRating, runtime,
                 movie.originalLanguage, genres));
 
+        castAdapter.setItems (movie.credits.cast);
+        crewAdapter.setItems (movie.credits.crew);
+        movieAdapter.setItems (movie.similar.movies);
     }
 
     @OnClick({R.id.btnAdd, R.id.captionAdd})
@@ -145,12 +191,29 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView {
     @Override
     public void showProgress () {
         shimmerLayout.startShimmerAnimation ();
+        rvCast.showShimmerAdapter ();
     }
 
     @Override
     public void hideProgress () {
         shimmerLayout.stopShimmerAnimation ();
+        rvCast.hideShimmerAdapter ();
         tvInfo.setBackground (null);
+    }
+
+    @Override
+    public void onCastClick (CastMember member) {
+
+    }
+
+    @Override
+    public void onCrewClick (CrewMember member) {
+
+    }
+
+    @Override
+    public void onMovieClick (Movie member) {
+
     }
 
     @Override

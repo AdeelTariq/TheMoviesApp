@@ -11,7 +11,7 @@ import retrofit2.http.Path;
  */
 public interface MovieDetailsApiService {
 
-    @GET("movie/{id}?&append_to_response=release_dates,credits")
+    @GET("movie/{id}?&append_to_response=release_dates,credits,similar")
     Single<Movie> movieDetails (@Path("id") int id);
 
 }

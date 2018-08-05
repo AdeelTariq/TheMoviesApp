@@ -5,25 +5,25 @@ import com.google.gson.annotations.SerializedName;
 public class CrewMember {
 
     @SerializedName("gender")
-    private int gender;
+    public int gender;
 
     @SerializedName("credit_id")
-    private String creditId;
+    public String creditId;
 
     @SerializedName("name")
-    private String name;
+    public String name;
 
     @SerializedName("profile_path")
-    private Object profilePath;
+    public Object profilePath;
 
     @SerializedName("id")
-    private int id;
+    public int id;
 
     @SerializedName("department")
-    private String department;
+    public String department;
 
     @SerializedName("job")
-    private String job;
+    public String job;
 
     @Override
     public String toString () {

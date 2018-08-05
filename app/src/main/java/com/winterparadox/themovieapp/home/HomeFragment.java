@@ -1,6 +1,5 @@
 package com.winterparadox.themovieapp.home;
 
-import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Bundle;
@@ -79,7 +78,6 @@ public class HomeFragment extends Fragment implements HomeView, HomeMoviesAdapte
         dividerItemDecoration.middleHorizontalPadding = 8;
         dividerItemDecoration.verticalOffset = 8;
         dividerItemDecoration.setDefaultOffset (24);
-        dividerItemDecoration.setDrawable (new ColorDrawable (0x00000000));
         recyclerView.addItemDecoration (dividerItemDecoration);
 
         moviesAdapter = new HomeMoviesAdapter (this);

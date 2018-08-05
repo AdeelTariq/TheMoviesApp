@@ -56,6 +56,14 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
                 .observeOn (mainScheduler)
                 .subscribe (movie1 -> {
                     movie = movie1;
+
+                    if ( movie.credits.cast.size () > 10 ) {
+                        movie.credits.cast = movie.credits.cast.subList (0, 10);
+                    }
+                    if ( movie.credits.crew.size () > 10 ) {
+                        movie.credits.crew = movie.credits.crew.subList (0, 10);
+                    }
+
                     if ( view != null ) {
 
                         String ageRating = "NA";
@@ -79,7 +87,7 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
                             genres = genres.substring (0, genres.length () - 2);
                         }
 
-                        view.showAdditionalDetails (movie1, ageRating,
+                        view.showAdditionalDetails (movie, ageRating,
                                 PresenterUtils.runtimeString (movie1.runtime), genres);
                         view.hideProgress ();
                     }

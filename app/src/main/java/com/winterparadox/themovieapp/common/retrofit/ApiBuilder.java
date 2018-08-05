@@ -26,6 +26,7 @@ public class ApiBuilder {
     public static final String IMAGE = "https://image.tmdb.org/t/p/";
     public static final String SMALL_POSTER = "w342";
     public static final String MEDIUM_BACKDROP = "w780";
+    public static final String LARGE_PROFILE = "h632";
 
     public static <T> T build (Context context, Class<T> apiInterface, boolean test) {
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,14 +9,13 @@
     <android.support.constraint.ConstraintLayout
 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="16dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/ivBackdrop"
             android:layout_width="0dp"
             android:layout_height="200dp"
-            android:background="@drawable/movie_backdrop_shimmer_background"
+            android:background="@drawable/image_shimmer_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -29,16 +28,23 @@
             android:layout_width="32dp"
             android:layout_height="32dp"/>
 
-        <ImageView
-            android:id="@+id/ivPoster"
+        <android.support.v7.widget.CardView
+            android:id="@+id/posterCard"
             android:layout_width="104dp"
             android:layout_height="152dp"
             android:layout_marginStart="24dp"
-            android:background="@drawable/image_shimmer_background"
-            android:elevation="4dp"
+            app:cardBackgroundColor="@color/shimmerColor"
+            app:cardElevation="1dp"
+            app:cardCornerRadius="2dp"
             app:layout_constraintBottom_toBottomOf="@id/ivBackdrop"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivBackdrop"/>
+            app:layout_constraintTop_toBottomOf="@id/ivBackdrop">
+
+            <ImageView
+                android:id="@+id/ivPoster"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </android.support.v7.widget.CardView>
 
         <TextView
             android:id="@+id/tvTitle"
@@ -47,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivPoster"
+            app:layout_constraintStart_toEndOf="@id/posterCard"
             app:layout_constraintTop_toBottomOf="@id/ivBackdrop"
             tools:text="Movie Title"/>
 
@@ -59,7 +65,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivPoster"
+            app:layout_constraintStart_toEndOf="@id/posterCard"
             app:layout_constraintTop_toBottomOf="@id/tvTitle"
             tools:text="(2018)"/>
 
@@ -69,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="tvYear,ivPoster"/>
+            app:constraint_referenced_ids="tvYear,posterCard"/>
 
         <antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator
             android:id="@+id/circularVotes"
@@ -192,26 +198,103 @@
 
         <io.supercharge.shimmerlayout.ShimmerLayout
             android:id="@+id/shimmerLayout"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvPlot"
             android:layout_width="0dp"
             android:layout_height="wrap_content">
 
-
             <TextView
                 android:id="@+id/tvInfo"
                 style="@style/TextAppearance.Movies.Text.Small.MediumEmphasis.Regular"
-                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:minWidth="200dp"
+                android:minLines="2"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/text_shimmer_background"
                 android:gravity="center"
                 tools:text="PG 13 | 1h 50m | Adventure, Drama"/>
-
         </io.supercharge.shimmerlayout.ShimmerLayout>
 
+        <TextView
+            android:id="@+id/caption0"
+            app:layout_constraintTop_toBottomOf="@id/shimmerLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="24dp"
+            android:text="@string/cast"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            style="@style/TextAppearance.Movies.Text.Medium.HighEmphasis.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+            android:id="@+id/rvCast"
+            app:layout_constraintTop_toBottomOf="@id/caption0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:shimmer_demo_angle="20"
+            app:shimmer_demo_child_count="1"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="24dp"
+            android:paddingBottom="8dp"
+            android:clipToPadding="false"
+            app:shimmer_demo_layout="@layout/layout_cast_shimmer_item"
+            app:shimmer_demo_shimmer_color="@color/shimmerColor"
+            app:shimmer_demo_layout_manager_type="linear_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/caption1"
+            app:layout_constraintTop_toBottomOf="@id/rvCast"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            android:text="@string/crew"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            style="@style/TextAppearance.Movies.Text.Medium.HighEmphasis.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvCrew"
+            app:layout_constraintTop_toBottomOf="@id/caption1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/caption2"
+            app:layout_constraintTop_toBottomOf="@id/rvCrew"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="24dp"
+            android:text="@string/similar_movies"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            style="@style/TextAppearance.Movies.Text.Medium.HighEmphasis.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvSimilar"
+            app:layout_constraintTop_toBottomOf="@id/caption2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="24dp"
+            android:paddingBottom="24dp"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
     </android.support.constraint.ConstraintLayout>
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

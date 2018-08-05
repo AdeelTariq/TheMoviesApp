@@ -10,9 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.GlideApp;
 import com.winterparadox.themovieapp.common.beans.Movie;
@@ -30,16 +27,12 @@ import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.SMALL_POS
 public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int HEADER = 0, MOVIE_LARGE = 1, MOVIE_SMALL = 2;
-    private final RequestOptions requestOptions;
+
     private List<Object> items;
     private ClickListener listener;
 
     public HomeMoviesAdapter (ClickListener listener) {
         this.listener = listener;
-
-        requestOptions = new RequestOptions ()
-                .transforms (new CenterCrop (), new RoundedCorners (4));
-
     }
 
     public void addMovies (ArrayList<Object> movies) {
@@ -92,7 +85,7 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         GlideApp.with (viewHolder.itemView)
                 .load (Uri.parse (IMAGE + MEDIUM_BACKDROP + movie.backdropPath))
-                .apply (requestOptions)
+                .centerCrop ()
                 .into (viewHolder.thumbnail);
         viewHolder.name.setText (movie.title);
 
@@ -102,7 +95,7 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private void bindMovie (MovieItemHolder viewHolder, Movie movie, boolean isLast) {
         GlideApp.with (viewHolder.itemView)
                 .load (Uri.parse (IMAGE + SMALL_POSTER + movie.posterPath))
-                .apply (requestOptions)
+                .centerCrop ()
                 .into (viewHolder.thumbnail);
 
         if ( isLast ) {
@@ -156,7 +149,7 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         TextView header;
 
-        public HeaderItemHolder (@NonNull View itemView) {
+        HeaderItemHolder (@NonNull View itemView) {
             super (itemView);
             header = (TextView) itemView;
         }
@@ -172,7 +165,7 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @BindView(R.id.name)
         TextView name;
 
-        public MovieItemHolder (@NonNull View itemView) {
+        MovieItemHolder (@NonNull View itemView) {
             super (itemView);
             ButterKnife.bind (this, itemView);
         }

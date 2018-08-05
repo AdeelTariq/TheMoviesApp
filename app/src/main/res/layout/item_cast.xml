@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="2dp"
+    android:stateListAnimator="@animator/lift_on_touch"
+    style="@style/Widget.MaterialComponents.CardView"
+    app:cardBackgroundColor="@color/backgroundColor"
+    android:foreground="?attr/selectableItemBackground"
+    android:layout_width="128dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/profile"
+            android:background="@color/shimmerColor"
+            android:layout_width="match_parent"
+            android:layout_height="144dp"/>
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/TextAppearance.Movies.Text.Small.HighEmphasis.Bold"
+            tools:text="Name"
+            android:ellipsize="end"
+            android:lines="1"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/character"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:lines="2"
+            android:ellipsize="end"
+            android:layout_marginBottom="8dp"
+            style="@style/TextAppearance.Movies.Text.Small.HighEmphasis.Regular"
+            tools:text="Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
