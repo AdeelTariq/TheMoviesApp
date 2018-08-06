@@ -3,6 +3,7 @@ package com.winterparadox.themovieapp.movieDetails;
 import android.annotation.SuppressLint;
 
 import com.winterparadox.themovieapp.common.PresenterUtils;
+import com.winterparadox.themovieapp.common.beans.Favorite;
 import com.winterparadox.themovieapp.common.beans.GenresItem;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.RecentlyViewed;
@@ -28,6 +29,7 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
     private final MovieDetailsApiInteractor api;
     private final Scheduler mainScheduler;
     private AppDatabase database;
+    private boolean isFavorite;
 
     public MovieDetailsPresenterImpl (MovieDetailsApiInteractor api,
                                       Scheduler mainScheduler,
@@ -46,6 +48,17 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
                 .andThen ((CompletableSource) cs -> database.recentlyViewedDao ()
                         .insertAll (new RecentlyViewed (System.currentTimeMillis (), movie)))
                 .subscribeOn (Schedulers.io ()).subscribe ();
+
+        database.favoriteDao ()
+                .isFavorite (movie.id)
+                .subscribeOn (Schedulers.io ())
+                .observeOn (mainScheduler)
+                .subscribe (isFav -> {
+                    isFavorite = isFav;
+                    if ( view != null ) {
+                        view.showFavorite (isFavorite);
+                    }
+                });
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat ("yyyy-mm-dd",
                 Locale.getDefault ());
@@ -112,5 +125,29 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
                     }
                     throwable.printStackTrace ();
                 });
+    }
+
+    @Override
+    public boolean isMovieFav () {
+        return isFavorite;
+    }
+
+    @Override
+    public void setMovieFav (boolean isFav) {
+        isFavorite = isFav;
+        // save to database
+        if ( isFavorite ) {
+            Completable.fromAction (() -> database.favoriteDao ()
+                    .insertAll (new Favorite (System.currentTimeMillis (), movie)))
+                    .subscribeOn (Schedulers.io ())
+                    .observeOn (mainScheduler)
+                    .subscribe ();
+        } else {
+            Completable.fromAction (() -> database.favoriteDao ()
+                    .deleteAll (new Favorite (0, movie)))
+                    .subscribeOn (Schedulers.io ())
+                    .observeOn (mainScheduler)
+                    .subscribe ();
+        }
     }
 }

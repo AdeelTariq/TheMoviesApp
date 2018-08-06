@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.NetworkUtils;
 import com.winterparadox.themovieapp.common.beans.Movie;
+import com.winterparadox.themovieapp.favorites.FavoritesFragment;
 import com.winterparadox.themovieapp.home.HomeFragment;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsFragment;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedFragment;
@@ -202,6 +203,10 @@ public class HostActivity extends AppCompatActivity implements HostView {
                 break;
 
             case R.id.action_favorite:
+                getSupportFragmentManager ().beginTransaction ()
+                        .replace (R.id.container, new FavoritesFragment ())
+                        .addToBackStack ("favorites")
+                        .commit ();
                 break;
 
             case R.id.action_lists:

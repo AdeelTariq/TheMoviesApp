@@ -1,5 +1,7 @@
 package com.winterparadox.themovieapp.dagger;
 
+import com.winterparadox.themovieapp.favorites.FavoritesPresenter;
+import com.winterparadox.themovieapp.favorites.FavoritesPresenterImpl;
 import com.winterparadox.themovieapp.home.HomeApiInteractor;
 import com.winterparadox.themovieapp.home.HomePresenter;
 import com.winterparadox.themovieapp.home.HomePresenterImpl;
@@ -39,6 +41,12 @@ public class PresenterModule {
     public RecentlyViewedPresenter provideRecentlyViewedPresenter (AppDatabase database,
                                                                    Scheduler mainScheduler) {
         return new RecentlyViewedPresenterImpl (database, mainScheduler);
+    }
+
+    @Provides
+    public FavoritesPresenter provideFavoritePresenter (AppDatabase database,
+                                                        Scheduler mainScheduler) {
+        return new FavoritesPresenterImpl (database, mainScheduler);
     }
 
 }

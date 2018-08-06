@@ -8,4 +8,6 @@ public interface MovieDetailsView extends BaseView {
     void showMovie (Movie movie, String year);
 
     void showAdditionalDetails (Movie movie, String ageRating, String runtime, String genres);
+
+    void showFavorite (boolean isFavorite);
 }

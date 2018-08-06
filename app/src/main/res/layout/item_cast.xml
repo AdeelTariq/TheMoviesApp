@@ -7,7 +7,6 @@
     app:cardElevation="2dp"
     android:stateListAnimator="@animator/lift_on_touch"
     style="@style/Widget.MaterialComponents.CardView"
-    app:cardBackgroundColor="@color/backgroundColor"
     android:foreground="?attr/selectableItemBackground"
     android:layout_width="128dp"
     android:layout_height="wrap_content">

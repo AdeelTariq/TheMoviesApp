@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
@@ -63,7 +64,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     @BindView(R.id.tvPlot) TextView tvPlot;
     @BindView(R.id.circularVotes) CircularProgressIndicator circularVotes;
     @BindView(R.id.barrier2) Barrier barrier2;
-    @BindView(R.id.btnFavorite) ImageButton btnFavorite;
+    @BindView(R.id.btnFavorite) LottieAnimationView btnFavorite;
     @BindView(R.id.captionFav) TextView captionFav;
     @BindView(R.id.btnAdd) ImageButton btnAdd;
     @BindView(R.id.captionAdd) TextView captionAdd;
@@ -153,6 +154,8 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         movieAdapter = new MoviesDetailsMoviesAdapter (this);
         rvSimilar.setAdapter (movieAdapter);
 
+        btnFavorite.setAnimation (R.raw.favorite);
+        btnFavorite.invalidate ();
 
         presenter.attachView (this, movie);
 
@@ -204,9 +207,24 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
 
     }
 
+    @Override
+    public void showFavorite (boolean isFavorite) {
+        if ( isFavorite ) {
+            btnFavorite.setMinAndMaxProgress (0, 0.75f);
+            btnFavorite.playAnimation ();
+        }
+    }
+
     @OnClick({R.id.btnFavorite, R.id.captionFav})
     void favorite () {
-
+        boolean fav = presenter.isMovieFav ();
+        if ( !fav ) {
+            btnFavorite.setMinAndMaxProgress (0, 0.75f);
+        } else {
+            btnFavorite.setMinAndMaxProgress (0.75f, 1);
+        }
+        presenter.setMovieFav (!fav);
+        btnFavorite.playAnimation ();
     }
 
 

@@ -123,37 +123,37 @@
         <ImageView
             app:layout_constraintStart_toEndOf="@id/tvCaption0"
             app:layout_constraintEnd_toStartOf="@id/btnFavorite"
-            app:layout_constraintTop_toTopOf="@id/btnFavorite"
-            app:layout_constraintBottom_toBottomOf="@id/btnFavorite"
+            app:layout_constraintTop_toTopOf="@id/tvCaption0"
+            app:layout_constraintBottom_toBottomOf="@id/tvCaption0"
             android:id="@+id/divider0"
             android:background="@color/shimmerColor"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_width="0.5dp"
             android:layout_height="24dp"/>
 
-        <ImageButton
-            android:id="@+id/btnFavorite"
-            app:layout_constraintTop_toBottomOf="@id/barrier2"
+        <com.airbnb.lottie.LottieAnimationView
+            app:layout_constraintTop_toTopOf="@id/captionFav"
+            app:layout_constraintBottom_toBottomOf="@id/captionFav"
             app:layout_constraintStart_toEndOf="@id/divider0"
             app:layout_constraintEnd_toStartOf="@id/captionFav"
+            android:id="@+id/btnFavorite"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginTop="16dp"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:tint="@color/toolbarIconColor"
-            app:srcCompat="@drawable/ic_favorite_border"/>
+            android:layout_width="44dp"
+            android:layout_height="44dp"/>
 
         <TextView
             android:id="@+id/captionFav"
             style="@style/TextAppearance.Movies.Text.Small.HighEmphasis.MediumBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:paddingStart="0dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingEnd="8dp"
             android:background="?attr/selectableItemBackground"
             app:layout_constraintEnd_toStartOf="@id/divider1"
-            app:layout_constraintTop_toTopOf="@id/btnFavorite"
-            app:layout_constraintBottom_toBottomOf="@id/btnFavorite"
+            app:layout_constraintTop_toTopOf="@id/btnAdd"
+            app:layout_constraintBottom_toBottomOf="@id/btnAdd"
             app:layout_constraintStart_toEndOf="@id/btnFavorite"
             android:text="@string/favorite"/>
 
