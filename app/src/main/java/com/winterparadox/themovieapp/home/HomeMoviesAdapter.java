@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 
 import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.IMAGE;
 import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.MEDIUM_BACKDROP;
-import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.SMALL_POSTER;
+import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.MEDIUM_POSTER;
 
 public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -98,7 +98,7 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private void bindMovie (MovieItemHolder viewHolder, Movie movie, boolean isLast) {
         GlideApp.with (viewHolder.itemView)
-                .load (Uri.parse (IMAGE + SMALL_POSTER + movie.posterPath))
+                .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
                 .centerCrop ()
                 .into (viewHolder.thumbnail);
 

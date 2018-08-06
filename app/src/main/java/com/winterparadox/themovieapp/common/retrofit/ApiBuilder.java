@@ -24,7 +24,8 @@ public class ApiBuilder {
     private static final String Base_URL = "https://api.themoviedb.org/3/";
     private static final String API_KEY = "ffd597419be5a256066dc51c49bc659f";
     public static final String IMAGE = "https://image.tmdb.org/t/p/";
-    public static final String SMALL_POSTER = "w342";
+    public static final String SMALL_POSTER = "w185";
+    public static final String MEDIUM_POSTER = "w342";
     public static final String MEDIUM_BACKDROP = "w780";
     public static final String LARGE_PROFILE = "h632";
 

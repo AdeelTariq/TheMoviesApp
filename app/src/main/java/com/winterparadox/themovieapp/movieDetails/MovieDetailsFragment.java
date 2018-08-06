@@ -50,7 +50,7 @@ import static android.support.transition.TransitionSet.ORDERING_TOGETHER;
 import static android.support.v7.widget.LinearLayoutManager.HORIZONTAL;
 import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.IMAGE;
 import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.MEDIUM_BACKDROP;
-import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.SMALL_POSTER;
+import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.MEDIUM_POSTER;
 
 public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         MoviesDetailsCastAdapter.ClickListener, MoviesDetailsCrewAdapter.ClickListener,
@@ -177,7 +177,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
                 .into (ivBackdrop);
 
         GlideApp.with (getActivity ())
-                .load (Uri.parse (IMAGE + SMALL_POSTER + movie.posterPath))
+                .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
                 .apply (requestOptions)
                 .into (ivPoster);
 
