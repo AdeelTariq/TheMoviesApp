@@ -17,7 +17,6 @@
         android:paddingTop="88dp"
         android:paddingBottom="96dp">
 
-        <include layout="@layout/layout_backdrop_menu"/>
 
     </LinearLayout>
 

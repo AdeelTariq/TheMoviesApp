@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#cd0e01</color>
     <!--Also the secondary color-->
     <color name="colorAccent">#e5260d</color>
+    <color name="textButtonColor">#FFA58E</color>
     <color name="textColorPrimary">#ffffff</color>
     <color name="toolbarIconColor">@color/textColorPrimary</color>
     <color name="backgroundColor">#3c3c3c</color>

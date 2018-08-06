@@ -33,7 +33,6 @@
         android:layout_height="0dp"/>
 
     <ImageView
-        app:layout_behavior="com.winterparadox.themovieapp.common.views.ScrollAwareFABBehavior"
         android:id="@+id/scrollIndicator"
         android:background="@color/shimmerColor"
         app:layout_constraintStart_toStartOf="parent"

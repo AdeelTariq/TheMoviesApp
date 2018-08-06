@@ -9,6 +9,7 @@
         <item name="colorControlActivated">@color/colorControlActivated</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:fontFamily">@font/raleway_regular</item>
+        <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
     <style name="Theme.Movies.Overlay" parent="Theme.Movies">
@@ -33,12 +34,22 @@
 
     <style name="Widget.Movies.Button.TextButton"
            parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:foreground">?attr/selectableItemBackground</item>
         <item name="iconTint">@color/toolbarIconColor</item>
         <item name="iconPadding">16dp</item>
         <item name="textAllCaps">false</item>
+        <item name="android:gravity">start|center_vertical</item>
         <item name="fontFamily">@font/raleway_medium</item>
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
+
+
+    <style name="Widget.Movies.Button.DialogButton"
+           parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="fontFamily">@font/raleway_semibold</item>
+        <item name="android:textColor">@color/textButtonColor</item>
+    </style>
+
 
     <style name="TextAppearance.Movies.Text.Small.HighEmphasis.Regular"
            parent="TextAppearance.MaterialComponents.Subtitle2">

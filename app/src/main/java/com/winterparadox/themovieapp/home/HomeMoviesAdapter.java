@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -103,10 +104,10 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         viewHolder.thumbnail.setTransitionName (TransitionNames.MOVIE_POSTER + movie.id);
         if ( isLast ) {
-            viewHolder.viewAll.setVisibility (View.VISIBLE);
+            viewHolder.buttonContainer.setVisibility (View.VISIBLE);
             viewHolder.viewAll.setOnClickListener (v -> listener.onSubHeaderClick (0));
         } else {
-            viewHolder.viewAll.setVisibility (View.GONE);
+            viewHolder.buttonContainer.setVisibility (View.GONE);
         }
 
         viewHolder.itemView.setOnClickListener (v -> listener.onMovieClick (movie, viewHolder.thumbnail));
@@ -160,7 +161,10 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @BindView(R.id.thumbnail) ImageView thumbnail;
         @Nullable
         @BindView(R.id.viewAll)
-        TextView viewAll;
+        Button viewAll;
+        @Nullable
+        @BindView(R.id.buttonContainer)
+        View buttonContainer;
         @Nullable
         @BindView(R.id.name)
         TextView name;

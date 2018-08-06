@@ -127,6 +127,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         decor.setDefaultOffset (8);
         decor.setLastItemEndOffset (24);
         rvCast.addItemDecoration (decor);
+        rvCast.setHasFixedSize (true);
         castAdapter = new MoviesDetailsCastAdapter (this);
         rvCast.setAdapter (castAdapter);
 
@@ -138,6 +139,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
                 DividerItemDecoration.HORIZONTAL);
         decorCrew.setDefaultOffset (16);
         decorCrew.setHorizontal (48);
+        rvCrew.setHasFixedSize (true);
         rvCrew.addItemDecoration (decorCrew);
         crewAdapter = new MoviesDetailsCrewAdapter (this);
         rvCrew.setAdapter (crewAdapter);
@@ -147,6 +149,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
                 HORIZONTAL, false);
         rvSimilar.setLayoutManager (linearLayoutManager2);
         rvSimilar.addItemDecoration (decor);
+        rvSimilar.setHasFixedSize (true);
         movieAdapter = new MoviesDetailsMoviesAdapter (this);
         rvSimilar.setAdapter (movieAdapter);
 

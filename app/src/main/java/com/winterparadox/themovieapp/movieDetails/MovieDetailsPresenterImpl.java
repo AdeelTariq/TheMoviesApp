@@ -5,8 +5,10 @@ import android.annotation.SuppressLint;
 import com.winterparadox.themovieapp.common.PresenterUtils;
 import com.winterparadox.themovieapp.common.beans.GenresItem;
 import com.winterparadox.themovieapp.common.beans.Movie;
+import com.winterparadox.themovieapp.common.beans.RecentlyViewed;
 import com.winterparadox.themovieapp.common.beans.RegionItem;
 import com.winterparadox.themovieapp.common.beans.ReleaseDatesItem;
+import com.winterparadox.themovieapp.room.AppDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,23 +17,35 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Scheduler;
+import io.reactivex.schedulers.Schedulers;
 
 public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
 
     private static final String US = "US";
     private final MovieDetailsApiInteractor api;
     private final Scheduler mainScheduler;
+    private AppDatabase database;
 
     public MovieDetailsPresenterImpl (MovieDetailsApiInteractor api,
-                                      Scheduler mainScheduler) {
+                                      Scheduler mainScheduler,
+                                      AppDatabase database) {
         this.api = api;
         this.mainScheduler = mainScheduler;
+        this.database = database;
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void attachView (MovieDetailsView view, Movie movie) {
         super.attachView (view, movie);
+
+        Completable.fromAction (() -> database.movieDao ().insertAll (movie))
+                .andThen ((CompletableSource) cs -> database.recentlyViewedDao ()
+                        .insertAll (new RecentlyViewed (System.currentTimeMillis (), movie)))
+                .subscribeOn (Schedulers.io ()).subscribe ();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat ("yyyy-mm-dd",
                 Locale.getDefault ());

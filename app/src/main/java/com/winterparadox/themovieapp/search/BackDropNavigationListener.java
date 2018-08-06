@@ -7,12 +7,14 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.winterparadox.themovieapp.R;
+import com.winterparadox.themovieapp.common.views.LockableScrollView;
 
 /**
  * {@link View.OnClickListener} used to translate the product grid sheet downward on
@@ -22,7 +24,7 @@ public class BackDropNavigationListener implements View.OnClickListener {
 
     private final AnimatorSet animatorSet = new AnimatorSet ();
     private Context context;
-    private View sheet;
+    private ViewGroup sheet;
     private final LinearLayout backdropHolder;
     private final View menuLayout;
     private final View seachLayout;
@@ -33,9 +35,8 @@ public class BackDropNavigationListener implements View.OnClickListener {
     private Drawable closeIcon;
     private View iconView;
 
-    BackDropNavigationListener (Context context, View iconView, View sheet, LinearLayout
-            backdropHolder,
-                                View menuLayout, View seachLayout,
+    BackDropNavigationListener (Context context, View iconView, ViewGroup sheet, LinearLayout
+            backdropHolder, View menuLayout, View seachLayout,
                                 DecelerateInterpolator decelerateInterpolator,
                                 Drawable drawable, Drawable drawable1) {
         this.context = context;
@@ -56,8 +57,11 @@ public class BackDropNavigationListener implements View.OnClickListener {
     @Override
     public void onClick (View view) {
 
-        backdropHolder.removeAllViews ();
-        backdropHolder.addView (menuLayout);
+        if ( backdropHolder.getChildAt (0) == null ||
+                backdropHolder.getChildAt (0).getId () != menuLayout.getId () ) {
+            backdropHolder.removeAllViews ();
+            backdropHolder.addView (menuLayout);
+        }
 
         toggleBackDrop (view);
     }
@@ -87,6 +91,11 @@ public class BackDropNavigationListener implements View.OnClickListener {
         }
         animatorSet.play (animator);
         animator.start ();
+
+        View viewGroup = ((ViewGroup) sheet.getChildAt (0)).getChildAt (0);
+        if ( viewGroup instanceof LockableScrollView ) {
+            ((LockableScrollView) viewGroup).setScrollingEnabled (!backdropShown);
+        }
     }
 
     private void updateIcon (View view) {

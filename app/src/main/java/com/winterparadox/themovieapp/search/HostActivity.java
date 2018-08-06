@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -21,6 +22,7 @@ import com.winterparadox.themovieapp.common.NetworkUtils;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.home.HomeFragment;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsFragment;
+import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,9 +31,10 @@ public class HostActivity extends AppCompatActivity implements HostView {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.app_bar) AppBarLayout appBar;
-    @BindView(R.id.frontSheet) View frontSheet;
+    @BindView(R.id.frontSheet) ViewGroup frontSheet;
     @BindView(R.id.backdropHolder) LinearLayout backdropHolder;
     @BindView(R.id.container) FrameLayout container;
+
     private BackDropNavigationListener backDropNavigationListener;
     private MenuItem offlineModeItem, searchItem;
 
@@ -47,9 +50,15 @@ public class HostActivity extends AppCompatActivity implements HostView {
         backdropHolder.setLayoutTransition (transition);
 
         // setup toolbar
+        ViewGroup menuLayout = (ViewGroup) getLayoutInflater ()
+                .inflate (R.layout.layout_backdrop_menu, null, false);
+        for ( int i = 0; i < menuLayout.getChildCount (); i++ ) {
+            menuLayout.getChildAt (i).setOnClickListener (this::onMenuClick);
+        }
+
         backDropNavigationListener = new BackDropNavigationListener (this, toolbar.getChildAt (1),
                 frontSheet, backdropHolder,
-                getLayoutInflater ().inflate (R.layout.layout_backdrop_menu, null, false),
+                menuLayout,
                 getLayoutInflater ().inflate (R.layout.layout_backdrop_search, null, false),
                 new DecelerateInterpolator (),
                 getDrawable (R.drawable.ic_menu),
@@ -174,6 +183,33 @@ public class HostActivity extends AppCompatActivity implements HostView {
     protected void onPause () {
         super.onPause ();
         NetworkUtils.unregisterConnectivityCallback (this, callback);
+    }
+
+    /**
+     * Menu click listener
+     *
+     * @param v
+     */
+    public void onMenuClick (View v) {
+        backDropNavigationListener.toggle ();
+        switch ( v.getId () ) {
+
+            case R.id.action_history:
+                getSupportFragmentManager ().beginTransaction ()
+                        .replace (R.id.container, new RecentlyViewedFragment ())
+                        .addToBackStack ("history")
+                        .commit ();
+                break;
+
+            case R.id.action_favorite:
+                break;
+
+            case R.id.action_lists:
+                break;
+
+            case R.id.action_charts:
+                break;
+        }
     }
 
     @Override
