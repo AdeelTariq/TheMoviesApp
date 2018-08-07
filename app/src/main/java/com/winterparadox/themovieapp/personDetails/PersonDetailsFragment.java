@@ -46,8 +46,8 @@ public class PersonDetailsFragment extends Fragment implements PersonDetailsView
     @BindView(R.id.tvKnownFor) TextView tvKnownFor;
     @BindView(R.id.tvCredits) TextView tvCredits;
     @BindView(R.id.rvCredits) ShimmerRecyclerView rvCredits;
+    @BindView(R.id.shimmerBio) ShimmerLayout shimmerLayout;
     Unbinder unbinder;
-    @BindView(R.id.shimmerLayout) ShimmerLayout shimmerLayout;
     private Person person;
 
     public static PersonDetailsFragment instance (Person person) {
