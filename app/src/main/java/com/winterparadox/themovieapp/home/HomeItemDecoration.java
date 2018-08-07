@@ -34,6 +34,7 @@ public class HomeItemDecoration extends DefaultItemDecoration {
         outRect.bottom = (int) dpToPx (verticalOffset);
 
         if ( parent.getChildAdapterPosition (view) % 5 == 0 ) {
+            outRect.top = (int) dpToPx (8);
             outRect.bottom = 0;
         }
 

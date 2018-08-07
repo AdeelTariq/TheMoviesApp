@@ -84,11 +84,11 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
                 .subscribe (movie1 -> {
                     movie = movie1;
 
-                    if ( movie.credits.cast.size () > 10 ) {
-                        movie.credits.cast = movie.credits.cast.subList (0, 10);
+                    if ( movie.credits.cast.size () > 20 ) {
+                        movie.credits.cast = movie.credits.cast.subList (0, 20);
                     }
-                    if ( movie.credits.crew.size () > 10 ) {
-                        movie.credits.crew = movie.credits.crew.subList (0, 10);
+                    if ( movie.credits.crew.size () > 20 ) {
+                        movie.credits.crew = movie.credits.crew.subList (0, 20);
                     }
 
                     if ( view != null ) {

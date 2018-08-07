@@ -10,4 +10,7 @@ public interface HostView extends BaseView {
      */
     void openMovie (Movie movie, Object view);
 
+    void openFavorites ();
+
+    void openRecentlyViewed ();
 }

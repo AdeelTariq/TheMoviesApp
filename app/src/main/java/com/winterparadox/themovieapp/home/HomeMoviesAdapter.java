@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.GlideApp;
+import com.winterparadox.themovieapp.common.beans.HomeSection;
 import com.winterparadox.themovieapp.common.beans.Movie;
+import com.winterparadox.themovieapp.common.views.ErrorViewHolder;
 import com.winterparadox.themovieapp.common.views.TransitionNames;
 
 import java.util.ArrayList;
@@ -28,13 +30,16 @@ import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.MEDIUM_PO
 
 public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int HEADER = 0, MOVIE_LARGE = 1, MOVIE_SMALL = 2;
+    private static final int HEADER = 0, MOVIE_LARGE = 1, MOVIE_SMALL = 2, ERROR = 99;
 
     private List<Object> items;
     private ClickListener listener;
+    private ErrorViewHolder.OnClickListener retryListener;
 
-    public HomeMoviesAdapter (ClickListener listener) {
+    public HomeMoviesAdapter (ClickListener listener, ErrorViewHolder.OnClickListener
+            retryListener) {
         this.listener = listener;
+        this.retryListener = retryListener;
     }
 
     public void addMovies (ArrayList<Object> movies) {
@@ -42,13 +47,21 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             this.items = new ArrayList<> ();
         }
 
-        items.addAll (movies);
-        notifyItemRangeInserted (items.size () - movies.size (), movies.size ());
-    }
+        if ( movies.isEmpty () ) {
+            return;
+        }
 
-    public void setItems (List<Object> items) {
-        this.items = items;
-        notifyDataSetChanged ();
+        int size = movies.size ();
+        if ( items.contains (movies.get (0)) ) {
+            int indexOf = items.indexOf (movies.get (0));
+            for ( int i = 0; i < size; i++ ) {
+                items.set (i + indexOf, movies.get (i));
+            }
+            notifyItemRangeInserted (indexOf, size);
+        } else {
+            items.addAll (movies);
+            notifyItemRangeInserted (items.size () - size, size);
+        }
     }
 
     @NonNull
@@ -56,6 +69,9 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public RecyclerView.ViewHolder onCreateViewHolder (@NonNull ViewGroup viewGroup, int type) {
         LayoutInflater inflater = LayoutInflater.from (viewGroup.getContext ());
         switch ( type ) {
+            case ERROR:
+                View view0 = inflater.inflate (R.layout.item_error, viewGroup, false);
+                return new ErrorViewHolder (view0, retryListener);
             case HEADER:
                 View view1 = inflater.inflate (R.layout.item_movie_header, viewGroup, false);
                 return new HeaderItemHolder (view1);
@@ -71,15 +87,25 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder (@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+        if ( viewHolder instanceof ErrorViewHolder ) {
+            ((ErrorViewHolder) viewHolder).error.setText (items.get (i).toString ());
+        }
+
         if ( viewHolder instanceof HeaderItemHolder ) {
-            bindHeader (((HeaderItemHolder) viewHolder), ((String) items.get (i)));
+            bindHeader (((HeaderItemHolder) viewHolder), ((HomeSection) items.get (i)));
         }
 
         if ( viewHolder instanceof MovieItemHolder && i % 5 == 1 ) {
             bindMovie (((MovieItemHolder) viewHolder), ((Movie) items.get (i)));
 
         } else if ( viewHolder instanceof MovieItemHolder ) {
-            bindMovie (((MovieItemHolder) viewHolder), ((Movie) items.get (i)), i % 5 == 4);
+            boolean isLast = i % 5 == 4;
+            HomeSection releventSection = null;
+            if ( isLast ) {
+                releventSection = (HomeSection) items.get (i - 4);
+            }
+            bindMovie (((MovieItemHolder) viewHolder), ((Movie) items.get (i)), isLast,
+                    releventSection);
         }
     }
 
@@ -96,7 +122,8 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 .thumbnail));
     }
 
-    private void bindMovie (MovieItemHolder viewHolder, Movie movie, boolean isLast) {
+    private void bindMovie (MovieItemHolder viewHolder, Movie movie, boolean isLast,
+                            HomeSection releventSection) {
         GlideApp.with (viewHolder.itemView)
                 .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
                 .centerCrop ()
@@ -105,7 +132,8 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         viewHolder.thumbnail.setTransitionName (TransitionNames.MOVIE_POSTER + movie.id);
         if ( isLast ) {
             viewHolder.buttonContainer.setVisibility (View.VISIBLE);
-            viewHolder.viewAll.setOnClickListener (v -> listener.onSubHeaderClick (0));
+            viewHolder.viewAll.setOnClickListener (
+                    v -> listener.onSubHeaderClick (releventSection.id));
         } else {
             viewHolder.buttonContainer.setVisibility (View.GONE);
         }
@@ -113,14 +141,15 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         viewHolder.itemView.setOnClickListener (v -> listener.onMovieClick (movie, viewHolder.thumbnail));
     }
 
-    private void bindHeader (HeaderItemHolder viewHolder, String header) {
-        viewHolder.header.setText (header);
-        viewHolder.itemView.setOnClickListener (v -> listener.onSubHeaderClick (0));
+    private void bindHeader (HeaderItemHolder viewHolder, HomeSection header) {
+        viewHolder.header.setText (header.name);
+        viewHolder.itemView.setOnClickListener (v -> listener.onSubHeaderClick (header.id));
     }
 
     @Override
     public int getItemViewType (int position) {
-        return items.get (position) instanceof String ? HEADER :
+        return items.get (position) instanceof HomeSection ? HEADER :
+                items.get (position) instanceof String ? ERROR :
                 position % 5 == 1 ? MOVIE_LARGE : MOVIE_SMALL;
     }
 

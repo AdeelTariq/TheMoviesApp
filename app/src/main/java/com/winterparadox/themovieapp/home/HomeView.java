@@ -10,7 +10,11 @@ public interface HomeView extends BaseView {
 
     String popularTitle ();
 
-    String latestTitle ();
+    String upcomingTitle ();
 
     void clearView ();
+
+    String recentlyTitle ();
+
+    String favoriteTitle ();
 }

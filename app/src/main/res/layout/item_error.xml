@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        app:srcCompat="@drawable/ic_drama"
+        android:alpha="0.25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/error"
+        android:layout_marginTop="64dp"
+        tools:text="Error error error"
+        android:gravity="center"
+        style="@style/TextAppearance.Movies.Text.Medium.HighEmphasis.Regular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/retry"
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        style="@style/Widget.MaterialComponents.Button"
+        android:textColor="@color/textColorPrimary"
+        android:text="@string/retry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

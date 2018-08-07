@@ -24,7 +24,7 @@ public class RecentlyViewedPresenterImpl extends RecentlyViewedPresenter {
         super.attachView (view);
 
         database.recentlyViewedDao ()
-                .getRecent ()
+                .getRecent (200)
                 .subscribeOn (Schedulers.io ())
                 .observeOn (mainScheduler)
                 .subscribe ((movies, throwable) -> {

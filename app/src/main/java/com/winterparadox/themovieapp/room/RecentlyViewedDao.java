@@ -19,8 +19,8 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 public interface RecentlyViewedDao {
 
     @Query("SELECT * FROM Movie INNER JOIN RecentlyViewed ON Movie.id=RecentlyViewed.movieId " +
-            "ORDER BY time DESC LIMIT 50 ")
-    Single<List<Movie>> getRecent ();
+            "ORDER BY time DESC LIMIT :count ")
+    Single<List<Movie>> getRecent (int count);
 
     @Insert(onConflict = REPLACE)
     Long[] insertAll (RecentlyViewed... movies);

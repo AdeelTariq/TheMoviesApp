@@ -23,6 +23,11 @@ public interface FavoriteDao {
             "ORDER BY time DESC ")
     Single<List<Movie>> getFavorites ();
 
+    @Query("SELECT * FROM Movie INNER JOIN Favorite ON Movie.id=Favorite.movieId " +
+            "ORDER BY movie.voteAverage DESC LIMIT :count")
+    Single<List<Movie>> getHomeFavorites (int count);
+
+
     @Insert(onConflict = REPLACE)
     Long[] insertAll (Favorite... movies);
 

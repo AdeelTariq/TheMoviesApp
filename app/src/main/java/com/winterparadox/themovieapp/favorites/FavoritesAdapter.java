@@ -70,6 +70,10 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter
         itemHolder.title.setText (movie.title);
         itemHolder.plot.setText (movie.overview);
 
+        if ( itemHolder.favorite.getProgress () > 0 ) {
+            itemHolder.favorite.setProgress (0);
+        }
+
         itemHolder.itemView.setOnClickListener (v -> listener.onMovieClick (movie, itemHolder
                 .thumbnail));
 
@@ -121,7 +125,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter
             ButterKnife.bind (this, itemView);
 
             favorite.setAnimation (R.raw.favorite);
-            favorite.setMinAndMaxProgress (0.75f, 1);
+            favorite.setMinAndMaxProgress (0.8f, 1);
         }
     }
 

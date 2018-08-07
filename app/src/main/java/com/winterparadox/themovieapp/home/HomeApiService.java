@@ -13,7 +13,7 @@ public interface HomeApiService {
     @GET("movie/popular")
     Single<MoviesResponse> popularMovies ();
 
-    @GET("movie/now_playing")
-    Single<MoviesResponse> latestMovies ();
+    @GET("movie/upcoming")
+    Single<MoviesResponse> upcomingMovies ();
 
 }

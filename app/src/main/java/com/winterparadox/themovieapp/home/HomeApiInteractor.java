@@ -10,5 +10,5 @@ public interface HomeApiInteractor {
 
     Single<List<Movie>> popularMovies ();
 
-    Single<List<Movie>> latestMovies ();
+    Single<List<Movie>> upcomingMovies ();
 }

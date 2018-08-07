@@ -24,8 +24,8 @@ public class HomeApiInteractorImpl implements HomeApiInteractor {
     }
 
     @Override
-    public Single<List<Movie>> latestMovies () {
-        return service.latestMovies ()
+    public Single<List<Movie>> upcomingMovies () {
+        return service.upcomingMovies ()
                 .subscribeOn (Schedulers.io ())
                 .flatMap (response -> Single.just (response.results));
     }

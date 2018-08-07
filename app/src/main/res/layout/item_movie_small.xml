@@ -30,7 +30,7 @@
             android:id="@+id/buttonContainer"
             android:visibility="gone"
             tools:visibility="visible"
-            android:background="@color/cardBackgroundColor"
+            android:background="@color/dimColor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

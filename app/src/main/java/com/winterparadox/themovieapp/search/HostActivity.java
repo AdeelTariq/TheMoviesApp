@@ -196,17 +196,11 @@ public class HostActivity extends AppCompatActivity implements HostView {
         switch ( v.getId () ) {
 
             case R.id.action_history:
-                getSupportFragmentManager ().beginTransaction ()
-                        .replace (R.id.container, new RecentlyViewedFragment ())
-                        .addToBackStack ("history")
-                        .commit ();
+                openRecentlyViewed ();
                 break;
 
             case R.id.action_favorite:
-                getSupportFragmentManager ().beginTransaction ()
-                        .replace (R.id.container, new FavoritesFragment ())
-                        .addToBackStack ("favorites")
-                        .commit ();
+                openFavorites ();
                 break;
 
             case R.id.action_lists:
@@ -224,6 +218,22 @@ public class HostActivity extends AppCompatActivity implements HostView {
                 .addSharedElement (element, element.getTransitionName ())
                 .replace (R.id.container, MovieDetailsFragment.instance (movie), movie.title)
                 .addToBackStack (movie.title)
+                .commit ();
+    }
+
+    @Override
+    public void openFavorites () {
+        getSupportFragmentManager ().beginTransaction ()
+                .replace (R.id.container, new FavoritesFragment ())
+                .addToBackStack ("favorites")
+                .commit ();
+    }
+
+    @Override
+    public void openRecentlyViewed () {
+        getSupportFragmentManager ().beginTransaction ()
+                .replace (R.id.container, new RecentlyViewedFragment ())
+                .addToBackStack ("history")
                 .commit ();
     }
 

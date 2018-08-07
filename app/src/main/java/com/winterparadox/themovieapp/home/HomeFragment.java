@@ -29,6 +29,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.winterparadox.themovieapp.common.beans.HomeSection.SECTION_FAVORITES;
+import static com.winterparadox.themovieapp.common.beans.HomeSection.SECTION_POPULAR;
+import static com.winterparadox.themovieapp.common.beans.HomeSection.SECTION_RECENT;
+import static com.winterparadox.themovieapp.common.beans.HomeSection.SECTION_UPCOMING;
+
 public class HomeFragment extends Fragment implements HomeView, HomeMoviesAdapter.ClickListener {
 
     @Inject HomePresenter presenter;
@@ -80,7 +85,7 @@ public class HomeFragment extends Fragment implements HomeView, HomeMoviesAdapte
         dividerItemDecoration.setDefaultOffset (24);
         recyclerView.addItemDecoration (dividerItemDecoration);
 
-        moviesAdapter = new HomeMoviesAdapter (this);
+        moviesAdapter = new HomeMoviesAdapter (this, presenter::fetchData);
         recyclerView.setAdapter (moviesAdapter);
 
         recyclerView.addOnScrollListener (new OnScrollObserver () {
@@ -155,7 +160,18 @@ public class HomeFragment extends Fragment implements HomeView, HomeMoviesAdapte
 
     @Override
     public void onSubHeaderClick (int header) {
-
+        switch ( header ) {
+            case SECTION_FAVORITES:
+                ((HostView) getActivity ()).openFavorites ();
+                break;
+            case SECTION_RECENT:
+                ((HostView) getActivity ()).openRecentlyViewed ();
+                break;
+            case SECTION_POPULAR:
+                break;
+            case SECTION_UPCOMING:
+                break;
+        }
     }
 
     @Override
@@ -184,7 +200,17 @@ public class HomeFragment extends Fragment implements HomeView, HomeMoviesAdapte
     }
 
     @Override
-    public String latestTitle () {
-        return getString (R.string.latest_title);
+    public String upcomingTitle () {
+        return getString (R.string.upcoming_title);
+    }
+
+    @Override
+    public String recentlyTitle () {
+        return getString (R.string.recently_viewed);
+    }
+
+    @Override
+    public String favoriteTitle () {
+        return getString (R.string.favorites);
     }
 }

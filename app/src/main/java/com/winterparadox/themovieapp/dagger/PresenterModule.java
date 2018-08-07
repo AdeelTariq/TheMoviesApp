@@ -24,9 +24,9 @@ import io.reactivex.Scheduler;
 public class PresenterModule {
 
     @Provides
-    public HomePresenter provideHomePresenter (HomeApiInteractor apiInteractor, Scheduler
-            mainScheduler) {
-        return new HomePresenterImpl (apiInteractor, mainScheduler);
+    public HomePresenter provideHomePresenter (HomeApiInteractor apiInteractor,
+                                               AppDatabase database, Scheduler mainScheduler) {
+        return new HomePresenterImpl (apiInteractor, database, mainScheduler);
     }
 
     @Provides

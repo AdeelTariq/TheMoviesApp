@@ -18,7 +18,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,7 +65,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     @BindView(R.id.barrier2) Barrier barrier2;
     @BindView(R.id.btnFavorite) LottieAnimationView btnFavorite;
     @BindView(R.id.captionFav) TextView captionFav;
-    @BindView(R.id.btnAdd) ImageButton btnAdd;
+    @BindView(R.id.btnAdd) ImageView btnAdd;
     @BindView(R.id.captionAdd) TextView captionAdd;
     @BindView(R.id.tvInfo) TextView tvInfo;
     @BindView(R.id.shimmerLayout) ShimmerLayout shimmerLayout;
@@ -210,7 +209,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     @Override
     public void showFavorite (boolean isFavorite) {
         if ( isFavorite ) {
-            btnFavorite.setMinAndMaxProgress (0, 0.75f);
+            btnFavorite.setMinAndMaxProgress (0, 0.8f);
             btnFavorite.playAnimation ();
         }
     }
@@ -219,9 +218,9 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     void favorite () {
         boolean fav = presenter.isMovieFav ();
         if ( !fav ) {
-            btnFavorite.setMinAndMaxProgress (0, 0.75f);
+            btnFavorite.setMinAndMaxProgress (0, 0.8f);
         } else {
-            btnFavorite.setMinAndMaxProgress (0.75f, 1);
+            btnFavorite.setMinAndMaxProgress (0.8f, 1);
         }
         presenter.setMovieFav (!fav);
         btnFavorite.playAnimation ();

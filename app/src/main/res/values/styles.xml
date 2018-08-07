@@ -84,6 +84,12 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
+    <style name="TextAppearance.Movies.Text.Medium.HighEmphasis.Regular"
+           parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/raleway_regular</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
 
     <style name="TextAppearance.Movies.Text.Medium.HighEmphasis.MediumBold"
            parent="TextAppearance.MaterialComponents.Subtitle1">
