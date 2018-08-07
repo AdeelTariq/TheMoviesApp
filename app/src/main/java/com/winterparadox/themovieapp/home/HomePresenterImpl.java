@@ -1,6 +1,7 @@
 package com.winterparadox.themovieapp.home;
 
 import android.annotation.SuppressLint;
+import android.support.annotation.NonNull;
 
 import com.winterparadox.themovieapp.common.beans.HomeSection;
 import com.winterparadox.themovieapp.common.beans.Movie;
@@ -11,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Scheduler;
+import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -53,65 +55,40 @@ public class HomePresenterImpl extends HomePresenter {
             upcomingDisposable.dispose ();
         }
 
-        database.recentlyViewedDao ()
-                .getRecent (4)
+        loadMovies (database.recentlyViewedDao ().getRecent (4),
+                SECTION_RECENT, view.recentlyTitle ());
+
+        loadMovies (database.favoriteDao ().getHomeFavorites (4),
+                SECTION_FAVORITES, view.favoriteTitle ());
+
+        popularDisposable = loadMovies (api.popularMovies (),
+                SECTION_POPULAR, view.popularTitle ());
+
+        upcomingDisposable = loadMovies (api.upcomingMovies (),
+                SECTION_UPCOMING, view.upcomingTitle ());
+    }
+
+    @NonNull
+    private Disposable loadMovies (Single<List<Movie>> listSingle, int sectionPopular,
+                                   String title) {
+        return listSingle
                 .subscribeOn (Schedulers.io ())
                 .observeOn (mainScheduler)
                 .subscribe (movies -> {
-                    if ( movies.isEmpty () ) {
-                        return;
-                    }
                     if ( view != null ) {
-                        ArrayList<Object> objects = new ArrayList<> ();
-                        objects.add (new HomeSection (SECTION_RECENT, view.recentlyTitle ()));
-                        objects.addAll (movies);
-                        view.showMovies (objects);
-                    }
-                });
 
-        database.favoriteDao ()
-                .getHomeFavorites (4)
-                .subscribeOn (Schedulers.io ())
-                .observeOn (mainScheduler)
-                .subscribe (movies -> {
-                    if ( movies.isEmpty () ) {
-                        return;
-                    }
-                    if ( view != null ) {
-                        ArrayList<Object> objects = new ArrayList<> ();
-                        objects.add (new HomeSection (SECTION_FAVORITES, view.favoriteTitle ()));
-                        objects.addAll (movies);
-                        view.showMovies (objects);
-                    }
-                });
+                        if ( movies.size () < 4 ) {
+                            return;
+                        }
 
-        popularDisposable = api.popularMovies ()
-                .observeOn (mainScheduler)
-                .subscribe (movies -> {
-                    if ( view != null ) {
                         ArrayList<Object> objects = new ArrayList<> ();
-                        objects.add (new HomeSection (SECTION_POPULAR, view.popularTitle ()));
-                        objects.addAll (movies.subList (0, 4));
-                        view.showMovies (objects);
-                        view.hideProgress ();
-                    }
-                }, throwable -> {
-                    throwable.printStackTrace ();
-                    if ( view != null ) {
-                        view.showError (throwable.getMessage ());
-                        view.hideProgress ();
-                    }
-                });
-
-        upcomingDisposable = api.upcomingMovies ()
-                .observeOn (mainScheduler)
-                .subscribe (movies -> {
-                    if ( view != null ) {
-                        ArrayList<Object> objects = new ArrayList<> ();
-                        objects.add (new HomeSection (SECTION_UPCOMING, view.upcomingTitle ()));
-                        List<Movie> subList = movies.subList (0, 4);
-                        Collections.sort (subList,
-                                (t, t1) -> Double.compare (t.voteAverage, t1.voteAverage));
+                        objects.add (new HomeSection (sectionPopular, title));
+                        List<Movie> subList = movies;
+                        if ( movies.size () > 4 ) {
+                            subList = movies.subList (0, 4);
+                            Collections.sort (subList, (t, t1) -> Double.compare (t.voteAverage,
+                                    t1.voteAverage));
+                        }
                         objects.addAll (subList);
                         view.showMovies (objects);
                         view.hideProgress ();

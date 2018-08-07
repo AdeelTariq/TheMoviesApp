@@ -13,4 +13,8 @@ public interface HostView extends BaseView {
     void openFavorites ();
 
     void openRecentlyViewed ();
+
+    void showFavoritesMenu (boolean show);
+
+    void showRecentMenu (boolean show);
 }

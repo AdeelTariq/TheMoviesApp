@@ -150,7 +150,7 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public int getItemViewType (int position) {
         return items.get (position) instanceof HomeSection ? HEADER :
                 items.get (position) instanceof String ? ERROR :
-                position % 5 == 1 ? MOVIE_LARGE : MOVIE_SMALL;
+                        position % 5 == 1 ? MOVIE_LARGE : MOVIE_SMALL;
     }
 
     @Override

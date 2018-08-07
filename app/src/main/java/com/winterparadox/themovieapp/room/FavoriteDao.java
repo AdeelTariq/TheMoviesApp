@@ -11,6 +11,7 @@ import com.winterparadox.themovieapp.common.beans.Movie;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
@@ -36,5 +37,8 @@ public interface FavoriteDao {
 
     @Query("SELECT EXISTS(SELECT 1 FROM Favorite WHERE movieId=:movieId)")
     Single<Boolean> isFavorite (int movieId);
+
+    @Query("SELECT EXISTS(SELECT 1 FROM Favorite)")
+    Flowable<Boolean> anyExists ();
 
 }

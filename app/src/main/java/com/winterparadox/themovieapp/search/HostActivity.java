@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Bundle;
+import android.support.design.button.MaterialButton;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -17,6 +18,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.NetworkUtils;
 import com.winterparadox.themovieapp.common.beans.Movie;
@@ -24,6 +26,8 @@ import com.winterparadox.themovieapp.favorites.FavoritesFragment;
 import com.winterparadox.themovieapp.home.HomeFragment;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsFragment;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedFragment;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,14 +39,21 @@ public class HostActivity extends AppCompatActivity implements HostView {
     @BindView(R.id.frontSheet) ViewGroup frontSheet;
     @BindView(R.id.backdropHolder) LinearLayout backdropHolder;
     @BindView(R.id.container) FrameLayout container;
+    MaterialButton actionHistory;
+    MaterialButton actionFavorite;
 
     private BackDropNavigationListener backDropNavigationListener;
     private MenuItem offlineModeItem, searchItem;
+
+    @Inject HostPresenter presenter;
 
     @SuppressLint("InflateParams")
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
+
+        ((App) getApplication ()).getAppComponent ().inject (this);
+
         setContentView (R.layout.activity_main);
         ButterKnife.bind (this);
 
@@ -53,6 +64,9 @@ public class HostActivity extends AppCompatActivity implements HostView {
         // setup toolbar
         ViewGroup menuLayout = (ViewGroup) getLayoutInflater ()
                 .inflate (R.layout.layout_backdrop_menu, null, false);
+        actionFavorite = menuLayout.findViewById (R.id.action_favorite);
+        actionHistory = menuLayout.findViewById (R.id.action_history);
+
         for ( int i = 0; i < menuLayout.getChildCount (); i++ ) {
             menuLayout.getChildAt (i).setOnClickListener (this::onMenuClick);
         }
@@ -76,6 +90,8 @@ public class HostActivity extends AppCompatActivity implements HostView {
                 }
             }
         });
+
+        presenter.attachView (this);
 
         getSupportFragmentManager ().beginTransaction ()
                 .add (R.id.container, new HomeFragment (), "home").commit ();
@@ -235,6 +251,24 @@ public class HostActivity extends AppCompatActivity implements HostView {
                 .replace (R.id.container, new RecentlyViewedFragment ())
                 .addToBackStack ("history")
                 .commit ();
+    }
+
+    @Override
+    public void showFavoritesMenu (boolean show) {
+        if ( show ) {
+            actionFavorite.setVisibility (View.VISIBLE);
+        } else {
+            actionFavorite.setVisibility (View.GONE);
+        }
+    }
+
+    @Override
+    public void showRecentMenu (boolean show) {
+        if ( show ) {
+            actionHistory.setVisibility (View.VISIBLE);
+        } else {
+            actionHistory.setVisibility (View.GONE);
+        }
     }
 
     @Override

@@ -11,6 +11,8 @@ import com.winterparadox.themovieapp.movieDetails.MovieDetailsPresenterImpl;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedPresenter;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedPresenterImpl;
 import com.winterparadox.themovieapp.room.AppDatabase;
+import com.winterparadox.themovieapp.search.HostPresenter;
+import com.winterparadox.themovieapp.search.HostPresenterImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -47,6 +49,12 @@ public class PresenterModule {
     public FavoritesPresenter provideFavoritePresenter (AppDatabase database,
                                                         Scheduler mainScheduler) {
         return new FavoritesPresenterImpl (database, mainScheduler);
+    }
+
+    @Provides
+    public HostPresenter provideHostPresenter (AppDatabase database,
+                                               Scheduler mainScheduler) {
+        return new HostPresenterImpl (database, mainScheduler);
     }
 
 }

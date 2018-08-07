@@ -10,6 +10,7 @@ import com.winterparadox.themovieapp.common.beans.RecentlyViewed;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
@@ -25,4 +26,6 @@ public interface RecentlyViewedDao {
     @Insert(onConflict = REPLACE)
     Long[] insertAll (RecentlyViewed... movies);
 
+    @Query("SELECT EXISTS(SELECT 1 FROM RecentlyViewed)")
+    Flowable<Boolean> anyExists ();
 }

@@ -80,8 +80,8 @@ public class HomeFragment extends Fragment implements HomeView, HomeMoviesAdapte
         // setting divider space
         HomeItemDecoration dividerItemDecoration = new HomeItemDecoration (getActivity (),
                 gridLayoutManager.getOrientation ());
-        dividerItemDecoration.middleHorizontalPadding = 8;
-        dividerItemDecoration.verticalOffset = 8;
+        dividerItemDecoration.setMiddleHorizontalPadding (8);
+        dividerItemDecoration.setVerticalOffset (8);
         dividerItemDecoration.setDefaultOffset (24);
         recyclerView.addItemDecoration (dividerItemDecoration);
 
