@@ -45,7 +45,7 @@ public class FavoritesPresenterImpl extends FavoritesPresenter {
     }
 
     @Override
-    public void unFavorite (Movie movie) {
+    void unFavorite (Movie movie) {
         Completable.fromAction (() -> database.favoriteDao ()
                 .deleteAll (new Favorite (0, movie)))
                 .subscribeOn (Schedulers.io ()).subscribe ();

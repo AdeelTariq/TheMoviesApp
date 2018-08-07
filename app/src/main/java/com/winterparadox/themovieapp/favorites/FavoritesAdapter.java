@@ -40,7 +40,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter
         notifyDataSetChanged ();
     }
 
-    void remove (int index) {
+    private void remove (int index) {
         this.items.remove (index);
         notifyItemRemoved (index);
     }

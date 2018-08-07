@@ -38,7 +38,7 @@ public class HomePresenterImpl extends HomePresenter {
 
     @SuppressLint("CheckResult")
     @Override
-    public void fetchData () {
+    void fetchData () {
         if ( view == null ) {
             return;
         }

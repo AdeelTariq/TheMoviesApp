@@ -5,5 +5,5 @@ import com.winterparadox.themovieapp.common.beans.Movie;
 
 public abstract class FavoritesPresenter extends BasePresenter<FavoritesView> {
 
-    public abstract void unFavorite (Movie movie);
+    abstract void unFavorite (Movie movie);
 }

@@ -13,11 +13,11 @@ public class CrewItemDecoration extends DefaultItemDecoration {
 
     private float horizontal = 24;
 
-    public CrewItemDecoration (Context context, int orientation) {
+    CrewItemDecoration (Context context, int orientation) {
         super (context, orientation);
     }
 
-    public void setHorizontal (float lastItemOffset) {
+    void setHorizontal (float lastItemOffset) {
         this.horizontal = lastItemOffset;
     }
 

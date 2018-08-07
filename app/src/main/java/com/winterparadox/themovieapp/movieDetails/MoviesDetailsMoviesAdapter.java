@@ -28,11 +28,11 @@ public class MoviesDetailsMoviesAdapter extends RecyclerView.Adapter<MoviesDetai
     private List<Movie> items;
     private ClickListener listener;
 
-    public MoviesDetailsMoviesAdapter (ClickListener listener) {
+    MoviesDetailsMoviesAdapter (ClickListener listener) {
         this.listener = listener;
     }
 
-    public void setItems (List<Movie> items) {
+    void setItems (List<Movie> items) {
         this.items = items;
         notifyDataSetChanged ();
     }

@@ -11,18 +11,18 @@ import static com.winterparadox.themovieapp.common.UiUtils.dpToPx;
 
 public class HomeItemDecoration extends DefaultItemDecoration {
 
-    public HomeItemDecoration (Context context, int orientation) {
+    HomeItemDecoration (Context context, int orientation) {
         super (context, orientation);
     }
 
-    int middleHorizontalPadding;
-    int verticalOffset;
+    private int middleHorizontalPadding;
+    private int verticalOffset;
 
-    public void setMiddleHorizontalPadding (int middleHorizontalPadding) {
+    void setMiddleHorizontalPadding (int middleHorizontalPadding) {
         this.middleHorizontalPadding = middleHorizontalPadding;
     }
 
-    public void setVerticalOffset (int verticalOffset) {
+    void setVerticalOffset (int verticalOffset) {
         this.verticalOffset = verticalOffset;
     }
 

@@ -36,13 +36,13 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private ClickListener listener;
     private ErrorViewHolder.OnClickListener retryListener;
 
-    public HomeMoviesAdapter (ClickListener listener, ErrorViewHolder.OnClickListener
+    HomeMoviesAdapter (ClickListener listener, ErrorViewHolder.OnClickListener
             retryListener) {
         this.listener = listener;
         this.retryListener = retryListener;
     }
 
-    public void addMovies (ArrayList<Object> movies) {
+    void addMovies (ArrayList<Object> movies) {
         if ( this.items == null ) {
             this.items = new ArrayList<> ();
         }

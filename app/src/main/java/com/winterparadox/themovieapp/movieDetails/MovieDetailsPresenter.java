@@ -7,12 +7,12 @@ public abstract class MovieDetailsPresenter extends BasePresenter<MovieDetailsVi
 
     protected Movie movie;
 
-    public void attachView (MovieDetailsView view, Movie movie) {
+    void attachView (MovieDetailsView view, Movie movie) {
         this.movie = movie;
         super.attachView (view);
     }
 
-    public abstract boolean isMovieFav ();
+    abstract boolean isMovieFav ();
 
-    public abstract void setMovieFav (boolean isFav);
+    abstract void setMovieFav (boolean isFav);
 }

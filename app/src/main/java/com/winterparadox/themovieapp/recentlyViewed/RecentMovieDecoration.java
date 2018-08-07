@@ -11,13 +11,13 @@ import static com.winterparadox.themovieapp.common.UiUtils.dpToPx;
 
 public class RecentMovieDecoration extends DefaultItemDecoration {
 
-    public RecentMovieDecoration (Context context, int orientation) {
+    RecentMovieDecoration (Context context, int orientation) {
         super (context, orientation);
     }
 
-    int itemPadding;
+    private int itemPadding;
 
-    public void setItemPadding (int itemPadding) {
+    void setItemPadding (int itemPadding) {
         this.itemPadding = itemPadding;
     }
 

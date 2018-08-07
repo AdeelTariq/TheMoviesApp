@@ -28,11 +28,11 @@ public class RecentMoviesAdapter extends RecyclerView.Adapter<RecentMoviesAdapte
     private List<Movie> items;
     private ClickListener listener;
 
-    public RecentMoviesAdapter (ClickListener listener) {
+    RecentMoviesAdapter (ClickListener listener) {
         this.listener = listener;
     }
 
-    public void setItems (List<Movie> items) {
+    void setItems (List<Movie> items) {
         this.items = items;
         notifyDataSetChanged ();
     }

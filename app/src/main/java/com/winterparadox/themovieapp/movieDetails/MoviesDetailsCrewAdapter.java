@@ -21,11 +21,11 @@ public class MoviesDetailsCrewAdapter extends RecyclerView.Adapter<MoviesDetails
     private List<CrewMember> items;
     private ClickListener listener;
 
-    public MoviesDetailsCrewAdapter (ClickListener listener) {
+    MoviesDetailsCrewAdapter (ClickListener listener) {
         this.listener = listener;
     }
 
-    public void setItems (List<CrewMember> items) {
+    void setItems (List<CrewMember> items) {
         this.items = items;
         notifyDataSetChanged ();
     }

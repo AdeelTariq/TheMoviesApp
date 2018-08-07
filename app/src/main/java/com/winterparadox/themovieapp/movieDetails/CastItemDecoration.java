@@ -13,11 +13,11 @@ public class CastItemDecoration extends DefaultItemDecoration {
 
     private float lastItemEndOffset = 24;
 
-    public CastItemDecoration (Context context, int orientation) {
+    CastItemDecoration (Context context, int orientation) {
         super (context, orientation);
     }
 
-    public void setLastItemEndOffset (float lastItemOffset) {
+    void setLastItemEndOffset (float lastItemOffset) {
         this.lastItemEndOffset = lastItemOffset;
     }
 

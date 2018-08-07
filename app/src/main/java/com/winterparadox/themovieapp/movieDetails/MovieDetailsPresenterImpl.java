@@ -41,7 +41,7 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
 
     @SuppressLint("CheckResult")
     @Override
-    public void attachView (MovieDetailsView view, Movie movie) {
+    void attachView (MovieDetailsView view, Movie movie) {
         super.attachView (view, movie);
 
         Completable.fromAction (() -> database.movieDao ().insertAll (movie))
@@ -128,12 +128,12 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
     }
 
     @Override
-    public boolean isMovieFav () {
+    boolean isMovieFav () {
         return isFavorite;
     }
 
     @Override
-    public void setMovieFav (boolean isFav) {
+    void setMovieFav (boolean isFav) {
         isFavorite = isFav;
         // save to database
         if ( isFavorite ) {
