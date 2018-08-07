@@ -41,7 +41,7 @@
                 android:id="@+id/viewAll"
                 android:text="@string/view_all"
                 android:layout_margin="8dp"
-                style="@style/Widget.Movies.Button.DialogButton"
+                style="@style/Widget.Movies.Button.TextButton"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

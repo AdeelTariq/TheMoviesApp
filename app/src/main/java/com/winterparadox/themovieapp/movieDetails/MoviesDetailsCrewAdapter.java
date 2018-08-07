@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.beans.CrewMember;
+import com.winterparadox.themovieapp.common.views.TransitionNames;
 
 import java.util.List;
 
@@ -44,8 +45,10 @@ public class MoviesDetailsCrewAdapter extends RecyclerView.Adapter<MoviesDetails
         CrewMember castMember = items.get (i);
         itemHolder.name.setText (castMember.name);
         itemHolder.job.setText (castMember.job);
+        itemHolder.name.setTransitionName (TransitionNames.PERSON_NAME + castMember.name);
 
-        itemHolder.itemView.setOnClickListener (v -> listener.onCrewClick (castMember));
+        itemHolder.itemView.setOnClickListener (v ->
+                listener.onCrewClick (castMember, itemHolder.name));
 
     }
 
@@ -66,6 +69,6 @@ public class MoviesDetailsCrewAdapter extends RecyclerView.Adapter<MoviesDetails
     }
 
     interface ClickListener {
-        void onCrewClick (CrewMember member);
+        void onCrewClick (CrewMember member, View view);
     }
 }

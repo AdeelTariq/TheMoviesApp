@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <TextView
+        android:id="@+id/tvName"
+        tools:text="Name"
+        style="@style/TextAppearance.Movies.Text.Medium.HighEmphasis.MediumBold"
+        android:padding="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/ivProfile"
+        android:layout_marginStart="24dp"
+        android:src="@color/shimmerColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        app:layout_constraintDimensionRatio="79:100"
+        android:scaleType="centerCrop"
+        android:layout_width="88dp"
+        android:layout_height="0dp"/>
+
+    <io.supercharge.shimmerlayout.ShimmerLayout
+        android:id="@+id/shimmerBio"
+        app:layout_constraintTop_toTopOf="@id/ivProfile"
+        app:layout_constraintBottom_toBottomOf="@id/ivProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivProfile"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+
+        <TextView
+            android:id="@+id/tvBio"
+            style="@style/TextAppearance.Movies.Text.Small.HighEmphasis.MediumBold"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:background="@drawable/text_multiline_shimmer_background"
+            tools:text="As Scott Lang awaits expiration of his term of house detention, Hope van Dyne and Dr. Hank Pym involve him in a scheme to rescue Mrs. van Dyne from the micro-universe into which she has fallen, while two groups of schemers converge on them with intentions of stealing Dr. Pym's inventions."/>
+
+    </io.supercharge.shimmerlayout.ShimmerLayout>
+
+    <TextView
+        android:id="@+id/caption0"
+        style="@style/TextAppearance.Movies.Text.Small.HighEmphasis.MediumBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:ellipsize="end"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivProfile"
+        android:text="@string/known_for"/>
+
+
+    <TextView
+        android:id="@+id/caption1"
+        style="@style/TextAppearance.Movies.Text.Small.HighEmphasis.MediumBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="24dp"
+        android:ellipsize="end"
+        app:layout_constraintStart_toEndOf="@id/caption0"
+        app:layout_constraintTop_toBottomOf="@id/ivProfile"
+        android:text="@string/known_credits"/>
+
+    <TextView
+        android:id="@+id/tvKnownFor"
+        style="@style/TextAppearance.Movies.Text.Medium.HighEmphasis.Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:minWidth="96dp"
+        android:ellipsize="end"
+        android:background="@drawable/text_shimmer_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/caption0"
+        tools:text="Acting"/>
+
+    <TextView
+        android:id="@+id/tvCredits"
+        style="@style/TextAppearance.Movies.Text.Medium.HighEmphasis.Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:minWidth="96dp"
+        android:background="@drawable/text_shimmer_background"
+        app:layout_constraintStart_toStartOf="@id/caption1"
+        app:layout_constraintTop_toBottomOf="@id/caption1"
+        tools:text="108"/>
+
+    <TextView
+        android:id="@+id/caption2"
+        app:layout_constraintTop_toBottomOf="@id/tvKnownFor"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp"
+        android:text="@string/top_credits"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        style="@style/TextAppearance.Movies.Text.Medium.HighEmphasis.Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+        android:id="@+id/rvCredits"
+        app:layout_constraintTop_toBottomOf="@id/caption2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:shimmer_demo_angle="20"
+        app:shimmer_demo_child_count="1"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="0dp"
+        android:clipToPadding="false"
+        app:shimmer_demo_layout="@layout/layout_movie_horizontal_shimmer"
+        app:shimmer_demo_shimmer_color="@color/shimmerColor"
+        app:shimmer_demo_layout_manager_type="linear_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</android.support.constraint.ConstraintLayout>

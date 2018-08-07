@@ -2,22 +2,7 @@ package com.winterparadox.themovieapp.common.beans;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CrewMember {
-
-    @SerializedName("gender")
-    public int gender;
-
-    @SerializedName("credit_id")
-    public String creditId;
-
-    @SerializedName("name")
-    public String name;
-
-    @SerializedName("profile_path")
-    public Object profilePath;
-
-    @SerializedName("id")
-    public int id;
+public class CrewMember extends Person {
 
     @SerializedName("department")
     public String department;
@@ -29,8 +14,6 @@ public class CrewMember {
     public String toString () {
         return
                 "CrewMember{" +
-                        "gender = '" + gender + '\'' +
-                        ",credit_id = '" + creditId + '\'' +
                         ",name = '" + name + '\'' +
                         ",profile_path = '" + profilePath + '\'' +
                         ",id = '" + id + '\'' +

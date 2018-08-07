@@ -22,9 +22,11 @@ import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.NetworkUtils;
 import com.winterparadox.themovieapp.common.beans.Movie;
+import com.winterparadox.themovieapp.common.beans.Person;
 import com.winterparadox.themovieapp.favorites.FavoritesFragment;
 import com.winterparadox.themovieapp.home.HomeFragment;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsFragment;
+import com.winterparadox.themovieapp.personDetails.PersonDetailsFragment;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedFragment;
 
 import javax.inject.Inject;
@@ -94,7 +96,7 @@ public class HostActivity extends AppCompatActivity implements HostView {
         presenter.attachView (this);
 
         getSupportFragmentManager ().beginTransaction ()
-                .add (R.id.container, new HomeFragment (), "home").commit ();
+                .replace (R.id.container, new HomeFragment (), "home").commit ();
 
     }
 
@@ -238,9 +240,19 @@ public class HostActivity extends AppCompatActivity implements HostView {
     }
 
     @Override
+    public void openPerson (Person person, Object view) {
+        View element = ((View) view);
+        getSupportFragmentManager ().beginTransaction ()
+                .addSharedElement (element, element.getTransitionName ())
+                .replace (R.id.container, PersonDetailsFragment.instance (person), person.name)
+                .addToBackStack (person.name)
+                .commit ();
+    }
+
+    @Override
     public void openFavorites () {
         getSupportFragmentManager ().beginTransaction ()
-                .replace (R.id.container, new FavoritesFragment ())
+                .replace (R.id.container, new FavoritesFragment (), "favorites")
                 .addToBackStack ("favorites")
                 .commit ();
     }
@@ -248,7 +260,7 @@ public class HostActivity extends AppCompatActivity implements HostView {
     @Override
     public void openRecentlyViewed () {
         getSupportFragmentManager ().beginTransaction ()
-                .replace (R.id.container, new RecentlyViewedFragment ())
+                .replace (R.id.container, new RecentlyViewedFragment (), "history")
                 .addToBackStack ("history")
                 .commit ();
     }

@@ -65,6 +65,7 @@
 
     <style name="TextAppearance.Movies.Text.Small.HighEmphasis.MediumBold"
            parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:lineSpacingMultiplier">1.4</item>
         <item name="fontFamily">@font/raleway_medium</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>

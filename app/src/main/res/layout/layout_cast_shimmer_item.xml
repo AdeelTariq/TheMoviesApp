@@ -20,7 +20,8 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:background="@color/shimmerColor"
+                android:foreground="@color/shimmerColor"
+                android:background="@color/backgroundColor"
                 android:layout_width="match_parent"
                 android:layout_height="144dp"/>
 
@@ -61,7 +62,8 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:background="@color/shimmerColor"
+                android:foreground="@color/shimmerColor"
+                android:background="@color/backgroundColor"
                 android:layout_width="match_parent"
                 android:layout_height="144dp"/>
 
@@ -100,7 +102,8 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:background="@color/shimmerColor"
+                android:foreground="@color/shimmerColor"
+                android:background="@color/backgroundColor"
                 android:layout_width="match_parent"
                 android:layout_height="144dp"/>
 

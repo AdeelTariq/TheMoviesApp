@@ -2,6 +2,7 @@ package com.winterparadox.themovieapp.search;
 
 import com.winterparadox.themovieapp.common.base.BaseView;
 import com.winterparadox.themovieapp.common.beans.Movie;
+import com.winterparadox.themovieapp.common.beans.Person;
 
 public interface HostView extends BaseView {
     /**
@@ -17,4 +18,6 @@ public interface HostView extends BaseView {
     void showFavoritesMenu (boolean show);
 
     void showRecentMenu (boolean show);
+
+    void openPerson (Person person, Object view);
 }

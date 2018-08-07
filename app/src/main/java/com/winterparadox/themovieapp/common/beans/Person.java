@@ -2,30 +2,31 @@ package com.winterparadox.themovieapp.common.beans;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Person {
+public class Person implements Serializable {
 
     @SerializedName("media_type")
-    String mediaType;
+    public String mediaType;
 
     @SerializedName("known_for")
-    List<Object> knownFor;    // can be either tv or movie
+    public List<Object> knownFor;    // can be either tv or movie
 
     @SerializedName("popularity")
-    double popularity;
+    public double popularity;
 
     @SerializedName("name")
-    String name;
+    public String name;
 
     @SerializedName("profile_path")
-    String profilePath;
+    public String profilePath;
 
     @SerializedName("id")
-    int id;
+    public int id;
 
     @SerializedName("adult")
-    boolean adult;
+    public boolean adult;
 
     @Override
     public String toString () {

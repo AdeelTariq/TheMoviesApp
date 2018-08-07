@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.GlideApp;
 import com.winterparadox.themovieapp.common.beans.CastMember;
+import com.winterparadox.themovieapp.common.views.TransitionNames;
 
 import java.util.List;
 
@@ -55,8 +56,10 @@ public class MoviesDetailsCastAdapter extends RecyclerView.Adapter<MoviesDetails
                 .into (itemHolder.profile);
         itemHolder.name.setText (castMember.name);
         itemHolder.character.setText (castMember.character);
+        itemHolder.profile.setTransitionName (TransitionNames.PERSON_PROFILE + castMember.name);
 
-        itemHolder.itemView.setOnClickListener (v -> listener.onCastClick (castMember));
+        itemHolder.itemView.setOnClickListener (v ->
+                listener.onCastClick (castMember, itemHolder.profile));
 
     }
 
@@ -78,6 +81,6 @@ public class MoviesDetailsCastAdapter extends RecyclerView.Adapter<MoviesDetails
     }
 
     interface ClickListener {
-        void onCastClick (CastMember member);
+        void onCastClick (CastMember member, View view);
     }
 }

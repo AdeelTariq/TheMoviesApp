@@ -21,7 +21,7 @@
         app:shimmer_demo_angle="20"
         app:shimmer_demo_child_count="2"
         app:shimmer_demo_shimmer_color="@color/shimmerColor"
-        app:shimmer_demo_layout="@layout/layout_movie_shimmer_item"
+        app:shimmer_demo_layout="@layout/layout_movie_home_shimmer_item"
         app:shimmer_demo_layout_manager_type="linear_vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

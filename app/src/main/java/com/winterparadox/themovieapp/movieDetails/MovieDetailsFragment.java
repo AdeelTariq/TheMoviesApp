@@ -241,13 +241,13 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     }
 
     @Override
-    public void onCastClick (CastMember member) {
-
+    public void onCastClick (CastMember member, View view) {
+        ((HostView) getActivity ()).openPerson (member, view);
     }
 
     @Override
-    public void onCrewClick (CrewMember member) {
-
+    public void onCrewClick (CrewMember member, View view) {
+        ((HostView) getActivity ()).openPerson (member, view);
     }
 
     @Override
