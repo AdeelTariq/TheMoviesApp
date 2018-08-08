@@ -93,6 +93,18 @@ public class Movie implements Serializable {
     @SerializedName("similar")
     public Similar similar;
 
+    @Override
+    public int hashCode () {
+        return id;
+    }
+
+    @Override
+    public boolean equals (Object obj) {
+        if ( obj instanceof Movie ) {
+            return ((Movie) obj).id == id;
+        }
+        return super.equals (obj);
+    }
 
     @Override
     public String toString () {
@@ -157,7 +169,7 @@ public class Movie implements Serializable {
 
     @TypeConverter
     public static Similar storedStringToSimilar (String value) {
-        return Singleton.gson.fromJson (value, new TypeToken<Credits> () {
+        return Singleton.gson.fromJson (value, new TypeToken<Similar> () {
         }.getType ());
     }
 

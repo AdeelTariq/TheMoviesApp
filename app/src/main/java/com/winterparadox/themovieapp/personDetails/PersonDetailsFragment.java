@@ -10,6 +10,8 @@ import android.support.transition.ChangeTransform;
 import android.support.transition.Fade;
 import android.support.transition.TransitionSet;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +22,19 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
+import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.GlideApp;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.Person;
+import com.winterparadox.themovieapp.common.views.DefaultHorizontalItemDecoration;
+import com.winterparadox.themovieapp.common.views.HorizontalMoviesAdapter;
 import com.winterparadox.themovieapp.common.views.TransitionNames;
+import com.winterparadox.themovieapp.search.HostView;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,10 +42,12 @@ import butterknife.Unbinder;
 import io.supercharge.shimmerlayout.ShimmerLayout;
 
 import static android.support.transition.TransitionSet.ORDERING_TOGETHER;
+import static android.support.v7.widget.LinearLayoutManager.HORIZONTAL;
 import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.IMAGE;
 import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.LARGE_PROFILE;
 
-public class PersonDetailsFragment extends Fragment implements PersonDetailsView {
+public class PersonDetailsFragment extends Fragment implements PersonDetailsView,
+        HorizontalMoviesAdapter.ClickListener {
 
     private static final String PERSON = "person";
     @BindView(R.id.tvName) TextView tvName;
@@ -49,6 +59,9 @@ public class PersonDetailsFragment extends Fragment implements PersonDetailsView
     @BindView(R.id.shimmerBio) ShimmerLayout shimmerLayout;
     Unbinder unbinder;
     private Person person;
+    private HorizontalMoviesAdapter movieAdapter;
+
+    @Inject PersonDetailsPresenter presenter;
 
     public static PersonDetailsFragment instance (Person person) {
         PersonDetailsFragment personDetailsFragment = new PersonDetailsFragment ();
@@ -74,6 +87,8 @@ public class PersonDetailsFragment extends Fragment implements PersonDetailsView
         super.onCreate (savedInstanceState);
 
         person = (Person) getArguments ().getSerializable (PERSON);
+
+        ((App) getActivity ().getApplication ()).getAppComponent ().inject (this);
     }
 
     @Nullable
@@ -97,7 +112,23 @@ public class PersonDetailsFragment extends Fragment implements PersonDetailsView
                 .apply (requestOptions)
                 .into (ivProfile);
 
-        showProgress ();
+
+        DefaultHorizontalItemDecoration decor = new DefaultHorizontalItemDecoration (getActivity
+                (), DividerItemDecoration
+                .HORIZONTAL);
+        decor.setDefaultOffset (8);
+        decor.setLastItemEndOffset (24);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager (getActivity (),
+                HORIZONTAL, false);
+        rvCredits.setLayoutManager (linearLayoutManager);
+        rvCredits.addItemDecoration (decor);
+        rvCredits.setHasFixedSize (true);
+        movieAdapter = new HorizontalMoviesAdapter (this);
+        rvCredits.setAdapter (movieAdapter);
+
+
+        presenter.attachView (this, person);
 
         return view;
     }
@@ -105,23 +136,38 @@ public class PersonDetailsFragment extends Fragment implements PersonDetailsView
     @Override
     public void onDestroyView () {
         super.onDestroyView ();
+        presenter.detachView ();
         unbinder.unbind ();
     }
 
     @Override
-    public void showAdditionalDetails (String knownFor, String creditCount, List<Movie>
-            topCredits) {
+    public void showAdditionalDetails (String bio, String knownFor,
+                                       String creditCount, List<Movie> topCredits) {
+        tvBio.setText (bio);
+        tvKnownFor.setText (knownFor);
+        tvCredits.setText (creditCount);
 
+        movieAdapter.setItems (topCredits);
+    }
+
+    @Override
+    public void onMovieClick (Movie movie, View element) {
+        ((HostView) getActivity ()).openMovie (movie, element);
     }
 
     @Override
     public void showProgress () {
         shimmerLayout.startShimmerAnimation ();
+        rvCredits.showShimmerAdapter ();
     }
 
     @Override
     public void hideProgress () {
         shimmerLayout.stopShimmerAnimation ();
+        rvCredits.hideShimmerAdapter ();
+        tvBio.setBackground (null);
+        tvKnownFor.setBackground (null);
+        tvCredits.setBackground (null);
     }
 
     @Override

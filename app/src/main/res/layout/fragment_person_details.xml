@@ -21,7 +21,7 @@
     <ImageView
         android:id="@+id/ivProfile"
         android:layout_marginStart="24dp"
-        android:src="@color/shimmerColor"
+        android:background="@color/shimmerColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvName"
         app:layout_constraintDimensionRatio="79:100"
@@ -35,6 +35,7 @@
         app:layout_constraintBottom_toBottomOf="@id/ivProfile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivProfile"
+        app:shimmer_color="@color/shimmerColor"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="24dp"
         android:layout_width="0dp"
@@ -46,6 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ellipsize="end"
+            android:maxLines="5"
             android:background="@drawable/text_multiline_shimmer_background"
             tools:text="As Scott Lang awaits expiration of his term of house detention, Hope van Dyne and Dr. Hank Pym involve him in a scheme to rescue Mrs. van Dyne from the micro-universe into which she has fallen, while two groups of schemers converge on them with intentions of stealing Dr. Pym's inventions."/>
 

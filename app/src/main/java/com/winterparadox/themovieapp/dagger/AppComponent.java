@@ -5,6 +5,7 @@ import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.favorites.FavoritesFragment;
 import com.winterparadox.themovieapp.home.HomeFragment;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsFragment;
+import com.winterparadox.themovieapp.personDetails.PersonDetailsFragment;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedFragment;
 import com.winterparadox.themovieapp.search.HostActivity;
 
@@ -32,4 +33,6 @@ public interface AppComponent {
     void inject (RecentlyViewedFragment target);
 
     void inject (FavoritesFragment target);
+
+    void inject (PersonDetailsFragment target);
 }

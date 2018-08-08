@@ -33,6 +33,8 @@ import com.winterparadox.themovieapp.common.GlideApp;
 import com.winterparadox.themovieapp.common.beans.CastMember;
 import com.winterparadox.themovieapp.common.beans.CrewMember;
 import com.winterparadox.themovieapp.common.beans.Movie;
+import com.winterparadox.themovieapp.common.views.DefaultHorizontalItemDecoration;
+import com.winterparadox.themovieapp.common.views.HorizontalMoviesAdapter;
 import com.winterparadox.themovieapp.common.views.TransitionNames;
 import com.winterparadox.themovieapp.search.HostView;
 
@@ -53,7 +55,7 @@ import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.MEDIUM_PO
 
 public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         MoviesDetailsCastAdapter.ClickListener, MoviesDetailsCrewAdapter.ClickListener,
-        MoviesDetailsMoviesAdapter.ClickListener {
+        HorizontalMoviesAdapter.ClickListener {
 
     private static final String MOVIE = "movie";
     @BindView(R.id.ivBackdrop) ImageView ivBackdrop;
@@ -80,7 +82,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     @Inject MovieDetailsPresenter presenter;
     private MoviesDetailsCastAdapter castAdapter;
     private MoviesDetailsCrewAdapter crewAdapter;
-    private MoviesDetailsMoviesAdapter movieAdapter;
+    private HorizontalMoviesAdapter movieAdapter;
 
     public static MovieDetailsFragment instance (Movie movie) {
         MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment ();
@@ -122,7 +124,8 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager (getActivity (),
                 HORIZONTAL, false);
         rvCast.setLayoutManager (linearLayoutManager1);
-        CastItemDecoration decor = new CastItemDecoration (getActivity (), DividerItemDecoration
+        DefaultHorizontalItemDecoration decor = new DefaultHorizontalItemDecoration (getActivity
+                (), DividerItemDecoration
                 .HORIZONTAL);
         decor.setDefaultOffset (8);
         decor.setLastItemEndOffset (24);
@@ -150,7 +153,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         rvSimilar.setLayoutManager (linearLayoutManager2);
         rvSimilar.addItemDecoration (decor);
         rvSimilar.setHasFixedSize (true);
-        movieAdapter = new MoviesDetailsMoviesAdapter (this);
+        movieAdapter = new HorizontalMoviesAdapter (this);
         rvSimilar.setAdapter (movieAdapter);
 
         btnFavorite.setAnimation (R.raw.favorite);

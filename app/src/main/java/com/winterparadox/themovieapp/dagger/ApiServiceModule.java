@@ -6,6 +6,7 @@ import com.winterparadox.themovieapp.BuildConfig;
 import com.winterparadox.themovieapp.common.retrofit.ApiBuilder;
 import com.winterparadox.themovieapp.home.HomeApiService;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsApiService;
+import com.winterparadox.themovieapp.personDetails.PersonApiService;
 
 import javax.inject.Singleton;
 
@@ -29,6 +30,12 @@ public class ApiServiceModule {
     @Singleton
     public MovieDetailsApiService provideMovieDetailsApiService (Context context) {
         return ApiBuilder.build (context, MovieDetailsApiService.class, BuildConfig.DEBUG);
+    }
+
+    @Provides
+    @Singleton
+    public PersonApiService providePersonApiService (Context context) {
+        return ApiBuilder.build (context, PersonApiService.class, BuildConfig.DEBUG);
     }
 
 }

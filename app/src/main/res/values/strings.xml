@@ -20,6 +20,6 @@
     <string name="similar_movies">Similar Movies</string>
     <string name="retry">Retry</string>
     <string name="known_for">Known For</string>
-    <string name="known_credits">Known Credits</string>
+    <string name="known_credits">Known Movie Credits</string>
     <string name="top_credits">Top Credits</string>
 </resources>

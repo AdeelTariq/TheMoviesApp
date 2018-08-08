@@ -1,4 +1,4 @@
-package com.winterparadox.themovieapp.movieDetails;
+package com.winterparadox.themovieapp.common.views;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.GlideApp;
 import com.winterparadox.themovieapp.common.beans.Movie;
-import com.winterparadox.themovieapp.common.views.TransitionNames;
 
 import java.util.List;
 
@@ -21,18 +20,18 @@ import butterknife.ButterKnife;
 import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.IMAGE;
 import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.MEDIUM_POSTER;
 
-public class MoviesDetailsMoviesAdapter extends RecyclerView.Adapter<MoviesDetailsMoviesAdapter
+public class HorizontalMoviesAdapter extends RecyclerView.Adapter<HorizontalMoviesAdapter
         .MovieItemHolder> {
 
 
     private List<Movie> items;
     private ClickListener listener;
 
-    MoviesDetailsMoviesAdapter (ClickListener listener) {
+    public HorizontalMoviesAdapter (ClickListener listener) {
         this.listener = listener;
     }
 
-    void setItems (List<Movie> items) {
+    public void setItems (List<Movie> items) {
         this.items = items;
         notifyDataSetChanged ();
     }
@@ -78,7 +77,7 @@ public class MoviesDetailsMoviesAdapter extends RecyclerView.Adapter<MoviesDetai
         }
     }
 
-    interface ClickListener {
+    public interface ClickListener {
         void onMovieClick (Movie member, View element);
     }
 }

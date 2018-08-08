@@ -8,6 +8,9 @@ import com.winterparadox.themovieapp.home.HomePresenterImpl;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsApiInteractor;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsPresenter;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsPresenterImpl;
+import com.winterparadox.themovieapp.personDetails.PersonApiInteractor;
+import com.winterparadox.themovieapp.personDetails.PersonDetailsPresenter;
+import com.winterparadox.themovieapp.personDetails.PersonDetailsPresenterImpl;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedPresenter;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedPresenterImpl;
 import com.winterparadox.themovieapp.room.AppDatabase;
@@ -55,6 +58,13 @@ public class PresenterModule {
     public HostPresenter provideHostPresenter (AppDatabase database,
                                                Scheduler mainScheduler) {
         return new HostPresenterImpl (database, mainScheduler);
+    }
+
+
+    @Provides
+    public PersonDetailsPresenter providePersonDetailsPresenter (PersonApiInteractor api,
+                                                                 Scheduler mainScheduler) {
+        return new PersonDetailsPresenterImpl (api, mainScheduler);
     }
 
 }

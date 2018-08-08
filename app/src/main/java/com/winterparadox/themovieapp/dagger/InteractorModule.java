@@ -6,6 +6,9 @@ import com.winterparadox.themovieapp.home.HomeApiService;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsApiInteractor;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsApiInteractorImpl;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsApiService;
+import com.winterparadox.themovieapp.personDetails.PersonApiInteractor;
+import com.winterparadox.themovieapp.personDetails.PersonApiInteractorImpl;
+import com.winterparadox.themovieapp.personDetails.PersonApiService;
 
 import javax.inject.Singleton;
 
@@ -30,6 +33,12 @@ public class InteractorModule {
     public MovieDetailsApiInteractor provideMovieDetailsApiInteractor (MovieDetailsApiService
                                                                                apiService) {
         return new MovieDetailsApiInteractorImpl (apiService);
+    }
+
+    @Provides
+    @Singleton
+    public PersonApiInteractor providePersonApiInteractor (PersonApiService apiService) {
+        return new PersonApiInteractorImpl (apiService);
     }
 
 }
