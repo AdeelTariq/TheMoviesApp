@@ -11,11 +11,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.GlideApp;
 import com.winterparadox.themovieapp.common.beans.HomeSection;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.views.ErrorViewHolder;
+import com.winterparadox.themovieapp.common.views.GradientColorFilterTransformation;
 import com.winterparadox.themovieapp.common.views.TransitionNames;
 
 import java.util.ArrayList;
@@ -31,6 +34,7 @@ import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.MEDIUM_PO
 public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int HEADER = 0, MOVIE_LARGE = 1, MOVIE_SMALL = 2, ERROR = 99;
+    private final RequestOptions requestOptions;
 
     private List<Object> items;
     private ClickListener listener;
@@ -40,6 +44,9 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             retryListener) {
         this.listener = listener;
         this.retryListener = retryListener;
+
+        requestOptions = new RequestOptions ()
+                .transforms (new CenterCrop (), new GradientColorFilterTransformation ());
     }
 
     void addMovies (ArrayList<Object> movies) {
@@ -113,7 +120,7 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         GlideApp.with (viewHolder.itemView)
                 .load (Uri.parse (IMAGE + MEDIUM_BACKDROP + movie.backdropPath))
-                .centerCrop ()
+                .apply (requestOptions)
                 .into (viewHolder.thumbnail);
         viewHolder.name.setText (movie.title);
 
@@ -124,18 +131,27 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private void bindMovie (MovieItemHolder viewHolder, Movie movie, boolean isLast,
                             HomeSection releventSection) {
-        GlideApp.with (viewHolder.itemView)
-                .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
-                .centerCrop ()
-                .into (viewHolder.thumbnail);
+
+        if ( isLast ) {
+            GlideApp.with (viewHolder.itemView)
+                    .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
+                    .apply (requestOptions)
+                    .into (viewHolder.thumbnail);
+
+        } else {
+            GlideApp.with (viewHolder.itemView)
+                    .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
+                    .centerCrop ()
+                    .into (viewHolder.thumbnail);
+        }
 
         viewHolder.thumbnail.setTransitionName (TransitionNames.MOVIE_POSTER + movie.id);
         if ( isLast ) {
-            viewHolder.buttonContainer.setVisibility (View.VISIBLE);
+            viewHolder.viewAll.setVisibility (View.VISIBLE);
             viewHolder.viewAll.setOnClickListener (
                     v -> listener.onSubHeaderClick (releventSection.id));
         } else {
-            viewHolder.buttonContainer.setVisibility (View.GONE);
+            viewHolder.viewAll.setVisibility (View.GONE);
         }
 
         viewHolder.itemView.setOnClickListener (v -> listener.onMovieClick (movie, viewHolder.thumbnail));
@@ -191,9 +207,6 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Nullable
         @BindView(R.id.viewAll)
         Button viewAll;
-        @Nullable
-        @BindView(R.id.buttonContainer)
-        View buttonContainer;
         @Nullable
         @BindView(R.id.name)
         TextView name;

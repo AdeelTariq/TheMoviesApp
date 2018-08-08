@@ -34,6 +34,7 @@ import com.winterparadox.themovieapp.common.beans.CastMember;
 import com.winterparadox.themovieapp.common.beans.CrewMember;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.views.DefaultHorizontalItemDecoration;
+import com.winterparadox.themovieapp.common.views.GradientColorFilterTransformation;
 import com.winterparadox.themovieapp.common.views.HorizontalMoviesAdapter;
 import com.winterparadox.themovieapp.common.views.TransitionNames;
 import com.winterparadox.themovieapp.search.HostView;
@@ -76,7 +77,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     @BindView(R.id.rvSimilar) RecyclerView rvSimilar;
 
     private Movie movie;
-    private RequestOptions requestOptions;
+    private RequestOptions requestOptions, requestOptionsBackDrop;
     Unbinder unbinder;
 
     @Inject MovieDetailsPresenter presenter;
@@ -112,6 +113,11 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
 
         requestOptions = new RequestOptions ()
                 .transforms (new CenterCrop (), new RoundedCorners (4));
+
+
+        requestOptionsBackDrop = new RequestOptions ()
+                .transforms (new CenterCrop (), new GradientColorFilterTransformation ());
+
     }
 
     @Nullable
@@ -175,7 +181,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     public void showMovie (Movie movie, String year) {
         GlideApp.with (getActivity ())
                 .load (Uri.parse (IMAGE + MEDIUM_BACKDROP + movie.backdropPath))
-                .centerCrop ()
+                .apply (requestOptionsBackDrop)
                 .into (ivBackdrop);
 
         GlideApp.with (getActivity ())

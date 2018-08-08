@@ -36,8 +36,7 @@
             android:paddingBottom="16dp"
             android:paddingStart="16dp"
             android:paddingEnd="8dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:background="@color/dimColor"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
 
