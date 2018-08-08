@@ -64,8 +64,10 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
         decor.setItemPadding (8);
         recyclerView.addItemDecoration (decor);
         recyclerView.setHasFixedSize (true);
+
         chartsAdapter = new ChartsAdapter (this,
-                () -> ((HostView) getActivity ()).fetchChartData ());
+                ((HostView) getActivity ())::fetchChartData);
+
         recyclerView.setAdapter (chartsAdapter);
 
         recyclerView.addOnScrollListener (new OnScrollObserver () {

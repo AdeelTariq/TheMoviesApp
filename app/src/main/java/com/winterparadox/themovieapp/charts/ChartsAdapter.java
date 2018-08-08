@@ -118,9 +118,16 @@ public class ChartsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             super (itemView);
             ButterKnife.bind (this, itemView);
 
-            int r = (int) ((rand.nextFloat () - 0.3f) * 255);
-            int g = (int) ((rand.nextFloat () - 0.3f) * 255);
-            int b = (int) ((rand.nextFloat () - 0.3f) * 255);
+            int r = (int) (rand.nextFloat () * 255);
+            int g = (int) (rand.nextFloat () * 255);
+            int b = (int) (rand.nextFloat () * 255);
+
+            int maxColor = 50;
+            int threshold = 70;
+            int minColor = 30;
+            r = r > threshold ? r - maxColor : r + minColor;
+            g = g > threshold ? g - maxColor : g + minColor;
+            b = b > threshold ? b - maxColor : b + minColor;
 
             thumbnail.setBackgroundColor (Color.rgb (r, g, b));
         }

@@ -30,6 +30,15 @@ public class ChartMovieListPresenterImpl extends ChartMovieListPresenter {
     public void attachView (ChartMovieListView view, Chart chart) {
         super.attachView (view, chart);
 
+        fetchData ();
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void fetchData () {
+
+        view.showProgress ();
+
         Single<List<Movie>> movieSingle;
 
         switch ( chart.id ) {
@@ -49,13 +58,16 @@ public class ChartMovieListPresenterImpl extends ChartMovieListPresenter {
                 .subscribe (movies -> {
                     if ( view != null ) {
                         view.showMovies (movies);
+                        view.hideProgress ();
                     }
 
                 }, throwable -> {
                     if ( view != null ) {
                         view.showError (throwable.getMessage ());
+                        view.hideProgress ();
                     }
                     throwable.printStackTrace ();
                 });
+
     }
 }

@@ -11,4 +11,6 @@ public abstract class ChartMovieListPresenter extends BasePresenter<ChartMovieLi
         this.chart = chart;
         super.attachView (view);
     }
+
+    public abstract void fetchData ();
 }

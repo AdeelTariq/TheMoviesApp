@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.winterparadox.themovieapp.App;
@@ -81,7 +80,12 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
         decor.setItemPadding (8);
         recyclerView.addItemDecoration (decor);
         recyclerView.setHasFixedSize (true);
-        movieListAdapter = new ChartMovieListAdapter (this);
+
+        recyclerView.setDemoChildCount (10);
+        recyclerView.setDemoLayoutReference (R.layout.layout_movie_list_shimmer_item);
+
+        movieListAdapter = new ChartMovieListAdapter (this, presenter::fetchData);
+
         recyclerView.setAdapter (movieListAdapter);
 
         recyclerView.addOnScrollListener (new OnScrollObserver () {
@@ -102,8 +106,7 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
         return view;
     }
 
-    // todo show progres
-    // pagination
+    // todo pagination
 
     @Override
     public void onDestroyView () {
@@ -123,12 +126,12 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
 
     @Override
     public void showProgress () {
-
+        recyclerView.showShimmerAdapter ();
     }
 
     @Override
     public void hideProgress () {
-
+        recyclerView.hideShimmerAdapter ();
     }
 
     @Override
@@ -138,7 +141,6 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
 
     @Override
     public void showError (String message) {
-        // todo show error as adapter item
-        Toast.makeText (getActivity (), message, Toast.LENGTH_LONG).show ();
+        movieListAdapter.setError (message);
     }
 }
