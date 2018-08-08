@@ -1,4 +1,4 @@
-package com.winterparadox.themovieapp.charts;
+package com.winterparadox.themovieapp.charts.chartMovieList;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,11 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.beans.Chart;
+import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.views.DefaultListDecoration;
 import com.winterparadox.themovieapp.common.views.OnScrollObserver;
 import com.winterparadox.themovieapp.search.HostView;
@@ -29,31 +31,46 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 import static android.widget.GridLayout.VERTICAL;
-import static com.winterparadox.themovieapp.common.beans.Chart.CHART_LATEST;
-import static com.winterparadox.themovieapp.common.beans.Chart.CHART_POPULAR;
-import static com.winterparadox.themovieapp.common.beans.Chart.CHART_TOP_RATED;
 
-public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapter.ClickListener {
+public class ChartMovieListFragment extends Fragment implements ChartMovieListView,
+        ChartMovieListAdapter.ClickListener {
 
+    private static final String CHART = "chart";
     @BindView(R.id.tvHeader) TextView tvHeader;
     @BindView(R.id.recyclerView) ShimmerRecyclerView recyclerView;
     @BindView(R.id.scrollIndicator) ImageView scrollIndicator;
     Unbinder unbinder;
-    private ChartsAdapter chartsAdapter;
+    private Chart chart;
+    private ChartMovieListAdapter movieListAdapter;
 
-    @Inject ChartsPresenter presenter;
+    @Inject ChartMovieListPresenter presenter;
+
+    public static ChartMovieListFragment instance (Chart chart) {
+        ChartMovieListFragment chartMovieListFragment = new ChartMovieListFragment ();
+        Bundle args = new Bundle ();
+        args.putSerializable (CHART, chart);
+        chartMovieListFragment.setArguments (args);
+        return chartMovieListFragment;
+    }
+
+    @Override
+    public void onCreate (@Nullable Bundle savedInstanceState) {
+        super.onCreate (savedInstanceState);
+
+        chart = (Chart) getArguments ().getSerializable (CHART);
+
+        ((App) getActivity ().getApplication ()).getAppComponent ().inject (this);
+    }
 
     @Nullable
     @Override
     public View onCreateView (@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                               @Nullable Bundle savedInstanceState) {
-
-        ((App) getActivity ().getApplication ()).getAppComponent ().inject (this);
-
         View view = inflater.inflate (R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind (this, view);
 
-        tvHeader.setText (R.string.charts);
+        tvHeader.setText (chart.name);
+
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager (getActivity (),
                 VERTICAL, false);
@@ -64,9 +81,8 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
         decor.setItemPadding (8);
         recyclerView.addItemDecoration (decor);
         recyclerView.setHasFixedSize (true);
-        chartsAdapter = new ChartsAdapter (this,
-                () -> ((HostView) getActivity ()).fetchChartData ());
-        recyclerView.setAdapter (chartsAdapter);
+        movieListAdapter = new ChartMovieListAdapter (this);
+        recyclerView.setAdapter (movieListAdapter);
 
         recyclerView.addOnScrollListener (new OnScrollObserver () {
             @Override
@@ -80,35 +96,29 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
             }
         });
 
-        presenter.attachView (this);
+        presenter.attachView (this, chart);
+
 
         return view;
     }
 
+    // todo show progres
+    // pagination
+
     @Override
     public void onDestroyView () {
         super.onDestroyView ();
-        presenter.detachView ();
         unbinder.unbind ();
     }
 
     @Override
-    public void showCharts (List<Chart> charts) {
-
-        if ( charts.isEmpty () ) {
-            chartsAdapter.setError (getString (R.string.no_charts_err));
-        } else {
-            chartsAdapter.setItems (charts);
-        }
+    public void showMovies (List<Movie> movies) {
+        movieListAdapter.setItems (movies);
     }
 
     @Override
-    public void onChartClick (Chart chart) {
-        if ( chart.id == CHART_POPULAR ||
-                chart.id == CHART_LATEST ||
-                chart.id == CHART_TOP_RATED ) {
-            ((HostView) getActivity ()).openChartMovieList (chart);
-        }
+    public void onMovieClick (Movie movie, View element) {
+        ((HostView) getActivity ()).openMovie (movie, element);
     }
 
     @Override
@@ -128,6 +138,7 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
 
     @Override
     public void showError (String message) {
-        chartsAdapter.setError (message);
+        // todo show error as adapter item
+        Toast.makeText (getActivity (), message, Toast.LENGTH_LONG).show ();
     }
 }

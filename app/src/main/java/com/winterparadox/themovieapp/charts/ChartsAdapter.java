@@ -15,8 +15,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.GlideApp;
 import com.winterparadox.themovieapp.common.beans.Chart;
+import com.winterparadox.themovieapp.common.views.ErrorViewHolder;
 import com.winterparadox.themovieapp.common.views.GradientColorFilterTransformation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -26,47 +28,72 @@ import butterknife.ButterKnife;
 import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.IMAGE;
 import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.MEDIUM_BACKDROP;
 
-public class ChartsAdapter extends RecyclerView.Adapter<ChartsAdapter
-        .MovieItemHolder> {
+public class ChartsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     private final static Random rand = new Random ();
+    private static final int ERROR = 0, CHART = 1;
     private final RequestOptions requestOptions;
-    private List<Chart> items;
+    private List<Object> items;
     private ClickListener listener;
+    private ErrorViewHolder.OnClickListener retryListener;
 
-    ChartsAdapter (ClickListener listener) {
+    ChartsAdapter (ClickListener listener, ErrorViewHolder.OnClickListener retryListener) {
         this.listener = listener;
+        this.retryListener = retryListener;
 
         requestOptions = new RequestOptions ()
                 .transforms (new CenterCrop (), new GradientColorFilterTransformation ());
 
     }
 
-    void setItems (List<Chart> items) {
-        this.items = items;
+    void setItems (List<Chart> charts) {
+        this.items = new ArrayList<> ();
+        this.items.addAll (charts);
         notifyDataSetChanged ();
     }
 
-    private void remove (int index) {
-        this.items.remove (index);
-        notifyItemRemoved (index);
+    public void setError (String message) {
+        if ( this.items == null ) {
+            this.items = new ArrayList<> ();
+        }
+
+        items.clear ();
+        items.add (message);
+        notifyDataSetChanged ();
+    }
+
+    @Override
+    public int getItemViewType (int position) {
+        return items.get (position) instanceof String ? ERROR : CHART;
     }
 
 
     @NonNull
     @Override
-    public MovieItemHolder onCreateViewHolder (@NonNull ViewGroup viewGroup, int type) {
+    public RecyclerView.ViewHolder onCreateViewHolder (@NonNull ViewGroup viewGroup, int type) {
         LayoutInflater inflater = LayoutInflater.from (viewGroup.getContext ());
-        View view1 = inflater.inflate (R.layout.item_chart, viewGroup, false);
-        return new MovieItemHolder (view1);
+
+        if ( type == ERROR ) {
+            View view0 = inflater.inflate (R.layout.item_error, viewGroup, false);
+            return new ErrorViewHolder (view0, retryListener);
+        } else {
+            View view1 = inflater.inflate (R.layout.item_chart, viewGroup, false);
+            return new ChartItemHolder (view1);
+        }
     }
 
     @Override
-    public void onBindViewHolder (@NonNull MovieItemHolder itemHolder, int i) {
+    public void onBindViewHolder (@NonNull RecyclerView.ViewHolder itemHolder, int i) {
+        if ( itemHolder instanceof ErrorViewHolder ) {
+            ((ErrorViewHolder) itemHolder).error.setText (items.get (i).toString ());
+        } else {
+            Chart chart = (Chart) items.get (i);
+            bindChart (((ChartItemHolder) itemHolder), chart);
+        }
+    }
 
-        Chart chart = items.get (i);
-
+    private void bindChart (ChartItemHolder itemHolder, Chart chart) {
         GlideApp.with (itemHolder.itemView)
                 .load (Uri.parse (IMAGE + MEDIUM_BACKDROP + chart.backDropPath))
                 .apply (requestOptions)
@@ -82,12 +109,12 @@ public class ChartsAdapter extends RecyclerView.Adapter<ChartsAdapter
         return items == null ? 0 : items.size ();
     }
 
-    static class MovieItemHolder extends RecyclerView.ViewHolder {
+    static class ChartItemHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.thumbnail) ImageView thumbnail;
         @BindView(R.id.name) TextView title;
 
-        MovieItemHolder (@NonNull View itemView) {
+        ChartItemHolder (@NonNull View itemView) {
             super (itemView);
             ButterKnife.bind (this, itemView);
 

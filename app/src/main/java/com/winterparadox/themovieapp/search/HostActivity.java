@@ -21,7 +21,9 @@ import android.widget.LinearLayout;
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.charts.ChartsFragment;
+import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListFragment;
 import com.winterparadox.themovieapp.common.NetworkUtils;
+import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.Person;
 import com.winterparadox.themovieapp.favorites.FavoritesFragment;
@@ -278,6 +280,14 @@ public class HostActivity extends AppCompatActivity implements HostView {
     }
 
     @Override
+    public void openChartMovieList (Chart chart) {
+        getSupportFragmentManager ().beginTransaction ()
+                .replace (R.id.container, ChartMovieListFragment.instance (chart), "chartList")
+                .addToBackStack ("chartList")
+                .commit ();
+    }
+
+    @Override
     public void showFavoritesMenu (boolean show) {
         if ( show ) {
             actionFavorite.setVisibility (View.VISIBLE);
@@ -293,6 +303,11 @@ public class HostActivity extends AppCompatActivity implements HostView {
         } else {
             actionHistory.setVisibility (View.GONE);
         }
+    }
+
+    @Override
+    public void fetchChartData () {
+        presenter.fetchChartData ();
     }
 
     @Override

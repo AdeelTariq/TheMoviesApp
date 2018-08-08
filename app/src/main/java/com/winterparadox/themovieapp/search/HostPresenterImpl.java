@@ -1,7 +1,5 @@
 package com.winterparadox.themovieapp.search;
 
-import android.annotation.SuppressLint;
-
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.room.AppDatabase;
 
@@ -23,6 +21,7 @@ public class HostPresenterImpl extends HostPresenter {
     private final Scheduler mainScheduler;
     private Disposable favMenuDisposable;
     private Disposable recentMenuDisposable;
+    private Disposable chartsDisposable;
 
     public HostPresenterImpl (HostApiInteractor api, AppDatabase database,
                               Scheduler mainScheduler) {
@@ -59,10 +58,18 @@ public class HostPresenterImpl extends HostPresenter {
 
     }
 
-    @SuppressLint("CheckResult")
+    @Override
+    public void fetchChartData () {
+        if ( chartsDisposable != null && !chartsDisposable.isDisposed () ) {
+            chartsDisposable.dispose ();
+        }
+
+        createCharts ();
+    }
+
     private void createCharts () {
         // get tmdb genres
-        api.generes ()
+        chartsDisposable = api.generes ()
                 .map (charts -> {       // add gather charts and genres
                     if ( view != null ) {
                         List<String> defaultCharts = view.getDefaultCharts ();

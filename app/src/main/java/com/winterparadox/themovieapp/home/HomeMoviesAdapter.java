@@ -174,7 +174,7 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return items == null ? 0 : items.size ();
     }
 
-    public void addError (String message) {
+    public void setError (String message) {
         if ( this.items == null ) {
             this.items = new ArrayList<> ();
         }

@@ -1,6 +1,7 @@
 package com.winterparadox.themovieapp.search;
 
 import com.winterparadox.themovieapp.common.base.BaseView;
+import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.Person;
 
@@ -33,4 +34,8 @@ public interface HostView extends BaseView {
      * @return names of default charts to be added to database
      */
     List<String> getDefaultCharts ();
+
+    void openChartMovieList (Chart chart);
+
+    void fetchChartData ();
 }

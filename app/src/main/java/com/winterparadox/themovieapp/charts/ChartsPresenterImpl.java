@@ -18,10 +18,15 @@ public class ChartsPresenterImpl extends ChartsPresenter {
         this.mainScheduler = mainScheduler;
     }
 
-    @SuppressLint("CheckResult")
     @Override
     public void attachView (ChartsView view) {
         super.attachView (view);
+
+        loadData ();
+    }
+
+    @SuppressLint("CheckResult")
+    private void loadData () {
 
         database.chartDao ()
                 .getCharts ()
@@ -38,5 +43,6 @@ public class ChartsPresenterImpl extends ChartsPresenter {
                     }
                     throwable.printStackTrace ();
                 });
+
     }
 }

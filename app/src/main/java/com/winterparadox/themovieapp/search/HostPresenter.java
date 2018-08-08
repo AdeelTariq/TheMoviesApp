@@ -4,4 +4,5 @@ import com.winterparadox.themovieapp.common.base.BasePresenter;
 
 public abstract class HostPresenter extends BasePresenter<HostView> {
 
+    public abstract void fetchChartData ();
 }

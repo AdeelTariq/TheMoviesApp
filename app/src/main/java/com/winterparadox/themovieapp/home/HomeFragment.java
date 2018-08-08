@@ -17,6 +17,7 @@ import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.NetworkUtils;
+import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.views.OnScrollObserver;
 import com.winterparadox.themovieapp.search.HostView;
@@ -29,6 +30,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.winterparadox.themovieapp.common.beans.Chart.CHART_LATEST;
+import static com.winterparadox.themovieapp.common.beans.Chart.CHART_POPULAR;
 import static com.winterparadox.themovieapp.common.beans.HomeSection.SECTION_FAVORITES;
 import static com.winterparadox.themovieapp.common.beans.HomeSection.SECTION_POPULAR;
 import static com.winterparadox.themovieapp.common.beans.HomeSection.SECTION_RECENT;
@@ -168,8 +171,12 @@ public class HomeFragment extends Fragment implements HomeView, HomeMoviesAdapte
                 ((HostView) getActivity ()).openRecentlyViewed ();
                 break;
             case SECTION_POPULAR:
+                ((HostView) getActivity ()).openChartMovieList (
+                        new Chart (CHART_POPULAR, getString (R.string.popular)));
                 break;
             case SECTION_UPCOMING:
+                ((HostView) getActivity ()).openChartMovieList (
+                        new Chart (CHART_LATEST, getString (R.string.latest)));
                 break;
         }
     }
@@ -191,7 +198,7 @@ public class HomeFragment extends Fragment implements HomeView, HomeMoviesAdapte
 
     @Override
     public void showError (String message) {
-        moviesAdapter.addError (message);
+        moviesAdapter.setError (message);
     }
 
     @Override

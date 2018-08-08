@@ -3,6 +3,7 @@ package com.winterparadox.themovieapp.dagger;
 
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.charts.ChartsFragment;
+import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListFragment;
 import com.winterparadox.themovieapp.favorites.FavoritesFragment;
 import com.winterparadox.themovieapp.home.HomeFragment;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsFragment;
@@ -38,4 +39,6 @@ public interface AppComponent {
     void inject (PersonDetailsFragment target);
 
     void inject (ChartsFragment target);
+
+    void inject (ChartMovieListFragment target);
 }
