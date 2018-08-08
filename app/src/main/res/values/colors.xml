@@ -12,6 +12,4 @@
     <color name="cardBackgroundColor">#424242</color>
     <color name="dimColor">#77000000</color>
     <color name="colorControlActivated">#cd0e01</color>
-    <color name="full_gradient_start">#77000000</color>
-    <color name="full_gradient_end">#77ffffff</color>
 </resources>

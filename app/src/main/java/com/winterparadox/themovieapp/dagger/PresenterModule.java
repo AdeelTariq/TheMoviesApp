@@ -1,5 +1,7 @@
 package com.winterparadox.themovieapp.dagger;
 
+import com.winterparadox.themovieapp.charts.ChartsPresenter;
+import com.winterparadox.themovieapp.charts.ChartsPresenterImpl;
 import com.winterparadox.themovieapp.favorites.FavoritesPresenter;
 import com.winterparadox.themovieapp.favorites.FavoritesPresenterImpl;
 import com.winterparadox.themovieapp.home.HomeApiInteractor;
@@ -14,6 +16,7 @@ import com.winterparadox.themovieapp.personDetails.PersonDetailsPresenterImpl;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedPresenter;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedPresenterImpl;
 import com.winterparadox.themovieapp.room.AppDatabase;
+import com.winterparadox.themovieapp.search.HostApiInteractor;
 import com.winterparadox.themovieapp.search.HostPresenter;
 import com.winterparadox.themovieapp.search.HostPresenterImpl;
 
@@ -55,9 +58,10 @@ public class PresenterModule {
     }
 
     @Provides
-    public HostPresenter provideHostPresenter (AppDatabase database,
+    public HostPresenter provideHostPresenter (HostApiInteractor api,
+                                               AppDatabase database,
                                                Scheduler mainScheduler) {
-        return new HostPresenterImpl (database, mainScheduler);
+        return new HostPresenterImpl (api, database, mainScheduler);
     }
 
 
@@ -67,4 +71,9 @@ public class PresenterModule {
         return new PersonDetailsPresenterImpl (api, mainScheduler);
     }
 
+    @Provides
+    public ChartsPresenter provideChartsPresenter (AppDatabase appDatabase,
+                                                   Scheduler mainScheduler) {
+        return new ChartsPresenterImpl (appDatabase, mainScheduler);
+    }
 }

@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
+import com.winterparadox.themovieapp.charts.ChartsFragment;
 import com.winterparadox.themovieapp.common.NetworkUtils;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.Person;
@@ -28,6 +29,9 @@ import com.winterparadox.themovieapp.home.HomeFragment;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsFragment;
 import com.winterparadox.themovieapp.personDetails.PersonDetailsFragment;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -225,6 +229,7 @@ public class HostActivity extends AppCompatActivity implements HostView {
                 break;
 
             case R.id.action_charts:
+                openCharts ();
                 break;
         }
     }
@@ -265,6 +270,13 @@ public class HostActivity extends AppCompatActivity implements HostView {
                 .commit ();
     }
 
+    private void openCharts () {
+        getSupportFragmentManager ().beginTransaction ()
+                .replace (R.id.container, new ChartsFragment (), "charts")
+                .addToBackStack ("charts")
+                .commit ();
+    }
+
     @Override
     public void showFavoritesMenu (boolean show) {
         if ( show ) {
@@ -301,5 +313,14 @@ public class HostActivity extends AppCompatActivity implements HostView {
     @Override
     public void showError (String message) {
 
+    }
+
+    @Override
+    public List<String> getDefaultCharts () {
+        List<String> list = new ArrayList<> ();
+        list.add (getString (R.string.popular));
+        list.add (getString (R.string.latest));
+        list.add (getString (R.string.top_rated));
+        return list;
     }
 }

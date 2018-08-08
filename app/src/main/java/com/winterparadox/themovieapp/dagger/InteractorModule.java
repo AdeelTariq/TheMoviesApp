@@ -1,5 +1,6 @@
 package com.winterparadox.themovieapp.dagger;
 
+import com.winterparadox.themovieapp.common.apiServices.ChartsApiService;
 import com.winterparadox.themovieapp.home.HomeApiInteractor;
 import com.winterparadox.themovieapp.home.HomeApiInteractorImpl;
 import com.winterparadox.themovieapp.home.HomeApiService;
@@ -9,6 +10,9 @@ import com.winterparadox.themovieapp.movieDetails.MovieDetailsApiService;
 import com.winterparadox.themovieapp.personDetails.PersonApiInteractor;
 import com.winterparadox.themovieapp.personDetails.PersonApiInteractorImpl;
 import com.winterparadox.themovieapp.personDetails.PersonApiService;
+import com.winterparadox.themovieapp.search.ConfigurationApiService;
+import com.winterparadox.themovieapp.search.HostApiInteractor;
+import com.winterparadox.themovieapp.search.HostApiInteractorImpl;
 
 import javax.inject.Singleton;
 
@@ -39,6 +43,14 @@ public class InteractorModule {
     @Singleton
     public PersonApiInteractor providePersonApiInteractor (PersonApiService apiService) {
         return new PersonApiInteractorImpl (apiService);
+    }
+
+
+    @Provides
+    @Singleton
+    public HostApiInteractor provideHostApiInteractor (ConfigurationApiService apiService,
+                                                       ChartsApiService chartsService) {
+        return new HostApiInteractorImpl (apiService, chartsService);
     }
 
 }

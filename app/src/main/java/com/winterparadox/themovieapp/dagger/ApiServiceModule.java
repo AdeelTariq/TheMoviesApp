@@ -3,10 +3,12 @@ package com.winterparadox.themovieapp.dagger;
 import android.content.Context;
 
 import com.winterparadox.themovieapp.BuildConfig;
+import com.winterparadox.themovieapp.common.apiServices.ChartsApiService;
 import com.winterparadox.themovieapp.common.retrofit.ApiBuilder;
 import com.winterparadox.themovieapp.home.HomeApiService;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsApiService;
 import com.winterparadox.themovieapp.personDetails.PersonApiService;
+import com.winterparadox.themovieapp.search.ConfigurationApiService;
 
 import javax.inject.Singleton;
 
@@ -36,6 +38,19 @@ public class ApiServiceModule {
     @Singleton
     public PersonApiService providePersonApiService (Context context) {
         return ApiBuilder.build (context, PersonApiService.class, BuildConfig.DEBUG);
+    }
+
+
+    @Provides
+    @Singleton
+    public ConfigurationApiService provideConfigurationApiService (Context context) {
+        return ApiBuilder.build (context, ConfigurationApiService.class, BuildConfig.DEBUG);
+    }
+
+    @Provides
+    @Singleton
+    public ChartsApiService provideChartsApiService (Context context) {
+        return ApiBuilder.build (context, ChartsApiService.class, BuildConfig.DEBUG);
     }
 
 }
