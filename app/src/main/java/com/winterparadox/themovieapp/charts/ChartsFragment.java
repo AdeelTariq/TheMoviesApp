@@ -1,5 +1,7 @@
 package com.winterparadox.themovieapp.charts;
 
+import android.net.ConnectivityManager;
+import android.net.Network;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
+import com.winterparadox.themovieapp.common.NetworkUtils;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.views.DefaultListDecoration;
 import com.winterparadox.themovieapp.common.views.OnScrollObserver;
@@ -132,4 +135,37 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
     public void showError (String message) {
         chartsAdapter.setError (message);
     }
+
+
+    @Override
+    public void onResume () {
+        super.onResume ();
+        NetworkUtils.registerConnectivityCallback (getActivity (), callback);
+    }
+
+    @Override
+    public void onPause () {
+        NetworkUtils.unregisterConnectivityCallback (getActivity (), callback);
+        super.onPause ();
+    }
+
+
+    ConnectivityManager.NetworkCallback callback = new ConnectivityManager.NetworkCallback () {
+        @Override
+        public void onAvailable (Network network) {
+            if ( getActivity () == null ) {
+                return;
+            }
+            if ( !NetworkUtils.isConnected (getActivity ()) ) {
+                return;
+            }
+
+            if ( chartsAdapter.getItemCount () > 4 ) {
+                return;
+            }
+
+            getActivity ().runOnUiThread (((HostView) getActivity ())::fetchChartData);
+        }
+    };
+
 }
