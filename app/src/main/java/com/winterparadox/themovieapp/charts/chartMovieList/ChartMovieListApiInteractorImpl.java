@@ -18,22 +18,22 @@ public class ChartMovieListApiInteractorImpl implements ChartMovieListApiInterac
     }
 
     @Override
-    public Single<List<Movie>> popularMovies () {
-        return service.popular (1)
+    public Single<List<Movie>> popularMovies (int page) {
+        return service.popular (page + 1)
                 .subscribeOn (Schedulers.io ())
                 .map (moviesResponse -> moviesResponse.results);
     }
 
     @Override
-    public Single<List<Movie>> latestMovies () {
-        return service.latest (1)
+    public Single<List<Movie>> latestMovies (int page) {
+        return service.latest (page + 1)
                 .subscribeOn (Schedulers.io ())
                 .map (moviesResponse -> moviesResponse.results);
     }
 
     @Override
-    public Single<List<Movie>> topRatedMovies () {
-        return service.topRated (1)
+    public Single<List<Movie>> topRatedMovies (int page) {
+        return service.topRated (page + 1)
                 .subscribeOn (Schedulers.io ())
                 .map (moviesResponse -> moviesResponse.results);
     }

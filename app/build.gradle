@@ -66,12 +66,6 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$roomVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$roomVersion"
     implementation "android.arch.persistence.room:rxjava2:$roomVersion"
-    // Paging
-    def pagingVersion = "1.0.1"
-
-    implementation "android.arch.paging:runtime:$pagingVersion"
-    implementation "android.arch.paging:rxjava2:$pagingVersion"
-
 
     // Testing
     testImplementation 'junit:junit:4.12'

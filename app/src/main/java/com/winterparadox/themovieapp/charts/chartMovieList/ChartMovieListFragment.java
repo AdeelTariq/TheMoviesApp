@@ -8,11 +8,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.winterparadox.themovieapp.App;
@@ -21,6 +23,7 @@ import com.winterparadox.themovieapp.common.NetworkUtils;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.views.DefaultListDecoration;
+import com.winterparadox.themovieapp.common.views.EndlessRecyclerViewScrollListener;
 import com.winterparadox.themovieapp.common.views.OnScrollObserver;
 import com.winterparadox.themovieapp.search.HostView;
 
@@ -46,6 +49,7 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
     private ChartMovieListAdapter movieListAdapter;
 
     @Inject ChartMovieListPresenter presenter;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     public static ChartMovieListFragment instance (Chart chart) {
         ChartMovieListFragment chartMovieListFragment = new ChartMovieListFragment ();
@@ -103,23 +107,35 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
             }
         });
 
+
         presenter.attachView (this, chart);
 
+        scrollListener = new EndlessRecyclerViewScrollListener (linearLayoutManager) {
+            @Override
+            public void onLoadMore (int page, int totalItemsCount, RecyclerView view) {
+                presenter.fetchDataPage (page);
+            }
+        };
+        recyclerView.addOnScrollListener (scrollListener);
 
         return view;
     }
 
-    // todo pagination
-
     @Override
     public void onDestroyView () {
         super.onDestroyView ();
+        presenter.detachView ();
         unbinder.unbind ();
     }
 
     @Override
     public void showMovies (List<Movie> movies) {
         movieListAdapter.setItems (movies);
+    }
+
+    @Override
+    public void addMovies (List<Movie> movies) {
+        movieListAdapter.addItems (movies);
     }
 
     @Override
@@ -138,8 +154,18 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
     }
 
     @Override
-    public void showMessage (String message) {
+    public void showPageProgress () {
+        movieListAdapter.setProgress (true);
+    }
 
+    @Override
+    public void hidePageProgress () {
+        movieListAdapter.setProgress (false);
+    }
+
+    @Override
+    public void showMessage (String message) {
+        Toast.makeText (getActivity (), message, Toast.LENGTH_LONG).show ();
     }
 
     @Override
@@ -175,7 +201,10 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
                 return;
             }
 
-            getActivity ().runOnUiThread (() -> presenter.fetchData ());
+            getActivity ().runOnUiThread (() -> {
+                scrollListener.resetState ();
+                presenter.fetchData ();
+            });
         }
     };
 

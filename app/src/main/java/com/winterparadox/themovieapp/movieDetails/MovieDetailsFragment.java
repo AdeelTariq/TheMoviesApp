@@ -36,6 +36,7 @@ import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.views.DefaultHorizontalItemDecoration;
 import com.winterparadox.themovieapp.common.views.GradientColorFilterTransformation;
 import com.winterparadox.themovieapp.common.views.HorizontalMoviesAdapter;
+import com.winterparadox.themovieapp.common.views.LockableScrollView;
 import com.winterparadox.themovieapp.common.views.TransitionNames;
 import com.winterparadox.themovieapp.search.HostView;
 
@@ -75,6 +76,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     @BindView(R.id.rvCast) ShimmerRecyclerView rvCast;
     @BindView(R.id.rvCrew) RecyclerView rvCrew;
     @BindView(R.id.rvSimilar) RecyclerView rvSimilar;
+    @BindView(R.id.scrollView) LockableScrollView scrollView;
 
     private Movie movie;
     private RequestOptions requestOptions, requestOptionsBackDrop;
@@ -252,16 +254,25 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     @Override
     public void onCastClick (CastMember member, View view) {
         ((HostView) getActivity ()).openPerson (member, view);
+        scrollUp ();
     }
 
     @Override
     public void onCrewClick (CrewMember member, View view) {
         ((HostView) getActivity ()).openPerson (member, view);
+        scrollUp ();
     }
 
     @Override
     public void onMovieClick (Movie movie, View element) {
         ((HostView) getActivity ()).openMovie (movie, element);
+        scrollUp ();
+    }
+
+    private void scrollUp () {
+        if ( scrollView != null ) {
+            scrollView.fullScroll (View.FOCUS_UP);
+        }
     }
 
     @Override

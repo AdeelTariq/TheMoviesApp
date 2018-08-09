@@ -13,4 +13,6 @@ public abstract class ChartMovieListPresenter extends BasePresenter<ChartMovieLi
     }
 
     public abstract void fetchData ();
+
+    public abstract void fetchDataPage (int page);
 }

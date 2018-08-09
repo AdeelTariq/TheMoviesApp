@@ -2,6 +2,7 @@ package com.winterparadox.themovieapp.charts.chartMovieList;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.GlideApp;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.views.ErrorViewHolder;
+import com.winterparadox.themovieapp.common.views.ProgressViewHolder;
 import com.winterparadox.themovieapp.common.views.TransitionNames;
 
 import java.util.ArrayList;
@@ -27,10 +29,11 @@ import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.SMALL_POS
 
 public class ChartMovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int ERROR = 0, MOVIE = 1;
+    private static final int ERROR = 0, MOVIE = 1, PROGRESS = 2;
     private List<Object> items;
     private ClickListener listener;
     private ErrorViewHolder.OnClickListener retryListener;
+    private boolean showProgress;
 
     ChartMovieListAdapter (ClickListener listener,
                            ErrorViewHolder.OnClickListener retryListener) {
@@ -41,6 +44,11 @@ public class ChartMovieListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     void setItems (List<Movie> movies) {
         this.items = new ArrayList<> (movies);
         notifyDataSetChanged ();
+    }
+
+    public void addItems (List<Movie> movies) {
+        this.items.addAll (movies);
+        notifyItemRangeInserted (items.size () - movies.size (), movies.size ());
     }
 
 
@@ -54,8 +62,19 @@ public class ChartMovieListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         notifyDataSetChanged ();
     }
 
+    public void setProgress (boolean show) {
+        showProgress = show;
+        if ( showProgress ) {
+            notifyItemInserted (items.size ());
+        } else {
+            notifyItemRemoved (items.size ());
+        }
+    }
+
+
     @Override
     public int getItemViewType (int position) {
+        if ( position == items.size () ) return PROGRESS;
         return items.get (position) instanceof String ? ERROR : MOVIE;
     }
 
@@ -68,6 +87,9 @@ public class ChartMovieListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if ( type == ERROR ) {
             View view0 = inflater.inflate (R.layout.item_error, viewGroup, false);
             return new ErrorViewHolder (view0, retryListener);
+        } else if ( type == PROGRESS ) {
+            View view0 = inflater.inflate (R.layout.item_page_progress, viewGroup, false);
+            return new ProgressViewHolder (view0);
         } else {
             View view1 = inflater.inflate (R.layout.item_movie_list,
                     viewGroup, false);
@@ -79,14 +101,16 @@ public class ChartMovieListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder (@NonNull RecyclerView.ViewHolder itemHolder, int i) {
         if ( itemHolder instanceof ErrorViewHolder ) {
             ((ErrorViewHolder) itemHolder).error.setText (items.get (i).toString ());
-        } else {
-            Movie movie = (Movie) items.get (i);
 
-            bindMovie (((MovieItemHolder) itemHolder), movie);
+        } else if ( itemHolder instanceof MovieItemHolder ) {
+            Movie movie = (Movie) items.get (i);
+            bindMovie (((MovieItemHolder) itemHolder), movie, String.valueOf (i + 1));
+
         }
+        // else do nothing if it's the progress item
     }
 
-    private void bindMovie (MovieItemHolder itemHolder, Movie movie) {
+    private void bindMovie (MovieItemHolder itemHolder, Movie movie, String number) {
 
         GlideApp.with (itemHolder.itemView)
                 .load (Uri.parse (IMAGE + SMALL_POSTER + movie.posterPath))
@@ -100,17 +124,21 @@ public class ChartMovieListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         itemHolder.itemView.setOnClickListener (v -> listener.onMovieClick (movie, itemHolder
                 .thumbnail));
+
+        itemHolder.number.setText (number);
     }
 
     @Override
     public int getItemCount () {
-        return items == null ? 0 : items.size ();
+        // if showProgress is On then add one item at the bottom for progress
+        return (items == null ? 0 : items.size ()) + (showProgress ? 1 : 0);
     }
 
     static class MovieItemHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.thumbnail) ImageView thumbnail;
         @BindView(R.id.title) TextView title;
+        @BindView(R.id.number) AppCompatTextView number;
         @BindView(R.id.plot) TextView plot;
         @BindView(R.id.favorite) LottieAnimationView hidden;
 
@@ -119,6 +147,7 @@ public class ChartMovieListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             ButterKnife.bind (this, itemView);
 
             hidden.setVisibility (View.GONE);
+            number.setVisibility (View.VISIBLE);
         }
     }
 

@@ -33,23 +33,33 @@ public class ChartMovieListPresenterImpl extends ChartMovieListPresenter {
         fetchData ();
     }
 
-    @SuppressLint("CheckResult")
     @Override
     public void fetchData () {
+        fetchDataPage (0);
+    }
 
-        view.showProgress ();
+    @SuppressLint("CheckResult")
+    @Override
+    public void fetchDataPage (int page) {
+
+        if ( page == 0 ) {
+            view.showProgress ();
+
+        } else {
+            view.showPageProgress ();
+        }
 
         Single<List<Movie>> movieSingle;
 
         switch ( chart.id ) {
             case CHART_POPULAR:
-                movieSingle = api.popularMovies ();
+                movieSingle = api.popularMovies (page);
                 break;
             case CHART_LATEST:
-                movieSingle = api.latestMovies ();
+                movieSingle = api.latestMovies (page);
                 break;
             default:
-                movieSingle = api.topRatedMovies ();
+                movieSingle = api.topRatedMovies (page);
                 break;
         }
 
@@ -57,14 +67,26 @@ public class ChartMovieListPresenterImpl extends ChartMovieListPresenter {
                 .observeOn (mainScheduler)
                 .subscribe (movies -> {
                     if ( view != null ) {
-                        view.showMovies (movies);
-                        view.hideProgress ();
+                        if ( page == 0 ) {
+                            view.showMovies (movies);
+                            view.hideProgress ();
+
+                        } else {
+                            view.addMovies (movies);
+                            view.hidePageProgress ();
+                        }
                     }
 
                 }, throwable -> {
                     if ( view != null ) {
-                        view.showError (throwable.getMessage ());
-                        view.hideProgress ();
+                        if ( page == 0 ) {
+                            view.showError (throwable.getMessage ());
+                            view.hideProgress ();
+
+                        } else {
+                            view.showMessage (throwable.getMessage ());
+                            view.hidePageProgress ();
+                        }
                     }
                     throwable.printStackTrace ();
                 });

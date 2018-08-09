@@ -8,9 +8,9 @@ import io.reactivex.Single;
 
 public interface ChartMovieListApiInteractor {
 
-    Single<List<Movie>> popularMovies ();
+    Single<List<Movie>> popularMovies (int page);
 
-    Single<List<Movie>> latestMovies ();
+    Single<List<Movie>> latestMovies (int page);
 
-    Single<List<Movie>> topRatedMovies ();
+    Single<List<Movie>> topRatedMovies (int page);
 }

@@ -92,9 +92,15 @@ public class BackDropNavigationListener implements View.OnClickListener {
         animatorSet.play (animator);
         animator.start ();
 
-        View viewGroup = ((ViewGroup) sheet.getChildAt (0)).getChildAt (0);
-        if ( viewGroup instanceof LockableScrollView ) {
-            ((LockableScrollView) viewGroup).setScrollingEnabled (!backdropShown);
+        ViewGroup sheetChild = (ViewGroup) sheet.getChildAt (0);
+        int childCount = sheetChild.getChildCount ();
+        for ( int i = 0; i < childCount; i++ ) {
+            View viewGroup = sheetChild.getChildAt (i);
+            viewGroup.setClickable (!backdropShown);
+
+            if ( viewGroup instanceof LockableScrollView ) {
+                ((LockableScrollView) viewGroup).setScrollingEnabled (!backdropShown);
+            }
         }
     }
 

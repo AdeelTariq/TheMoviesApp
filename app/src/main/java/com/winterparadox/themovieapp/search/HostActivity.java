@@ -7,6 +7,9 @@ import android.net.Network;
 import android.os.Bundle;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -102,7 +105,7 @@ public class HostActivity extends AppCompatActivity implements HostView {
         presenter.attachView (this);
 
         getSupportFragmentManager ().beginTransaction ()
-                .replace (R.id.container, new HomeFragment (), "home").commit ();
+                .add (R.id.container, new HomeFragment (), "home").commit ();
 
     }
 
@@ -239,52 +242,72 @@ public class HostActivity extends AppCompatActivity implements HostView {
     @Override
     public void openMovie (Movie movie, Object view) {
         View element = ((View) view);
-        getSupportFragmentManager ().beginTransaction ()
-                .addSharedElement (element, element.getTransitionName ())
-                .replace (R.id.container, MovieDetailsFragment.instance (movie), movie.title)
-                .addToBackStack (movie.title)
-                .commit ();
+        resurfaceFragment (this,
+                MovieDetailsFragment.instance (movie),
+                movie.title, element);
     }
 
     @Override
     public void openPerson (Person person, Object view) {
         View element = ((View) view);
-        getSupportFragmentManager ().beginTransaction ()
-                .addSharedElement (element, element.getTransitionName ())
-                .replace (R.id.container, PersonDetailsFragment.instance (person), person.name)
-                .addToBackStack (person.name)
-                .commit ();
+        resurfaceFragment (this,
+                PersonDetailsFragment.instance (person),
+                person.name, element);
     }
 
     @Override
     public void openFavorites () {
-        getSupportFragmentManager ().beginTransaction ()
-                .replace (R.id.container, new FavoritesFragment (), "favorites")
-                .addToBackStack ("favorites")
-                .commit ();
+        resurfaceFragment (this, new FavoritesFragment (),
+                "favorites", null);
     }
 
     @Override
     public void openRecentlyViewed () {
-        getSupportFragmentManager ().beginTransaction ()
-                .replace (R.id.container, new RecentlyViewedFragment (), "history")
-                .addToBackStack ("history")
-                .commit ();
+        resurfaceFragment (this, new RecentlyViewedFragment (),
+                "recents", null);
     }
 
     private void openCharts () {
-        getSupportFragmentManager ().beginTransaction ()
-                .replace (R.id.container, new ChartsFragment (), "charts")
-                .addToBackStack ("charts")
-                .commit ();
+        resurfaceFragment (this, new ChartsFragment (),
+                "charts", null);
     }
 
     @Override
     public void openChartMovieList (Chart chart) {
-        getSupportFragmentManager ().beginTransaction ()
-                .replace (R.id.container, ChartMovieListFragment.instance (chart), "chartList")
-                .addToBackStack ("chartList")
-                .commit ();
+        resurfaceFragment (this,
+                ChartMovieListFragment.instance (chart),
+                chart.name, null);
+    }
+
+    public static void resurfaceFragment (AppCompatActivity activity,
+                                          Fragment fragment, String tag,
+                                          View sharedElement) {
+        FragmentManager fragmentManager = activity.getSupportFragmentManager ();
+
+        boolean fragmentPopped = fragmentManager
+                .popBackStackImmediate (tag, 0);
+
+        List<Fragment> fragments = fragmentManager.getFragments ();
+
+        if ( !fragmentPopped && fragmentManager.findFragmentByTag (tag) == null ) {
+
+            FragmentTransaction ftx = fragmentManager.beginTransaction ();
+
+            if ( sharedElement != null ) {
+                ftx.addSharedElement (sharedElement, sharedElement.getTransitionName ());
+            }
+
+            ftx.addToBackStack (tag);
+
+            if ( fragments.size () > 10 ) {
+                ftx.replace (R.id.container, fragment, tag);
+
+            } else {
+                ftx.add (R.id.container, fragment, tag);
+            }
+
+            ftx.commit ();
+        }
     }
 
     @Override
