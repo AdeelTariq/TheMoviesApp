@@ -3,6 +3,7 @@ package com.winterparadox.themovieapp.home;
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 
+import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.HomeSection;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.room.AppDatabase;
@@ -100,5 +101,33 @@ public class HomePresenterImpl extends HomePresenter {
                         view.hideProgress ();
                     }
                 });
+    }
+
+    @Override
+    public void onMovieClicked (Movie movie, Object element) {
+        if ( navigator != null ) {
+            navigator.openMovie (movie, element);
+        }
+    }
+
+    @Override
+    public void onChartClicked (Chart chart) {
+        if ( navigator != null ) {
+            navigator.openChartMovieList (chart);
+        }
+    }
+
+    @Override
+    public void onFavoritesClicked () {
+        if ( navigator != null ) {
+            navigator.openFavorites ();
+        }
+    }
+
+    @Override
+    public void onRecentlyViewedClicked () {
+        if ( navigator != null ) {
+            navigator.openRecentlyViewed ();
+        }
     }
 }

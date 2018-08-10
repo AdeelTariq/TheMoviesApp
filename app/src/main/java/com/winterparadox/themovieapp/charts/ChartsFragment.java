@@ -17,12 +17,13 @@ import android.widget.TextView;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
+import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.NetworkUtils;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.views.DefaultListDecoration;
 import com.winterparadox.themovieapp.common.views.OnScrollObserver;
-import com.winterparadox.themovieapp.search.HostView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -69,7 +70,7 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
         recyclerView.setHasFixedSize (true);
 
         chartsAdapter = new ChartsAdapter (this,
-                ((HostView) getActivity ())::fetchChartData);
+                presenter::fetchChartData);
 
         recyclerView.setAdapter (chartsAdapter);
 
@@ -85,7 +86,7 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
             }
         });
 
-        presenter.attachView (this);
+        presenter.attachView (this, ((Navigator) getActivity ()));
 
         return view;
     }
@@ -112,7 +113,7 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
         if ( chart.id == CHART_POPULAR ||
                 chart.id == CHART_LATEST ||
                 chart.id == CHART_TOP_RATED ) {
-            ((HostView) getActivity ()).openChartMovieList (chart);
+            presenter.onChartClicked (chart);
         }
     }
 
@@ -149,6 +150,15 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
         super.onPause ();
     }
 
+    @Override
+    public List<String> getDefaultCharts () {
+        List<String> list = new ArrayList<> ();
+        list.add (getString (R.string.popular));
+        list.add (getString (R.string.latest));
+        list.add (getString (R.string.top_rated));
+        return list;
+    }
+
 
     ConnectivityManager.NetworkCallback callback = new ConnectivityManager.NetworkCallback () {
         @Override
@@ -164,7 +174,7 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
                 return;
             }
 
-            getActivity ().runOnUiThread (((HostView) getActivity ())::fetchChartData);
+            getActivity ().runOnUiThread (presenter::fetchChartData);
         }
     };
 

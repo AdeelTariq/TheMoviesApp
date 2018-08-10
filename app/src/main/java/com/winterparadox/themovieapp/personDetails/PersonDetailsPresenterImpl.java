@@ -2,6 +2,7 @@ package com.winterparadox.themovieapp.personDetails;
 
 import android.annotation.SuppressLint;
 
+import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.PresenterUtils;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.Person;
@@ -25,8 +26,8 @@ public class PersonDetailsPresenterImpl extends PersonDetailsPresenter {
 
     @SuppressLint("CheckResult")
     @Override
-    public void attachView (PersonDetailsView v, Person person) {
-        super.attachView (v, person);
+    public void attachView (PersonDetailsView v, Person person, Navigator navigator) {
+        super.attachView (v, person, navigator);
 
         view.showProgress ();
 
@@ -71,5 +72,12 @@ public class PersonDetailsPresenterImpl extends PersonDetailsPresenter {
                     }
                     throwable.printStackTrace ();
                 });
+    }
+
+    @Override
+    public void onMovieClicked (Movie movie, Object element) {
+        if ( navigator != null ) {
+            navigator.openMovie (movie, element);
+        }
     }
 }

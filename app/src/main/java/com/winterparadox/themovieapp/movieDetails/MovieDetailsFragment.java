@@ -29,6 +29,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
+import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.GlideApp;
 import com.winterparadox.themovieapp.common.beans.CastMember;
 import com.winterparadox.themovieapp.common.beans.CrewMember;
@@ -38,7 +39,6 @@ import com.winterparadox.themovieapp.common.views.GradientColorFilterTransformat
 import com.winterparadox.themovieapp.common.views.HorizontalMoviesAdapter;
 import com.winterparadox.themovieapp.common.views.LockableScrollView;
 import com.winterparadox.themovieapp.common.views.TransitionNames;
-import com.winterparadox.themovieapp.search.HostView;
 
 import javax.inject.Inject;
 
@@ -167,7 +167,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         btnFavorite.setAnimation (R.raw.favorite);
         btnFavorite.invalidate ();
 
-        presenter.attachView (this, movie);
+        presenter.attachView (this, movie, ((Navigator) getActivity ()));
 
         return view;
     }
@@ -253,19 +253,19 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
 
     @Override
     public void onCastClick (CastMember member, View view) {
-        ((HostView) getActivity ()).openPerson (member, view);
+        presenter.onPersonClicked (member, view);
         scrollUp ();
     }
 
     @Override
     public void onCrewClick (CrewMember member, View view) {
-        ((HostView) getActivity ()).openPerson (member, view);
+        presenter.onPersonClicked (member, view);
         scrollUp ();
     }
 
     @Override
     public void onMovieClick (Movie movie, View element) {
-        ((HostView) getActivity ()).openMovie (movie, element);
+        presenter.onMovieClicked (movie, element);
         scrollUp ();
     }
 

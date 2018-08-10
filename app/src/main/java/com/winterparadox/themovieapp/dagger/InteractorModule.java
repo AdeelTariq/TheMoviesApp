@@ -1,5 +1,7 @@
 package com.winterparadox.themovieapp.dagger;
 
+import com.winterparadox.themovieapp.charts.ChartsApiInteractor;
+import com.winterparadox.themovieapp.charts.ChartsApiInteractorImpl;
 import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListApiInteractor;
 import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListApiInteractorImpl;
 import com.winterparadox.themovieapp.common.apiServices.ChartsApiService;
@@ -53,6 +55,13 @@ public class InteractorModule {
     public HostApiInteractor provideHostApiInteractor (ConfigurationApiService apiService,
                                                        ChartsApiService chartsService) {
         return new HostApiInteractorImpl (apiService, chartsService);
+    }
+
+    @Provides
+    @Singleton
+    public ChartsApiInteractor provideChartsApiInteractor (ConfigurationApiService apiService,
+                                                           ChartsApiService chartsService) {
+        return new ChartsApiInteractorImpl (apiService, chartsService);
     }
 
     @Provides

@@ -1,6 +1,6 @@
 package com.winterparadox.themovieapp.home;
 
-import com.winterparadox.themovieapp.common.base.BaseView;
+import com.winterparadox.themovieapp.arch.BaseView;
 
 import java.util.ArrayList;
 

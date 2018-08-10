@@ -2,6 +2,8 @@ package com.winterparadox.themovieapp.recentlyViewed;
 
 import android.annotation.SuppressLint;
 
+import com.winterparadox.themovieapp.arch.Navigator;
+import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.room.AppDatabase;
 
 import io.reactivex.Scheduler;
@@ -20,8 +22,8 @@ public class RecentlyViewedPresenterImpl extends RecentlyViewedPresenter {
 
     @SuppressLint("CheckResult")
     @Override
-    public void attachView (RecentlyViewedView view) {
-        super.attachView (view);
+    public void attachView (RecentlyViewedView view, Navigator navigator) {
+        super.attachView (view, navigator);
 
         database.recentlyViewedDao ()
                 .getRecent (200)
@@ -39,5 +41,12 @@ public class RecentlyViewedPresenterImpl extends RecentlyViewedPresenter {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onMovieClicked (Movie movie, Object element) {
+        if ( navigator != null ) {
+            navigator.openMovie (movie, element);
+        }
     }
 }

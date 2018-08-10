@@ -1,5 +1,6 @@
 package com.winterparadox.themovieapp.dagger;
 
+import com.winterparadox.themovieapp.charts.ChartsApiInteractor;
 import com.winterparadox.themovieapp.charts.ChartsPresenter;
 import com.winterparadox.themovieapp.charts.ChartsPresenterImpl;
 import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListApiInteractor;
@@ -75,9 +76,10 @@ public class PresenterModule {
     }
 
     @Provides
-    public ChartsPresenter provideChartsPresenter (AppDatabase appDatabase,
+    public ChartsPresenter provideChartsPresenter (ChartsApiInteractor api,
+                                                   AppDatabase appDatabase,
                                                    Scheduler mainScheduler) {
-        return new ChartsPresenterImpl (appDatabase, mainScheduler);
+        return new ChartsPresenterImpl (api, appDatabase, mainScheduler);
     }
 
     @Provides

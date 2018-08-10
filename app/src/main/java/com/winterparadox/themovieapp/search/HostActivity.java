@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
+import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.charts.ChartsFragment;
 import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListFragment;
 import com.winterparadox.themovieapp.common.NetworkUtils;
@@ -43,7 +44,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HostActivity extends AppCompatActivity implements HostView {
+public class HostActivity extends AppCompatActivity implements HostView, Navigator {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.app_bar) AppBarLayout appBar;
@@ -102,7 +103,7 @@ public class HostActivity extends AppCompatActivity implements HostView {
             }
         });
 
-        presenter.attachView (this);
+        presenter.attachView (this, this);
 
         getSupportFragmentManager ().beginTransaction ()
                 .add (R.id.container, new HomeFragment (), "home").commit ();
@@ -223,18 +224,19 @@ public class HostActivity extends AppCompatActivity implements HostView {
         switch ( v.getId () ) {
 
             case R.id.action_history:
-                openRecentlyViewed ();
+                presenter.onRecentlyViewedClicked ();
                 break;
 
             case R.id.action_favorite:
-                openFavorites ();
+                presenter.onFavoritesClicked ();
                 break;
 
             case R.id.action_lists:
+                presenter.onMyListsClicked ();
                 break;
 
             case R.id.action_charts:
-                openCharts ();
+                presenter.onChartsClicked ();
                 break;
         }
     }
@@ -267,9 +269,15 @@ public class HostActivity extends AppCompatActivity implements HostView {
                 "recents", null);
     }
 
-    private void openCharts () {
+    @Override
+    public void openCharts () {
         resurfaceFragment (this, new ChartsFragment (),
                 "charts", null);
+    }
+
+    @Override
+    public void openMyLists () {
+        //
     }
 
     @Override
@@ -326,11 +334,6 @@ public class HostActivity extends AppCompatActivity implements HostView {
         } else {
             actionHistory.setVisibility (View.GONE);
         }
-    }
-
-    @Override
-    public void fetchChartData () {
-        presenter.fetchChartData ();
     }
 
     @Override

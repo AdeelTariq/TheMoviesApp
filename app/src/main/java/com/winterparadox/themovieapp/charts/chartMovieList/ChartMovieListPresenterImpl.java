@@ -2,6 +2,7 @@ package com.winterparadox.themovieapp.charts.chartMovieList;
 
 import android.annotation.SuppressLint;
 
+import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.Movie;
 
@@ -27,8 +28,8 @@ public class ChartMovieListPresenterImpl extends ChartMovieListPresenter {
 
     @SuppressLint("CheckResult")
     @Override
-    public void attachView (ChartMovieListView view, Chart chart) {
-        super.attachView (view, chart);
+    public void attachView (ChartMovieListView view, Chart chart, Navigator navigator) {
+        super.attachView (view, chart, navigator);
 
         fetchData ();
     }
@@ -91,5 +92,12 @@ public class ChartMovieListPresenterImpl extends ChartMovieListPresenter {
                     throwable.printStackTrace ();
                 });
 
+    }
+
+    @Override
+    public void onMovieClicked (Movie movie, Object element) {
+        if ( navigator != null ) {
+            navigator.openMovie (movie, element);
+        }
     }
 }

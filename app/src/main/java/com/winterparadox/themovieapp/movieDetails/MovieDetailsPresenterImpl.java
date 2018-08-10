@@ -2,10 +2,12 @@ package com.winterparadox.themovieapp.movieDetails;
 
 import android.annotation.SuppressLint;
 
+import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.PresenterUtils;
 import com.winterparadox.themovieapp.common.beans.Favorite;
 import com.winterparadox.themovieapp.common.beans.GenresItem;
 import com.winterparadox.themovieapp.common.beans.Movie;
+import com.winterparadox.themovieapp.common.beans.Person;
 import com.winterparadox.themovieapp.common.beans.RecentlyViewed;
 import com.winterparadox.themovieapp.common.beans.RegionItem;
 import com.winterparadox.themovieapp.common.beans.ReleaseDatesItem;
@@ -41,8 +43,8 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
 
     @SuppressLint("CheckResult")
     @Override
-    void attachView (MovieDetailsView view, Movie movie) {
-        super.attachView (view, movie);
+    void attachView (MovieDetailsView view, Movie movie, Navigator activity) {
+        super.attachView (view, movie, activity);
 
         Completable.fromAction (() -> database.movieDao ().insertAll (movie))
                 .andThen ((CompletableSource) cs -> database.recentlyViewedDao ()
@@ -148,6 +150,20 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
                     .subscribeOn (Schedulers.io ())
                     .observeOn (mainScheduler)
                     .subscribe ();
+        }
+    }
+
+    @Override
+    public void onMovieClicked (Movie movie, Object element) {
+        if ( navigator != null ) {
+            navigator.openMovie (movie, element);
+        }
+    }
+
+    @Override
+    public void onPersonClicked (Person member, Object view) {
+        if ( navigator != null ) {
+            navigator.openPerson (member, view);
         }
     }
 }

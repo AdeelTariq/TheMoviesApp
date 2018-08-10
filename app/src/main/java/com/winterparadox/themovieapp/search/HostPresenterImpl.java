@@ -1,10 +1,10 @@
 package com.winterparadox.themovieapp.search;
 
-import com.winterparadox.themovieapp.common.beans.Chart;
+import com.winterparadox.themovieapp.arch.Navigator;
+import com.winterparadox.themovieapp.common.PresenterUtils;
 import com.winterparadox.themovieapp.room.AppDatabase;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
@@ -31,10 +31,10 @@ public class HostPresenterImpl extends HostPresenter {
     }
 
     @Override
-    public void attachView (HostView view) {
-        super.attachView (view);
+    public void attachView (HostView view, Navigator navigator) {
+        super.attachView (view, navigator);
 
-        createCharts ();
+        fetchChartData ();
 
         favMenuDisposable = database.favoriteDao ()
                 .anyExists ()
@@ -64,54 +64,51 @@ public class HostPresenterImpl extends HostPresenter {
             chartsDisposable.dispose ();
         }
 
-        createCharts ();
+        if ( view != null ) {
+            List<String> defaultCharts = view.getDefaultCharts ();
+            chartsDisposable = PresenterUtils.createChartss (api.generes (),
+                    chart -> {
+                        switch ( chart.id ) {
+                            case CHART_POPULAR:
+                                return api.popularMovieBackdrop (chart);
+                            case CHART_LATEST:
+                                return api.latestMovieBackdrop (chart);
+                            case CHART_TOP_RATED:
+                                return api.topRatedMovieBackdrop (chart);
+                            default:
+                                return api.genreMovieBackdrop (chart);
+                        }
+
+                    }, database, defaultCharts);
+        }
     }
 
-    private void createCharts () {
-        // get tmdb genres
-        chartsDisposable = api.generes ()
-                .map (charts -> {       // add gather charts and genres
-                    if ( view != null ) {
-                        List<String> defaultCharts = view.getDefaultCharts ();
+    @Override
+    public void onRecentlyViewedClicked () {
+        if ( navigator != null ) {
+            navigator.openRecentlyViewed ();
+        }
+    }
 
-                        for ( int i = defaultCharts.size () - 1; i >= 0; i-- ) {
-                            String defaultChart = defaultCharts.get (i);
-                            charts.add (0, new Chart (i, defaultChart));
-                        }
-                    }
+    @Override
+    public void onFavoritesClicked () {
+        if ( navigator != null ) {
+            navigator.openFavorites ();
+        }
+    }
 
-                    return charts;
+    @Override
+    public void onMyListsClicked () {
+        if ( navigator != null ) {
+            navigator.openMyLists ();
+        }
+    }
 
-                }).toObservable ()
-                .flatMapIterable (charts -> charts)
-                .flatMapSingle (chart -> {          // save to database if not already saved
-                    database.chartDao ().insert (chart);
-                    return database.chartDao ().getChart (chart.id);
-                })
-                // check if any chart's backdrop image is missing
-                .filter (chart -> chart.backDropPath == null)
-
-                // download the backdrop image path
-                .flatMapSingle (chart -> {
-                    switch ( chart.id ) {
-                        case CHART_POPULAR:
-                            return api.popularMovieBackdrop (chart);
-                        case CHART_LATEST:
-                            return api.latestMovieBackdrop (chart);
-                        case CHART_TOP_RATED:
-                            return api.topRatedMovieBackdrop (chart);
-                        default:
-                            return api.genreMovieBackdrop (chart);
-                    }
-
-                })
-                .delay (300, TimeUnit.MILLISECONDS) // delay to avoid api limit
-                // and then save
-                .map (chart -> database.chartDao ().update (chart))
-                .subscribe (aLong -> {
-                        },
-                        Throwable::printStackTrace);
-
+    @Override
+    public void onChartsClicked () {
+        if ( navigator != null ) {
+            navigator.openCharts ();
+        }
     }
 
     @Override

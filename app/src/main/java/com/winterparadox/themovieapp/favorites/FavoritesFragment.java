@@ -16,10 +16,10 @@ import android.widget.Toast;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
+import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.views.DefaultListDecoration;
 import com.winterparadox.themovieapp.common.views.OnScrollObserver;
-import com.winterparadox.themovieapp.search.HostView;
 
 import java.util.List;
 
@@ -80,7 +80,7 @@ public class FavoritesFragment extends Fragment implements FavoritesView,
         });
 
 
-        presenter.attachView (this);
+        presenter.attachView (this, (Navigator) getActivity ());
 
         return view;
     }
@@ -98,7 +98,7 @@ public class FavoritesFragment extends Fragment implements FavoritesView,
 
     @Override
     public void onMovieClick (Movie movie, View element) {
-        ((HostView) getActivity ()).openMovie (movie, element);
+        presenter.onMovieClicked (movie, element);
     }
 
     @Override

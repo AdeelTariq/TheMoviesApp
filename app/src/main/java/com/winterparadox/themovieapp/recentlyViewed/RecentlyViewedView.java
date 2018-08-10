@@ -1,6 +1,6 @@
 package com.winterparadox.themovieapp.recentlyViewed;
 
-import com.winterparadox.themovieapp.common.base.BaseView;
+import com.winterparadox.themovieapp.arch.BaseView;
 import com.winterparadox.themovieapp.common.beans.Movie;
 
 import java.util.List;

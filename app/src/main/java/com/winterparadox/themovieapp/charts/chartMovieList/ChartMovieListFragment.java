@@ -19,13 +19,13 @@ import android.widget.Toast;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
+import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.NetworkUtils;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.views.DefaultListDecoration;
 import com.winterparadox.themovieapp.common.views.EndlessRecyclerViewScrollListener;
 import com.winterparadox.themovieapp.common.views.OnScrollObserver;
-import com.winterparadox.themovieapp.search.HostView;
 
 import java.util.List;
 
@@ -108,7 +108,7 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
         });
 
 
-        presenter.attachView (this, chart);
+        presenter.attachView (this, chart, (Navigator) getActivity ());
 
         scrollListener = new EndlessRecyclerViewScrollListener (linearLayoutManager) {
             @Override
@@ -140,7 +140,7 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
 
     @Override
     public void onMovieClick (Movie movie, View element) {
-        ((HostView) getActivity ()).openMovie (movie, element);
+        presenter.onMovieClicked (movie, element);
     }
 
     @Override

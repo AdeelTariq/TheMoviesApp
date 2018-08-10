@@ -16,11 +16,11 @@ import android.widget.TextView;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
+import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.NetworkUtils;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.views.OnScrollObserver;
-import com.winterparadox.themovieapp.search.HostView;
 
 import java.util.ArrayList;
 
@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment implements HomeView, HomeMoviesAdapte
         View view = inflater.inflate (R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind (this, view);
 
-        presenter.attachView (this);
+        presenter.attachView (this, (Navigator) getActivity ());
 
         // setting up grid layout manager
         GridLayoutManager gridLayoutManager = new GridLayoutManager (getActivity (), 3);
@@ -158,25 +158,23 @@ public class HomeFragment extends Fragment implements HomeView, HomeMoviesAdapte
 
     @Override
     public void onMovieClick (Movie movie, View element) {
-        ((HostView) getActivity ()).openMovie (movie, element);
+        presenter.onMovieClicked (movie, element);
     }
 
     @Override
     public void onSubHeaderClick (int header) {
         switch ( header ) {
             case SECTION_FAVORITES:
-                ((HostView) getActivity ()).openFavorites ();
+                presenter.onFavoritesClicked ();
                 break;
             case SECTION_RECENT:
-                ((HostView) getActivity ()).openRecentlyViewed ();
+                presenter.onRecentlyViewedClicked ();
                 break;
             case SECTION_POPULAR:
-                ((HostView) getActivity ()).openChartMovieList (
-                        new Chart (CHART_POPULAR, getString (R.string.popular)));
+                presenter.onChartClicked (new Chart (CHART_POPULAR, getString (R.string.popular)));
                 break;
             case SECTION_UPCOMING:
-                ((HostView) getActivity ()).openChartMovieList (
-                        new Chart (CHART_LATEST, getString (R.string.latest)));
+                presenter.onChartClicked (new Chart (CHART_LATEST, getString (R.string.latest)));
                 break;
         }
     }

@@ -2,6 +2,7 @@ package com.winterparadox.themovieapp.favorites;
 
 import android.annotation.SuppressLint;
 
+import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.beans.Favorite;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.room.AppDatabase;
@@ -23,8 +24,8 @@ public class FavoritesPresenterImpl extends FavoritesPresenter {
 
     @SuppressLint("CheckResult")
     @Override
-    public void attachView (FavoritesView view) {
-        super.attachView (view);
+    public void attachView (FavoritesView view, Navigator navigator) {
+        super.attachView (view, navigator);
 
         database.favoriteDao ()
                 .getFavorites ()
@@ -49,5 +50,12 @@ public class FavoritesPresenterImpl extends FavoritesPresenter {
         Completable.fromAction (() -> database.favoriteDao ()
                 .deleteAll (new Favorite (0, movie)))
                 .subscribeOn (Schedulers.io ()).subscribe ();
+    }
+
+    @Override
+    public void onMovieClicked (Movie movie, Object element) {
+        if ( navigator != null ) {
+            navigator.openMovie (movie, element);
+        }
     }
 }

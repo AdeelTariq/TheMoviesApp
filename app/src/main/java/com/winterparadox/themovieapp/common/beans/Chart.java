@@ -1,6 +1,7 @@
 package com.winterparadox.themovieapp.common.beans;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class Chart implements Serializable {
     public Chart () {
     }
 
+    @Ignore
     public Chart (int id, String name) {
 
         this.id = id;

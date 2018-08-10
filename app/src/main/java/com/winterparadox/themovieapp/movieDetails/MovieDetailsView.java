@@ -1,6 +1,6 @@
 package com.winterparadox.themovieapp.movieDetails;
 
-import com.winterparadox.themovieapp.common.base.BaseView;
+import com.winterparadox.themovieapp.arch.BaseView;
 import com.winterparadox.themovieapp.common.beans.Movie;
 
 public interface MovieDetailsView extends BaseView {
