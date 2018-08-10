@@ -22,8 +22,10 @@ public class RecentlyViewedPresenterImpl extends RecentlyViewedPresenter {
 
     @SuppressLint("CheckResult")
     @Override
-    public void attachView (RecentlyViewedView view, Navigator navigator) {
-        super.attachView (view, navigator);
+    public void attachView (RecentlyViewedView v, Navigator navigator) {
+        super.attachView (v, navigator);
+
+        view.showProgress ();
 
         database.recentlyViewedDao ()
                 .getRecent (200)
@@ -34,10 +36,12 @@ public class RecentlyViewedPresenterImpl extends RecentlyViewedPresenter {
                         throwable.printStackTrace ();
                         if ( view != null ) {
                             view.showError (throwable.getMessage ());
+                            view.hideProgress ();
                         }
                     } else {
                         if ( view != null ) {
                             view.showMovies (movies);
+                            view.hideProgress ();
                         }
                     }
                 });

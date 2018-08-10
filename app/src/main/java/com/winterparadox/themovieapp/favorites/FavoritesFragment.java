@@ -55,36 +55,45 @@ public class FavoritesFragment extends Fragment implements FavoritesView,
 
         tvHeader.setText (R.string.favorites);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager (getActivity (),
-                VERTICAL, false);
-        recyclerView.setLayoutManager (linearLayoutManager);
-        DefaultListDecoration decor = new DefaultListDecoration (getActivity (),
-                DividerItemDecoration.VERTICAL);
-        decor.setDefaultOffset (24);
-        decor.setItemPadding (8);
-        recyclerView.addItemDecoration (decor);
-        recyclerView.setHasFixedSize (true);
+        recyclerView.hideShimmerAdapter ();
 
-        recyclerView.setItemViewCacheSize (20);
-        recyclerView.setDrawingCacheEnabled (true);
+        view.postDelayed (() -> {
 
-        movieAdapter = new FavoritesAdapter (this);
-        recyclerView.setAdapter (movieAdapter);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager (getActivity (),
+                    VERTICAL, false);
+            recyclerView.setLayoutManager (linearLayoutManager);
+            DefaultListDecoration decor = new DefaultListDecoration (getActivity (),
+                    DividerItemDecoration.VERTICAL);
+            decor.setDefaultOffset (24);
+            decor.setItemPadding (8);
+            recyclerView.addItemDecoration (decor);
+            recyclerView.setHasFixedSize (true);
 
-        recyclerView.addOnScrollListener (new OnScrollObserver () {
-            @Override
-            public void onScrolling () {
-                scrollIndicator.setVisibility (View.VISIBLE);
-            }
+            recyclerView.setItemViewCacheSize (20);
+            recyclerView.setDrawingCacheEnabled (true);
 
-            @Override
-            public void onScrollToTop () {
-                scrollIndicator.setVisibility (View.GONE);
-            }
-        });
+            movieAdapter = new FavoritesAdapter (this);
+            recyclerView.setAdapter (movieAdapter);
 
+            recyclerView.addOnScrollListener (new OnScrollObserver () {
+                @Override
+                public void onScrolling () {
+                    scrollIndicator.setVisibility (View.VISIBLE);
+                }
 
-        presenter.attachView (this, (Navigator) getActivity ());
+                @Override
+                public void onScrollToTop () {
+                    scrollIndicator.setVisibility (View.GONE);
+                }
+            });
+
+            recyclerView.setDemoLayoutReference (R.layout.layout_movie_list_shimmer_item);
+            recyclerView.setDemoLayoutManager (ShimmerRecyclerView.LayoutMangerType
+                    .LINEAR_VERTICAL);
+            recyclerView.setDemoChildCount (10);
+
+            presenter.attachView (this, (Navigator) getActivity ());
+        }, 300);
 
         return view;
     }
@@ -112,10 +121,12 @@ public class FavoritesFragment extends Fragment implements FavoritesView,
 
     @Override
     public void showProgress () {
+        recyclerView.showShimmerAdapter ();
     }
 
     @Override
     public void hideProgress () {
+        recyclerView.hideShimmerAdapter ();
     }
 
     @Override

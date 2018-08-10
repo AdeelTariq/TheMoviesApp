@@ -306,14 +306,15 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
                 ftx.addSharedElement (sharedElement, sharedElement.getTransitionName ());
             }
 
-            ftx.addToBackStack (tag);
 
-            if ( fragments.size () > 10 ) {
+            if ( fragments.size () >= 10 ) {
                 ftx.replace (R.id.container, fragment, tag);
 
             } else {
                 ftx.add (R.id.container, fragment, tag);
             }
+
+            ftx.addToBackStack (tag);
 
             ftx.commit ();
         }

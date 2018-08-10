@@ -54,35 +54,41 @@ public class RecentlyViewedFragment extends Fragment implements RecentlyViewedVi
 
         tvHeader.setText (R.string.recently_viewed);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager (getActivity (),
-                3, VERTICAL, false);
-        recyclerView.setLayoutManager (gridLayoutManager);
-        RecentMovieDecoration decor = new RecentMovieDecoration (getActivity (),
-                DividerItemDecoration.VERTICAL);
-        decor.setItemPadding (8);
-        decor.setDefaultOffset (24);
-        recyclerView.addItemDecoration (decor);
-        recyclerView.setHasFixedSize (true);
-        recyclerView.setItemViewCacheSize (30);
-        recyclerView.setDrawingCacheEnabled (true);
+        recyclerView.hideShimmerAdapter ();
 
-        movieAdapter = new RecentMoviesAdapter (this);
-        recyclerView.setAdapter (movieAdapter);
+        view.postDelayed (() -> {
 
-        recyclerView.addOnScrollListener (new OnScrollObserver () {
-            @Override
-            public void onScrolling () {
-                scrollIndicator.setVisibility (View.VISIBLE);
-            }
+            GridLayoutManager gridLayoutManager = new GridLayoutManager (getActivity (),
+                    3, VERTICAL, false);
+            recyclerView.setLayoutManager (gridLayoutManager);
 
-            @Override
-            public void onScrollToTop () {
-                scrollIndicator.setVisibility (View.GONE);
-            }
-        });
+            recyclerView.setHasFixedSize (true);
+            recyclerView.setItemViewCacheSize (30);
+            recyclerView.setDrawingCacheEnabled (true);
+
+            movieAdapter = new RecentMoviesAdapter (this);
+            recyclerView.setAdapter (movieAdapter);
+
+            recyclerView.addOnScrollListener (new OnScrollObserver () {
+                @Override
+                public void onScrolling () {
+                    scrollIndicator.setVisibility (View.VISIBLE);
+                }
+
+                @Override
+                public void onScrollToTop () {
+                    scrollIndicator.setVisibility (View.GONE);
+                }
+            });
+
+            recyclerView.setDemoLayoutReference (R.layout.layout_movie_grid_shimmer);
+            recyclerView.setDemoLayoutManager (ShimmerRecyclerView.LayoutMangerType
+                    .LINEAR_VERTICAL);
+            recyclerView.setDemoChildCount (5);
 
 
-        presenter.attachView (this, (Navigator) getActivity ());
+            presenter.attachView (this, (Navigator) getActivity ());
+        }, 300);
 
         return view;
     }
@@ -100,10 +106,19 @@ public class RecentlyViewedFragment extends Fragment implements RecentlyViewedVi
 
     @Override
     public void showProgress () {
+        recyclerView.showShimmerAdapter ();
     }
 
     @Override
     public void hideProgress () {
+        recyclerView.hideShimmerAdapter ();
+
+        // setting decor here to avoid shimmer looking weird
+        RecentMovieDecoration decor = new RecentMovieDecoration (getActivity (),
+                DividerItemDecoration.VERTICAL);
+        decor.setItemPadding (8);
+        decor.setDefaultOffset (24);
+        recyclerView.addItemDecoration (decor);
     }
 
     @Override

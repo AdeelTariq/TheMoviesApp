@@ -24,8 +24,10 @@ public class FavoritesPresenterImpl extends FavoritesPresenter {
 
     @SuppressLint("CheckResult")
     @Override
-    public void attachView (FavoritesView view, Navigator navigator) {
-        super.attachView (view, navigator);
+    public void attachView (FavoritesView v, Navigator navigator) {
+        super.attachView (v, navigator);
+
+        view.showProgress ();
 
         database.favoriteDao ()
                 .getFavorites ()
@@ -36,10 +38,12 @@ public class FavoritesPresenterImpl extends FavoritesPresenter {
                         throwable.printStackTrace ();
                         if ( view != null ) {
                             view.showError (throwable.getMessage ());
+                            view.hideProgress ();
                         }
                     } else {
                         if ( view != null ) {
                             view.showMovies (movies);
+                            view.hideProgress ();
                         }
                     }
                 });

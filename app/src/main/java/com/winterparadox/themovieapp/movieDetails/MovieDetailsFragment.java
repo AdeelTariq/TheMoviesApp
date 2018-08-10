@@ -77,6 +77,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     @BindView(R.id.rvCrew) RecyclerView rvCrew;
     @BindView(R.id.rvSimilar) RecyclerView rvSimilar;
     @BindView(R.id.scrollView) LockableScrollView scrollView;
+    @BindView(R.id.captionSimilar) TextView captionSimilar;
 
     private Movie movie;
     private RequestOptions requestOptions, requestOptionsBackDrop;
@@ -129,6 +130,9 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         View view = inflater.inflate (R.layout.fragment_movie_details, container, false);
         unbinder = ButterKnife.bind (this, view);
 
+        ivBackdrop.setTransitionName (TransitionNames.MOVIE_BACKDROP + movie.id);
+        ivPoster.setTransitionName (TransitionNames.MOVIE_POSTER + movie.id);
+
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager (getActivity (),
                 HORIZONTAL, false);
         rvCast.setLayoutManager (linearLayoutManager1);
@@ -143,10 +147,6 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         rvCast.setItemViewCacheSize (10);
         rvCast.setDrawingCacheEnabled (true);
 
-        castAdapter = new MoviesDetailsCastAdapter (this);
-        rvCast.setAdapter (castAdapter);
-
-
         LinearLayoutManager gridManager = new GridLayoutManager (getActivity (), 2,
                 HORIZONTAL, false);
         rvCrew.setLayoutManager (gridManager);
@@ -157,9 +157,6 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         rvCrew.setHasFixedSize (true);
 
         rvCrew.addItemDecoration (decorCrew);
-        crewAdapter = new MoviesDetailsCrewAdapter (this);
-        rvCrew.setAdapter (crewAdapter);
-
 
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager (getActivity (),
                 HORIZONTAL, false);
@@ -168,6 +165,15 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         rvSimilar.setHasFixedSize (true);
         rvSimilar.setItemViewCacheSize (10);
         rvSimilar.setDrawingCacheEnabled (true);
+
+
+        castAdapter = new MoviesDetailsCastAdapter (this);
+        rvCast.setAdapter (castAdapter);
+
+
+        crewAdapter = new MoviesDetailsCrewAdapter (this);
+        rvCrew.setAdapter (crewAdapter);
+
 
         movieAdapter = new HorizontalMoviesAdapter (this);
         rvSimilar.setAdapter (movieAdapter);
@@ -204,8 +210,6 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         tvPlot.setText (movie.overview);
         circularVotes.setProgress (movie.voteAverage * 10, 100);
 
-        ivBackdrop.setTransitionName (TransitionNames.MOVIE_BACKDROP + movie.id);
-        ivPoster.setTransitionName (TransitionNames.MOVIE_POSTER + movie.id);
     }
 
     @Override
@@ -218,6 +222,11 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         castAdapter.setItems (movie.credits.cast);
         crewAdapter.setItems (movie.credits.crew);
         movieAdapter.setItems (movie.similar.movies);
+
+        if ( movieAdapter.getItemCount () == 0 ) {
+            rvSimilar.setVisibility (View.GONE);
+            captionSimilar.setVisibility (View.GONE);
+        }
     }
 
     @OnClick({R.id.btnAdd, R.id.captionAdd})
