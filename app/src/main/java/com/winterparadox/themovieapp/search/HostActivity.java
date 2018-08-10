@@ -221,6 +221,7 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
      */
     public void onMenuClick (View v) {
         backDropNavigationListener.toggle ();
+
         switch ( v.getId () ) {
 
             case R.id.action_history:

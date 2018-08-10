@@ -13,6 +13,7 @@ import io.reactivex.Single;
 
 import static com.winterparadox.themovieapp.common.beans.Chart.CHART_LATEST;
 import static com.winterparadox.themovieapp.common.beans.Chart.CHART_POPULAR;
+import static com.winterparadox.themovieapp.common.beans.Chart.CHART_TOP_RATED;
 
 public class ChartMovieListPresenterImpl extends ChartMovieListPresenter {
 
@@ -59,8 +60,11 @@ public class ChartMovieListPresenterImpl extends ChartMovieListPresenter {
             case CHART_LATEST:
                 movieSingle = api.latestMovies (page);
                 break;
-            default:
+            case CHART_TOP_RATED:
                 movieSingle = api.topRatedMovies (page);
+                break;
+            default:
+                movieSingle = api.topRatedInGenre (chart.id, page);
                 break;
         }
 

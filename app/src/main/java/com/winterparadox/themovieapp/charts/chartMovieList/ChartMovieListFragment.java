@@ -88,6 +88,9 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
         recyclerView.addItemDecoration (decor);
         recyclerView.setHasFixedSize (true);
 
+        recyclerView.setItemViewCacheSize (20);
+        recyclerView.setDrawingCacheEnabled (true);
+
         recyclerView.setDemoChildCount (10);
         recyclerView.setDemoLayoutReference (R.layout.layout_movie_list_shimmer_item);
 

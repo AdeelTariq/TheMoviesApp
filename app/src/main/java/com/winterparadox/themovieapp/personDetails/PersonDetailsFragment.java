@@ -129,6 +129,8 @@ public class PersonDetailsFragment extends Fragment implements PersonDetailsView
         rvCredits.setLayoutManager (linearLayoutManager);
         rvCredits.addItemDecoration (decor);
         rvCredits.setHasFixedSize (true);
+        rvCredits.setItemViewCacheSize (10);
+        rvCredits.setDrawingCacheEnabled (true);
         movieAdapter = new HorizontalMoviesAdapter (this);
         rvCredits.setAdapter (movieAdapter);
 
@@ -137,6 +139,8 @@ public class PersonDetailsFragment extends Fragment implements PersonDetailsView
                 HORIZONTAL, false);
         rvImages.setLayoutManager (linearLayoutManager2);
         rvImages.addItemDecoration (decor);
+        rvImages.setItemViewCacheSize (10);
+        rvImages.setDrawingCacheEnabled (true);
         imageAdapter = new ImagesAdapter (this);
         rvImages.setAdapter (imageAdapter);
 

@@ -13,4 +13,6 @@ public interface ChartMovieListApiInteractor {
     Single<List<Movie>> latestMovies (int page);
 
     Single<List<Movie>> topRatedMovies (int page);
+
+    Single<List<Movie>> topRatedInGenre (int genre, int page);
 }

@@ -33,9 +33,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 import static android.widget.GridLayout.VERTICAL;
-import static com.winterparadox.themovieapp.common.beans.Chart.CHART_LATEST;
-import static com.winterparadox.themovieapp.common.beans.Chart.CHART_POPULAR;
-import static com.winterparadox.themovieapp.common.beans.Chart.CHART_TOP_RATED;
 
 public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapter.ClickListener {
 
@@ -59,18 +56,9 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
 
         tvHeader.setText (R.string.charts);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager (getActivity (),
-                VERTICAL, false);
-        recyclerView.setLayoutManager (linearLayoutManager);
-        DefaultListDecoration decor = new DefaultListDecoration (getActivity (),
-                DividerItemDecoration.VERTICAL);
-        decor.setDefaultOffset (24);
-        decor.setItemPadding (8);
-        recyclerView.addItemDecoration (decor);
-        recyclerView.setHasFixedSize (true);
-
         chartsAdapter = new ChartsAdapter (this,
                 presenter::fetchChartData);
+
 
         recyclerView.setAdapter (chartsAdapter);
 
@@ -86,7 +74,23 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
             }
         });
 
-        presenter.attachView (this, ((Navigator) getActivity ()));
+        view.postDelayed (() -> {
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager (getActivity (),
+                    VERTICAL, false);
+            recyclerView.setLayoutManager (linearLayoutManager);
+            DefaultListDecoration decor = new DefaultListDecoration (getActivity (),
+                    DividerItemDecoration.VERTICAL);
+            decor.setDefaultOffset (24);
+            decor.setItemPadding (8);
+            recyclerView.addItemDecoration (decor);
+            recyclerView.setHasFixedSize (true);
+
+            recyclerView.setItemViewCacheSize (20);
+            recyclerView.setDrawingCacheEnabled (true);
+
+            presenter.attachView (this, ((Navigator) getActivity ()));
+        }, 300);
 
         return view;
     }
@@ -110,11 +114,7 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
 
     @Override
     public void onChartClick (Chart chart) {
-        if ( chart.id == CHART_POPULAR ||
-                chart.id == CHART_LATEST ||
-                chart.id == CHART_TOP_RATED ) {
-            presenter.onChartClicked (chart);
-        }
+        presenter.onChartClicked (chart);
     }
 
     @Override

@@ -63,7 +63,7 @@ public class HostApiInteractorImpl implements HostApiInteractor {
 
     @Override
     public Single<Chart> genreMovieBackdrop (Chart chart) {
-        return chartService.popularInGenre (chart.id, 1)
+        return chartService.topRatedInGenre (chart.id, 1)
                 .subscribeOn (Schedulers.io ())
                 .map (moviesResponse -> {
                     Movie movie = moviesResponse.results.get (0);

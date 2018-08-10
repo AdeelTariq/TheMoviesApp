@@ -63,6 +63,9 @@ public class RecentlyViewedFragment extends Fragment implements RecentlyViewedVi
         decor.setDefaultOffset (24);
         recyclerView.addItemDecoration (decor);
         recyclerView.setHasFixedSize (true);
+        recyclerView.setItemViewCacheSize (30);
+        recyclerView.setDrawingCacheEnabled (true);
+
         movieAdapter = new RecentMoviesAdapter (this);
         recyclerView.setAdapter (movieAdapter);
 

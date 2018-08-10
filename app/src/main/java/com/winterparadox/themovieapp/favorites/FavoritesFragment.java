@@ -64,6 +64,10 @@ public class FavoritesFragment extends Fragment implements FavoritesView,
         decor.setItemPadding (8);
         recyclerView.addItemDecoration (decor);
         recyclerView.setHasFixedSize (true);
+
+        recyclerView.setItemViewCacheSize (20);
+        recyclerView.setDrawingCacheEnabled (true);
+
         movieAdapter = new FavoritesAdapter (this);
         recyclerView.setAdapter (movieAdapter);
 

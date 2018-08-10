@@ -88,6 +88,10 @@ public class HomeFragment extends Fragment implements HomeView, HomeMoviesAdapte
         dividerItemDecoration.setDefaultOffset (24);
         recyclerView.addItemDecoration (dividerItemDecoration);
 
+        recyclerView.setItemViewCacheSize (20);
+        recyclerView.setDrawingCacheEnabled (true);
+
+
         moviesAdapter = new HomeMoviesAdapter (this, presenter::fetchData);
         recyclerView.setAdapter (moviesAdapter);
 
