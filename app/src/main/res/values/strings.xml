@@ -26,4 +26,5 @@
     <string name="latest">Latest</string>
     <string name="top_rated">Top Rated</string>
     <string name="no_charts_err">Something is amiss. Please connect to an internet connection and try again.</string>
+    <string name="images">Images</string>
 </resources>

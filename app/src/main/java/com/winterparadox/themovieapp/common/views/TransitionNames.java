@@ -6,4 +6,5 @@ public class TransitionNames {
     public static final String MOVIE_BACKDROP = "movie_backdrop_";
     public static final String PERSON_PROFILE = "person_profile_";
     public static final String PERSON_NAME = "person_name_";
+    public static final String PERSON_IMAGE = "person_image_";
 }

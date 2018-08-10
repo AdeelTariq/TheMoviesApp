@@ -8,6 +8,6 @@ import retrofit2.http.Path;
 
 public interface PersonApiService {
 
-    @GET("person/{id}?append_to_response=movie_credits")
+    @GET("person/{id}?append_to_response=movie_credits,tagged_images")
     Single<Person> personDetails (@Path("id") int personId);
 }

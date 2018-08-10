@@ -4,7 +4,7 @@ import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface SearchApi {
+public interface SearchApiService {
 
 
     @GET("search/multi")

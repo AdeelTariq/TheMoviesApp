@@ -62,6 +62,10 @@ public class PersonDetailsPresenterImpl extends PersonDetailsPresenter {
                         view.showAdditionalDetails (person1.bio, person1.knownFor,
                                 String.valueOf (sorted.size ()), sublist);
 
+                        if ( !person1.images.all.isEmpty () ) {
+                            view.showImages (person1.images.all);
+                        }
+
                         view.hideProgress ();
                     }
 

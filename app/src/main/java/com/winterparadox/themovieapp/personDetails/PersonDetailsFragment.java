@@ -12,6 +12,7 @@ import android.support.transition.TransitionSet;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.GlideApp;
+import com.winterparadox.themovieapp.common.beans.Image;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.Person;
 import com.winterparadox.themovieapp.common.views.DefaultHorizontalItemDecoration;
@@ -47,7 +49,7 @@ import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.IMAGE;
 import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.LARGE_PROFILE;
 
 public class PersonDetailsFragment extends Fragment implements PersonDetailsView,
-        HorizontalMoviesAdapter.ClickListener {
+        HorizontalMoviesAdapter.ClickListener, ImagesAdapter.ClickListener {
 
     private static final String PERSON = "person";
     @BindView(R.id.tvName) TextView tvName;
@@ -58,10 +60,13 @@ public class PersonDetailsFragment extends Fragment implements PersonDetailsView
     @BindView(R.id.rvCredits) ShimmerRecyclerView rvCredits;
     @BindView(R.id.shimmerBio) ShimmerLayout shimmerLayout;
     Unbinder unbinder;
+    @BindView(R.id.captionImages) TextView captionImages;
+    @BindView(R.id.rvImages) RecyclerView rvImages;
     private Person person;
     private HorizontalMoviesAdapter movieAdapter;
 
     @Inject PersonDetailsPresenter presenter;
+    private ImagesAdapter imageAdapter;
 
     public static PersonDetailsFragment instance (Person person) {
         PersonDetailsFragment personDetailsFragment = new PersonDetailsFragment ();
@@ -128,6 +133,15 @@ public class PersonDetailsFragment extends Fragment implements PersonDetailsView
         rvCredits.setAdapter (movieAdapter);
 
 
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager (getActivity (),
+                HORIZONTAL, false);
+        rvImages.setLayoutManager (linearLayoutManager2);
+        rvImages.addItemDecoration (decor);
+        imageAdapter = new ImagesAdapter (this);
+        rvImages.setAdapter (imageAdapter);
+
+
+
         presenter.attachView (this, person, ((Navigator) getActivity ()));
 
         return view;
@@ -151,8 +165,21 @@ public class PersonDetailsFragment extends Fragment implements PersonDetailsView
     }
 
     @Override
+    public void showImages (List<Image> all) {
+        captionImages.setVisibility (View.VISIBLE);
+        rvImages.setVisibility (View.VISIBLE);
+
+        imageAdapter.setItems (all);
+    }
+
+    @Override
     public void onMovieClick (Movie movie, View element) {
         presenter.onMovieClicked (movie, element);
+    }
+
+    @Override
+    public void onImageClick (Image image, View element) {
+
     }
 
     @Override

@@ -1,11 +1,6 @@
 package com.winterparadox.themovieapp.common.beans;
 
-import android.arch.persistence.room.TypeConverter;
-import android.arch.persistence.room.TypeConverters;
-
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
-import com.winterparadox.themovieapp.common.Singleton;
 
 import java.io.Serializable;
 import java.util.List;
@@ -36,7 +31,9 @@ public class Person implements Serializable {
     @SerializedName("adult")
     public boolean adult;
 
-    @TypeConverters(Person.class)
+    @SerializedName("tagged_images")
+    public TaggedImages images;
+
     @SerializedName("movie_credits")
     public MovieCredits credits;
 
@@ -44,6 +41,11 @@ public class Person implements Serializable {
     public static class MovieCredits {
         public List<Movie> cast;
         public List<Movie> crew;
+    }
+
+    public static class TaggedImages {
+        @SerializedName("results")
+        public List<Image> all;
     }
 
     @Override
@@ -59,17 +61,4 @@ public class Person implements Serializable {
                         ",adult = '" + adult + '\'' +
                         "}";
     }
-
-
-    @TypeConverter
-    public static MovieCredits storedStringToCredits (String value) {
-        return Singleton.gson.fromJson (value, new TypeToken<MovieCredits> () {
-        }.getType ());
-    }
-
-    @TypeConverter
-    public static String creditsToStoredString (MovieCredits movieCredits) {
-        return Singleton.gson.toJson (movieCredits);
-    }
-
 }
