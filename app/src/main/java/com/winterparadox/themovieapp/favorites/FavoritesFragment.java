@@ -1,11 +1,12 @@
 package com.winterparadox.themovieapp.favorites;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +29,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
-import static android.widget.GridLayout.VERTICAL;
 
 
 public class FavoritesFragment extends Fragment implements FavoritesView,
@@ -59,11 +58,19 @@ public class FavoritesFragment extends Fragment implements FavoritesView,
 
         view.postDelayed (() -> {
 
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager (getActivity (),
-                    VERTICAL, false);
-            recyclerView.setLayoutManager (linearLayoutManager);
+            GridLayoutManager gridLayoutManager;
+
+            if ( getActivity ().getResources ().getConfiguration ().orientation == Configuration
+                    .ORIENTATION_PORTRAIT ) {
+                gridLayoutManager = new GridLayoutManager (getActivity (), 1);
+
+            } else {
+                gridLayoutManager = new GridLayoutManager (getActivity (), 2);
+            }
+
+            recyclerView.setLayoutManager (gridLayoutManager);
             DefaultListDecoration decor = new DefaultListDecoration (getActivity (),
-                    DividerItemDecoration.VERTICAL);
+                    DividerItemDecoration.VERTICAL, gridLayoutManager.getSpanCount ());
             decor.setDefaultOffset (24);
             decor.setItemPadding (8);
             recyclerView.addItemDecoration (decor);
@@ -88,9 +95,9 @@ public class FavoritesFragment extends Fragment implements FavoritesView,
             });
 
             recyclerView.setDemoLayoutReference (R.layout.layout_movie_list_shimmer_item);
-            recyclerView.setDemoLayoutManager (ShimmerRecyclerView.LayoutMangerType
-                    .LINEAR_VERTICAL);
             recyclerView.setDemoChildCount (10);
+            recyclerView.setDemoLayoutManager (ShimmerRecyclerView.LayoutMangerType.GRID);
+            recyclerView.setGridChildCount (gridLayoutManager.getSpanCount ());
 
             presenter.attachView (this, (Navigator) getActivity ());
         }, 300);

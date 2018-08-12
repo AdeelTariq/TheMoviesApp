@@ -1,5 +1,6 @@
 package com.winterparadox.themovieapp.charts;
 
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Bundle;
@@ -7,7 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +32,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
-import static android.widget.GridLayout.VERTICAL;
 
 public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapter.ClickListener {
 
@@ -76,16 +75,28 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
 
         view.postDelayed (() -> {
 
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager (getActivity (),
-                    VERTICAL, false);
-            recyclerView.setLayoutManager (linearLayoutManager);
+            GridLayoutManager gridLayoutManager;
+
+            if ( getActivity ().getResources ().getConfiguration ().orientation == Configuration
+                    .ORIENTATION_PORTRAIT ) {
+                gridLayoutManager = new GridLayoutManager (getActivity (), 1);
+
+            } else {
+                gridLayoutManager = new GridLayoutManager (getActivity (), 2);
+            }
+
+            recyclerView.setLayoutManager (gridLayoutManager);
+
             DefaultListDecoration decor = new DefaultListDecoration (getActivity (),
-                    DividerItemDecoration.VERTICAL);
+                    DividerItemDecoration.VERTICAL, gridLayoutManager.getSpanCount ());
             decor.setDefaultOffset (24);
             decor.setItemPadding (8);
             recyclerView.addItemDecoration (decor);
             recyclerView.setHasFixedSize (true);
 
+            recyclerView.setGridChildCount (gridLayoutManager.getSpanCount ());
+            recyclerView.setDemoLayoutManager (ShimmerRecyclerView.LayoutMangerType.GRID);
+            recyclerView.setGridChildCount (gridLayoutManager.getSpanCount ());
             recyclerView.setItemViewCacheSize (20);
             recyclerView.setDrawingCacheEnabled (true);
 

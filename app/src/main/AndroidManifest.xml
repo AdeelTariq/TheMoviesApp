@@ -15,8 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Movies">
         <activity
-            android:name=".search.HostActivity"
-            android:screenOrientation="userPortrait">
+            android:configChanges="screenLayout"
+            android:name=".search.HostActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

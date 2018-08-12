@@ -77,8 +77,8 @@ public class ChartMovieListPresenterImpl extends ChartMovieListPresenter {
                             view.hideProgress ();
 
                         } else {
-                            view.addMovies (movies);
                             view.hidePageProgress ();
+                            view.addMovies (movies);
                         }
                     }
 
@@ -89,8 +89,8 @@ public class ChartMovieListPresenterImpl extends ChartMovieListPresenter {
                             view.hideProgress ();
 
                         } else {
-                            view.showMessage (throwable.getMessage ());
                             view.hidePageProgress ();
+                            view.showMessage (throwable.getMessage ());
                         }
                     }
                     throwable.printStackTrace ();

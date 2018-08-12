@@ -11,8 +11,11 @@ import static com.winterparadox.themovieapp.common.UiUtils.dpToPx;
 
 public class RecentMovieDecoration extends DefaultItemDecoration {
 
-    RecentMovieDecoration (Context context, int orientation) {
+    private final int spanCount;
+
+    RecentMovieDecoration (Context context, int orientation, int spanCount) {
         super (context, orientation);
+        this.spanCount = spanCount;
     }
 
     private int itemPadding;
@@ -28,28 +31,48 @@ public class RecentMovieDecoration extends DefaultItemDecoration {
         outRect.right = (int) dpToPx (defaultOffset);
         outRect.bottom = (int) dpToPx (itemPadding);
 
-        if ( parent.getChildAdapterPosition (view) == 0 ) {
-            outRect.top = (int) dpToPx (itemPadding);
-        }
-        if ( parent.getChildAdapterPosition (view) == 1 ) {
-            outRect.top = (int) dpToPx (itemPadding);
-        }
-        if ( parent.getChildAdapterPosition (view) == 2 ) {
+
+        if ( parent.getChildAdapterPosition (view) < spanCount ) {
             outRect.top = (int) dpToPx (itemPadding);
         }
 
-        int i = parent.getChildAdapterPosition (view) % 3;
-        if ( i == 1 ) {
-            outRect.right = (int) dpToPx (itemPadding);
-            outRect.left = (int) dpToPx (itemPadding);
-        }
+        if ( spanCount == 3 ) {
 
-        if ( i == 0 ) {
-            outRect.right = 0;
-        }
+            int i = parent.getChildAdapterPosition (view) % 3;
+            if ( i == 1 ) {
+                outRect.right = (int) dpToPx (itemPadding);
+                outRect.left = (int) dpToPx (itemPadding);
+            }
 
-        if ( i == 2 ) {
-            outRect.left = 0;
+            if ( i == 0 ) {
+                outRect.right = 0;
+            }
+
+            if ( i == 2 ) {
+                outRect.left = 0;
+            }
+
+        } else if ( spanCount == 4 ) {
+
+            int i = parent.getChildAdapterPosition (view) % 4;
+            if ( i == 0 ) {
+                outRect.right = 0;
+            }
+
+            if ( i == 1 ) {
+                outRect.right = (int) dpToPx (itemPadding);
+                outRect.left = (int) dpToPx (itemPadding * 2);
+            }
+
+            if ( i == 2 ) {
+                outRect.right = (int) dpToPx (itemPadding * 2);
+                outRect.left = (int) dpToPx (itemPadding);
+            }
+
+            if ( i == 3 ) {
+                outRect.left = 0;
+            }
+
         }
     }
 }

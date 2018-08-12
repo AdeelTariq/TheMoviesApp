@@ -43,8 +43,8 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
 
     @SuppressLint("CheckResult")
     @Override
-    void attachView (MovieDetailsView view, Movie movie, Navigator activity) {
-        super.attachView (view, movie, activity);
+    void attachView (MovieDetailsView view, Movie movie, Navigator nav) {
+        super.attachView (view, movie, nav);
 
         Completable.fromAction (() -> database.movieDao ().insertAll (movie))
                 .andThen ((CompletableSource) cs -> database.recentlyViewedDao ()

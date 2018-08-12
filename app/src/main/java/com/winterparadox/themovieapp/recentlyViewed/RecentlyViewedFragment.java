@@ -1,5 +1,6 @@
 package com.winterparadox.themovieapp.recentlyViewed;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,8 +28,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
-import static android.widget.GridLayout.VERTICAL;
 
 
 public class RecentlyViewedFragment extends Fragment implements RecentlyViewedView,
@@ -58,9 +57,24 @@ public class RecentlyViewedFragment extends Fragment implements RecentlyViewedVi
 
         view.postDelayed (() -> {
 
-            GridLayoutManager gridLayoutManager = new GridLayoutManager (getActivity (),
-                    3, VERTICAL, false);
+            GridLayoutManager gridLayoutManager;
+
+            if ( getActivity ().getResources ().getConfiguration ().orientation == Configuration
+                    .ORIENTATION_PORTRAIT ) {
+                gridLayoutManager = new GridLayoutManager (getActivity (), 3);
+
+            } else {
+                gridLayoutManager = new GridLayoutManager (getActivity (), 4);
+            }
+
             recyclerView.setLayoutManager (gridLayoutManager);
+
+            RecentMovieDecoration decor = new RecentMovieDecoration (getActivity (),
+                    DividerItemDecoration.VERTICAL,
+                    ((GridLayoutManager) recyclerView.getLayoutManager ()).getSpanCount ());
+            decor.setItemPadding (8);
+            decor.setDefaultOffset (24);
+            recyclerView.addItemDecoration (decor);
 
             recyclerView.setHasFixedSize (true);
             recyclerView.setItemViewCacheSize (30);
@@ -81,10 +95,10 @@ public class RecentlyViewedFragment extends Fragment implements RecentlyViewedVi
                 }
             });
 
-            recyclerView.setDemoLayoutReference (R.layout.layout_movie_grid_shimmer);
-            recyclerView.setDemoLayoutManager (ShimmerRecyclerView.LayoutMangerType
-                    .LINEAR_VERTICAL);
-            recyclerView.setDemoChildCount (5);
+            recyclerView.setDemoLayoutReference (R.layout.layout_movie_small_shimmer_item);
+            recyclerView.setDemoLayoutManager (ShimmerRecyclerView.LayoutMangerType.GRID);
+            recyclerView.setDemoChildCount (15);
+            recyclerView.setGridChildCount (gridLayoutManager.getSpanCount ());
 
 
             presenter.attachView (this, (Navigator) getActivity ());
@@ -112,13 +126,6 @@ public class RecentlyViewedFragment extends Fragment implements RecentlyViewedVi
     @Override
     public void hideProgress () {
         recyclerView.hideShimmerAdapter ();
-
-        // setting decor here to avoid shimmer looking weird
-        RecentMovieDecoration decor = new RecentMovieDecoration (getActivity (),
-                DividerItemDecoration.VERTICAL);
-        decor.setItemPadding (8);
-        decor.setDefaultOffset (24);
-        recyclerView.addItemDecoration (decor);
     }
 
     @Override

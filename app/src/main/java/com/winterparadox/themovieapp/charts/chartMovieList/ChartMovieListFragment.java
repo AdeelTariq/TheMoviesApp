@@ -1,5 +1,6 @@
 package com.winterparadox.themovieapp.charts.chartMovieList;
 
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Bundle;
@@ -7,7 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,8 +35,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
-import static android.widget.GridLayout.VERTICAL;
 
 public class ChartMovieListFragment extends Fragment implements ChartMovieListView,
         ChartMovieListAdapter.ClickListener {
@@ -77,12 +76,20 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
 
         tvHeader.setText (chart.name);
 
+        GridLayoutManager gridLayoutManager;
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager (getActivity (),
-                VERTICAL, false);
-        recyclerView.setLayoutManager (linearLayoutManager);
+        if ( getActivity ().getResources ().getConfiguration ().orientation == Configuration
+                .ORIENTATION_PORTRAIT ) {
+            gridLayoutManager = new GridLayoutManager (getActivity (), 1);
+
+        } else {
+            gridLayoutManager = new GridLayoutManager (getActivity (), 2);
+        }
+
+        recyclerView.setLayoutManager (gridLayoutManager);
+
         DefaultListDecoration decor = new DefaultListDecoration (getActivity (),
-                DividerItemDecoration.VERTICAL);
+                DividerItemDecoration.VERTICAL, gridLayoutManager.getSpanCount ());
         decor.setDefaultOffset (24);
         decor.setItemPadding (8);
         recyclerView.addItemDecoration (decor);
@@ -92,7 +99,9 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
         recyclerView.setDrawingCacheEnabled (true);
 
         recyclerView.setDemoChildCount (10);
+        recyclerView.setDemoLayoutManager (ShimmerRecyclerView.LayoutMangerType.GRID);
         recyclerView.setDemoLayoutReference (R.layout.layout_movie_list_shimmer_item);
+        recyclerView.setGridChildCount (gridLayoutManager.getSpanCount ());
 
         movieListAdapter = new ChartMovieListAdapter (this, presenter::fetchData);
 
@@ -113,7 +122,7 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
 
         presenter.attachView (this, chart, (Navigator) getActivity ());
 
-        scrollListener = new EndlessRecyclerViewScrollListener (linearLayoutManager) {
+        scrollListener = new EndlessRecyclerViewScrollListener (gridLayoutManager) {
             @Override
             public void onLoadMore (int page, int totalItemsCount, RecyclerView view) {
                 presenter.fetchDataPage (page);
@@ -158,12 +167,12 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
 
     @Override
     public void showPageProgress () {
-        movieListAdapter.setProgress (true);
+        recyclerView.post (() -> movieListAdapter.setProgress (true));
     }
 
     @Override
     public void hidePageProgress () {
-        movieListAdapter.setProgress (false);
+        recyclerView.post (() -> movieListAdapter.setProgress (false));
     }
 
     @Override

@@ -62,13 +62,9 @@ public class ChartMovieListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         notifyDataSetChanged ();
     }
 
-    public void setProgress (boolean show) {
+    public synchronized void setProgress (boolean show) {
         showProgress = show;
-        if ( showProgress ) {
-            notifyItemInserted (items.size ());
-        } else {
-            notifyItemRemoved (items.size ());
-        }
+        notifyItemChanged (items.size ());
     }
 
 

@@ -74,7 +74,7 @@ dependencies {
 
     // Others
     implementation 'cat.ereza:customactivityoncrash:2.2.0'
-    implementation ('com.github.sharish:ShimmerRecyclerView:v1.2') {
+    implementation ('com.github.AdeelTariq:ShimmerRecyclerView:6b2f7e3d4c') {
         exclude group: 'com.android.support'
     }
     implementation 'com.github.antonKozyriatskyi:CircularProgressIndicator:1.1.3'

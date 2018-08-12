@@ -9,11 +9,14 @@ import static com.winterparadox.themovieapp.common.UiUtils.dpToPx;
 
 public class DefaultListDecoration extends DefaultItemDecoration {
 
-    public DefaultListDecoration (Context context, int orientation) {
+    private int spanCount;
+
+    public DefaultListDecoration (Context context, int orientation, int spanCount) {
         super (context, orientation);
+        this.spanCount = spanCount;
     }
 
-    int itemPadding;
+    private int itemPadding;
 
     public void setItemPadding (int itemPadding) {
         this.itemPadding = itemPadding;
@@ -25,5 +28,14 @@ public class DefaultListDecoration extends DefaultItemDecoration {
         outRect.left = (int) dpToPx (defaultOffset);
         outRect.right = (int) dpToPx (defaultOffset);
         outRect.top = (int) dpToPx (itemPadding);
+
+        if ( spanCount == 2 ) {
+
+            if ( parent.getChildLayoutPosition (view) % 2 == 0 )
+                outRect.right = (int) dpToPx (itemPadding);
+
+            if ( parent.getChildLayoutPosition (view) % 2 == 1 )
+                outRect.left = (int) dpToPx (itemPadding);
+        }
     }
 }

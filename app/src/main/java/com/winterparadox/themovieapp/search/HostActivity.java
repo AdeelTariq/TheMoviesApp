@@ -105,8 +105,10 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
 
         presenter.attachView (this, this);
 
-        getSupportFragmentManager ().beginTransaction ()
-                .add (R.id.container, new HomeFragment (), "home").commit ();
+        if ( savedInstanceState == null ) {
+            getSupportFragmentManager ().beginTransaction ()
+                    .add (R.id.container, new HomeFragment (), "home").commit ();
+        }
 
     }
 

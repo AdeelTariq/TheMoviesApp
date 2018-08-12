@@ -11,10 +11,11 @@
     <LinearLayout
         android:id="@+id/backdropHolder"
         style="@style/Widget.Movies.Backdrop"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="88dp"
+        android:paddingTop="32dp"
         android:paddingBottom="96dp">
 
 
