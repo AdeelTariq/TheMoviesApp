@@ -14,4 +14,6 @@ public interface ChartMovieListView extends BaseView {
     void showPageProgress ();
 
     void hidePageProgress ();
+
+    void restoreMovies (int visiblePos, List items, int page);
 }

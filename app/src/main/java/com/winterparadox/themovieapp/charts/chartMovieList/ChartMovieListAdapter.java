@@ -15,7 +15,6 @@ import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.GlideApp;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.views.ErrorViewHolder;
-import com.winterparadox.themovieapp.common.views.ProgressViewHolder;
 import com.winterparadox.themovieapp.common.views.TransitionNames;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.SMALL_POS
 
 public class ChartMovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int ERROR = 0, MOVIE = 1, PROGRESS = 2;
+    private static final int ERROR = 0, MOVIE = 1;
     private List<Object> items;
     private ClickListener listener;
     private ErrorViewHolder.OnClickListener retryListener;
@@ -62,15 +61,19 @@ public class ChartMovieListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         notifyDataSetChanged ();
     }
 
-    public synchronized void setProgress (boolean show) {
+    /**
+     * should be called before adding more items when paginating
+     *
+     * @param show
+     */
+    public void setProgress (boolean show) {
         showProgress = show;
-        notifyItemChanged (items.size ());
+        notifyItemChanged (items.size () - 1);
     }
 
 
     @Override
     public int getItemViewType (int position) {
-        if ( position == items.size () ) return PROGRESS;
         return items.get (position) instanceof String ? ERROR : MOVIE;
     }
 
@@ -83,9 +86,6 @@ public class ChartMovieListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if ( type == ERROR ) {
             View view0 = inflater.inflate (R.layout.item_error, viewGroup, false);
             return new ErrorViewHolder (view0, retryListener);
-        } else if ( type == PROGRESS ) {
-            View view0 = inflater.inflate (R.layout.item_page_progress, viewGroup, false);
-            return new ProgressViewHolder (view0);
         } else {
             View view1 = inflater.inflate (R.layout.item_movie_list,
                     viewGroup, false);
@@ -100,13 +100,15 @@ public class ChartMovieListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         } else if ( itemHolder instanceof MovieItemHolder ) {
             Movie movie = (Movie) items.get (i);
-            bindMovie (((MovieItemHolder) itemHolder), movie, String.valueOf (i + 1));
+            bindMovie (((MovieItemHolder) itemHolder), movie,
+                    String.valueOf (i + 1), i == items.size () - 1 && showProgress);
 
         }
         // else do nothing if it's the progress item
     }
 
-    private void bindMovie (MovieItemHolder itemHolder, Movie movie, String number) {
+    private void bindMovie (MovieItemHolder itemHolder, Movie movie, String number,
+                            boolean progress) {
 
         GlideApp.with (itemHolder.itemView)
                 .load (Uri.parse (IMAGE + SMALL_POSTER + movie.posterPath))
@@ -118,16 +120,22 @@ public class ChartMovieListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         itemHolder.title.setText (movie.title);
         itemHolder.plot.setText (movie.overview);
 
-        itemHolder.itemView.setOnClickListener (v -> listener.onMovieClick (movie, itemHolder
+        itemHolder.item.setOnClickListener (v -> listener.onMovieClick (movie, itemHolder
                 .thumbnail));
 
         itemHolder.number.setText (number);
+
+        itemHolder.pageProgress.setVisibility (progress ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public int getItemCount () {
         // if showProgress is On then add one item at the bottom for progress
-        return (items == null ? 0 : items.size ()) + (showProgress ? 1 : 0);
+        return items == null ? 0 : items.size ();
+    }
+
+    public List<Object> getItems () {
+        return items;
     }
 
     static class MovieItemHolder extends RecyclerView.ViewHolder {
@@ -136,7 +144,9 @@ public class ChartMovieListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         @BindView(R.id.title) TextView title;
         @BindView(R.id.number) AppCompatTextView number;
         @BindView(R.id.plot) TextView plot;
+        @BindView(R.id.item) View item;
         @BindView(R.id.favorite) LottieAnimationView hidden;
+        @BindView(R.id.pageProgress) View pageProgress;
 
         MovieItemHolder (@NonNull View itemView) {
             super (itemView);

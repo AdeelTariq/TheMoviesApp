@@ -24,6 +24,8 @@ import com.winterparadox.themovieapp.search.HostApiInteractor;
 import com.winterparadox.themovieapp.search.HostPresenter;
 import com.winterparadox.themovieapp.search.HostPresenterImpl;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.Scheduler;
@@ -83,6 +85,7 @@ public class PresenterModule {
     }
 
     @Provides
+    @Singleton
     public ChartMovieListPresenter provideChartListPresenter (ChartMovieListApiInteractor
                                                                           interactor,
                                                               Scheduler mainScheduler) {

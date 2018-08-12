@@ -93,7 +93,6 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
         decor.setDefaultOffset (24);
         decor.setItemPadding (8);
         recyclerView.addItemDecoration (decor);
-        recyclerView.setHasFixedSize (true);
 
         recyclerView.setItemViewCacheSize (20);
         recyclerView.setDrawingCacheEnabled (true);
@@ -119,23 +118,28 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
             }
         });
 
-
-        presenter.attachView (this, chart, (Navigator) getActivity ());
-
         scrollListener = new EndlessRecyclerViewScrollListener (gridLayoutManager) {
             @Override
             public void onLoadMore (int page, int totalItemsCount, RecyclerView view) {
                 presenter.fetchDataPage (page);
             }
         };
+
+        presenter.attachView (this, chart, (Navigator) getActivity ());
+
         recyclerView.addOnScrollListener (scrollListener);
 
         return view;
     }
 
+
     @Override
     public void onDestroyView () {
         super.onDestroyView ();
+        int visibleItemPosition = ((GridLayoutManager) recyclerView.getLayoutManager ())
+                .findFirstVisibleItemPosition ();
+        List<Object> items = movieListAdapter.getItems ();
+        presenter.saveState (visibleItemPosition, items);
         presenter.detachView ();
         unbinder.unbind ();
     }
@@ -143,6 +147,19 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
     @Override
     public void showMovies (List<Movie> movies) {
         movieListAdapter.setItems (movies);
+    }
+
+    @Override
+    public void restoreMovies (int visiblePos, List items, int page) {
+        if ( movieListAdapter != null ) {
+            movieListAdapter.setItems (items);
+        }
+        if ( recyclerView != null ) {
+            recyclerView.getLayoutManager ().scrollToPosition (visiblePos);
+        }
+        if ( scrollListener != null ) {
+            scrollListener.setState (page);
+        }
     }
 
     @Override
@@ -167,12 +184,12 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
 
     @Override
     public void showPageProgress () {
-        recyclerView.post (() -> movieListAdapter.setProgress (true));
+        movieListAdapter.setProgress (true);
     }
 
     @Override
     public void hidePageProgress () {
-        recyclerView.post (() -> movieListAdapter.setProgress (false));
+        movieListAdapter.setProgress (false);
     }
 
     @Override

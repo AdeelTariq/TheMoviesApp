@@ -6,6 +6,7 @@ import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.Movie;
 
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Scheduler;
@@ -17,22 +18,46 @@ import static com.winterparadox.themovieapp.common.beans.Chart.CHART_TOP_RATED;
 
 public class ChartMovieListPresenterImpl extends ChartMovieListPresenter {
 
+    private static final String VISIBLE_ITEM = "visiblePos", ITEMS = "items";
+
     private ChartMovieListApiInteractor api;
     private Scheduler mainScheduler;
+
+    private HashMap<String, Object> savedState = new HashMap<> ();
 
     public ChartMovieListPresenterImpl (ChartMovieListApiInteractor api,
                                         Scheduler mainScheduler) {
         this.api = api;
-
         this.mainScheduler = mainScheduler;
     }
 
     @SuppressLint("CheckResult")
     @Override
     public void attachView (ChartMovieListView view, Chart chart, Navigator navigator) {
+        boolean tryRestore = false;
+        if ( chart == this.chart ) {
+            tryRestore = true;
+        }
         super.attachView (view, chart, navigator);
 
-        fetchData ();
+        if ( tryRestore && savedState.containsKey (ITEMS) &&
+                ((List) savedState.get (ITEMS)).size () > 1 ) {  // 1 to avoid restoring error view
+            List items = ((List) savedState.get (ITEMS));
+            int visiblePos = (int) savedState.get (VISIBLE_ITEM);
+            int page = (items.size () / 20) - 1;
+
+            if ( view != null ) {
+                view.restoreMovies (visiblePos, items, page);
+            }
+        } else {
+            fetchData ();
+        }
+    }
+
+    @Override
+    public void saveState (int visibleItemPosition, List<Object> items) {
+        savedState.put (VISIBLE_ITEM, visibleItemPosition);
+        savedState.put (ITEMS, items);
     }
 
     @Override

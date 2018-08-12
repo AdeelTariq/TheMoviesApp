@@ -5,6 +5,8 @@ import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.Movie;
 
+import java.util.List;
+
 public abstract class ChartMovieListPresenter extends BasePresenter<ChartMovieListView> {
 
     protected Chart chart;
@@ -19,4 +21,6 @@ public abstract class ChartMovieListPresenter extends BasePresenter<ChartMovieLi
     public abstract void fetchDataPage (int page);
 
     public abstract void onMovieClicked (Movie movie, Object element);
+
+    public abstract void saveState (int visibleItemPosition, List<Object> items);
 }

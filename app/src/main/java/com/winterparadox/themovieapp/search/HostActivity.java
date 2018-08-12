@@ -309,12 +309,7 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
             }
 
 
-            if ( fragments.size () >= 10 ) {
-                ftx.replace (R.id.container, fragment, tag);
-
-            } else {
-                ftx.add (R.id.container, fragment, tag);
-            }
+            ftx.replace (R.id.container, fragment, tag);
 
             ftx.addToBackStack (tag);
 
