@@ -17,14 +17,22 @@ public class ErrorViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.retry) public MaterialButton retry;
 
     public ErrorViewHolder (@NonNull View itemView, OnClickListener listener) {
-        super (itemView);
+        this (itemView, listener, null);
+
+    }
+
+    public ErrorViewHolder (View view0, OnClickListener retryListener, String btnText) {
+        super (view0);
         ButterKnife.bind (this, itemView);
 
-        retry.setOnClickListener (v -> listener.retry ());
+        retry.setOnClickListener (v -> retryListener.onClick ());
+        if ( btnText != null ) {
+            retry.setText (btnText);
+        }
     }
 
 
     public interface OnClickListener {
-        void retry ();
+        void onClick ();
     }
 }

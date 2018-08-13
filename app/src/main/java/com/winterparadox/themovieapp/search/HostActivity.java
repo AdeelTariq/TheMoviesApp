@@ -38,6 +38,7 @@ import com.winterparadox.themovieapp.movieDetails.addToList.UserListDialogFragme
 import com.winterparadox.themovieapp.personDetails.PersonDetailsFragment;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedFragment;
 import com.winterparadox.themovieapp.userLists.UserListsFragment;
+import com.winterparadox.themovieapp.userLists.userMovieList.UserMovieListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -296,7 +297,8 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
 
     @Override
     public void openMyList (UserList list) {
-
+        resurfaceFragment (this, UserMovieListFragment.instance (list),
+                list.name, null);
     }
 
     @Override
@@ -319,8 +321,6 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
 
         boolean fragmentPopped = fragmentManager
                 .popBackStackImmediate (tag, 0);
-
-        List<Fragment> fragments = fragmentManager.getFragments ();
 
         if ( !fragmentPopped && fragmentManager.findFragmentByTag (tag) == null ) {
 

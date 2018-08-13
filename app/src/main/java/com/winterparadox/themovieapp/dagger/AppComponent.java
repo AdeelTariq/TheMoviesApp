@@ -12,6 +12,7 @@ import com.winterparadox.themovieapp.personDetails.PersonDetailsFragment;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedFragment;
 import com.winterparadox.themovieapp.search.HostActivity;
 import com.winterparadox.themovieapp.userLists.UserListsFragment;
+import com.winterparadox.themovieapp.userLists.userMovieList.UserMovieListFragment;
 
 import javax.inject.Singleton;
 
@@ -47,4 +48,6 @@ public interface AppComponent {
     void inject (UserListsFragment target);
 
     void inject (UserListDialogFragment target);
+
+    void inject (UserMovieListFragment target);
 }

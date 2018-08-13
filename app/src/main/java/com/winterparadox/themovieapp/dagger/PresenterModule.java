@@ -27,6 +27,8 @@ import com.winterparadox.themovieapp.search.HostPresenter;
 import com.winterparadox.themovieapp.search.HostPresenterImpl;
 import com.winterparadox.themovieapp.userLists.UserListsPresenter;
 import com.winterparadox.themovieapp.userLists.UserListsPresenterImpl;
+import com.winterparadox.themovieapp.userLists.userMovieList.UserMovieListPresenter;
+import com.winterparadox.themovieapp.userLists.userMovieList.UserMovieListPresenterImpl;
 
 import javax.inject.Singleton;
 
@@ -110,6 +112,13 @@ public class PresenterModule {
     @Singleton
     public UserListDialogPresenter provideUserListDialogPresenter (AppDatabase database) {
         return new UserListDialogPresenterImpl (database);
+    }
+
+    @Provides
+    @Singleton
+    public UserMovieListPresenter provideUserMovieListPresenter (AppDatabase database,
+                                                                 Scheduler mainScheduler) {
+        return new UserMovieListPresenterImpl (database, mainScheduler);
     }
 
 }

@@ -15,7 +15,6 @@ import java.util.List;
 import io.reactivex.Single;
 
 import static android.arch.persistence.room.OnConflictStrategy.IGNORE;
-import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 
 @Dao
 @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
@@ -28,16 +27,16 @@ public interface UserListDao {
     Single<Boolean> anyExists ();
 
     @Query("SELECT * FROM Movie INNER JOIN UserListItem ON Movie.id=UserListItem.movieId " +
-            " INNER JOIN UserList ON UserListItem.userListId= :userListId ORDER BY voteAverage " +
-            "LIMIT 1")
+            " WHERE UserListItem.userListId= :userListId ORDER BY voteAverage LIMIT 1")
     Single<Movie> getTopListMovie (int userListId);
+
+    @Query("SELECT * FROM Movie INNER JOIN UserListItem ON Movie.id=UserListItem.movieId " +
+            " WHERE UserListItem.userListId= :userListId ORDER BY UserListItem.`order`")
+    Single<List<Movie>> getListMovies (int userListId);
+
 
     @Insert(onConflict = IGNORE)
     Long insert (UserList list);
-
-
-    @Insert(onConflict = REPLACE)
-    Long update (UserList list);
 
     @Insert(onConflict = IGNORE)
     Long addToList (UserListItem listItem);

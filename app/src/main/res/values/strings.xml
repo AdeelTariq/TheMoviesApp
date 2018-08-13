@@ -33,4 +33,7 @@
     <string name="add_to_list">Add To List</string>
     <string name="ok">OK</string>
     <string name="create_new_list">Create new list</string>
+    <string name="no_movies_user_list">There are no movies in this list.\nSearch movies or explore
+        top charts to find movies to add here!</string>
+    <string name="show_me">Show Me</string>
 </resources>

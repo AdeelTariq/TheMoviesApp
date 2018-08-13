@@ -52,7 +52,7 @@ public class PresenterUtils {
                     database.chartDao ().insert (chart);
                     return database.chartDao ().getChart (chart.id);
                 })
-                // check if any chart's backdrop image is missing
+                // check if any userList's backdrop image is missing
                 .filter (chart -> chart.backDropPath == null)
 
                 // download the backdrop image path

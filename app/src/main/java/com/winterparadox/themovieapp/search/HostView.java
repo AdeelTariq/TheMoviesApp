@@ -12,7 +12,7 @@ public interface HostView extends BaseView {
 
     /**
      * Names must be sorted in the order they are to be displayed
-     * And they should correspond to default chart constants in following order:
+     * And they should correspond to default userList constants in following order:
      * {@link com.winterparadox.themovieapp.common.beans.Chart#CHART_POPULAR},
      * {@link com.winterparadox.themovieapp.common.beans.Chart#CHART_LATEST},
      * {@link com.winterparadox.themovieapp.common.beans.Chart#CHART_TOP_RATED}
