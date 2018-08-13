@@ -8,4 +8,6 @@ public abstract class ChartsPresenter extends BasePresenter<ChartsView> {
     abstract void fetchChartData ();
 
     public abstract void onChartClicked (Chart chart);
+
+    public abstract void saveState (int firstVisibleItem);
 }

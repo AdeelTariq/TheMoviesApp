@@ -79,13 +79,14 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
         actionFavorite = menuLayout.findViewById (R.id.action_favorite);
         actionHistory = menuLayout.findViewById (R.id.action_history);
 
-        for ( int i = 0; i < menuLayout.getChildCount (); i++ ) {
-            menuLayout.getChildAt (i).setOnClickListener (this::onMenuClick);
+        ViewGroup layoutChild = (ViewGroup) menuLayout.getChildAt (0);
+        for ( int i = 0; i < layoutChild.getChildCount (); i++ ) {
+            layoutChild.getChildAt (i).setOnClickListener (this::onMenuClick);
         }
 
-        backDropNavigationListener = new BackDropNavigationListener (this, toolbar.getChildAt (1),
-                frontSheet, backdropHolder,
-                menuLayout,
+        backDropNavigationListener = new BackDropNavigationListener (this,
+                toolbar.getChildAt (1),
+                frontSheet, backdropHolder, menuLayout,
                 getLayoutInflater ().inflate (R.layout.layout_backdrop_search, null, false),
                 new DecelerateInterpolator (),
                 getDrawable (R.drawable.ic_menu),

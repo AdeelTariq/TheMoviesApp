@@ -124,10 +124,10 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
                 presenter.fetchDataPage (page);
             }
         };
+        recyclerView.addOnScrollListener (scrollListener);
 
         presenter.attachView (this, chart, (Navigator) getActivity ());
 
-        recyclerView.addOnScrollListener (scrollListener);
 
         return view;
     }
@@ -137,7 +137,7 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
     public void onDestroyView () {
         super.onDestroyView ();
         int visibleItemPosition = ((GridLayoutManager) recyclerView.getLayoutManager ())
-                .findFirstVisibleItemPosition ();
+                .findLastCompletelyVisibleItemPosition ();
         List<Object> items = movieListAdapter.getItems ();
         presenter.saveState (visibleItemPosition, items);
         presenter.detachView ();

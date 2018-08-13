@@ -7,6 +7,7 @@ import com.winterparadox.themovieapp.common.PresenterUtils;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.room.AppDatabase;
 
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Scheduler;
@@ -19,10 +20,14 @@ import static com.winterparadox.themovieapp.common.beans.Chart.CHART_TOP_RATED;
 
 public class ChartsPresenterImpl extends ChartsPresenter {
 
+    private static final String VISIBLE_ITEM = "visibleItem";
+
     private final AppDatabase database;
     private final Scheduler mainScheduler;
     private Disposable chartsDisposable;
     private ChartsApiInteractor api;
+
+    private HashMap<String, Object> savedState = new HashMap<> ();
 
     public ChartsPresenterImpl (ChartsApiInteractor api,
                                 AppDatabase database,
@@ -39,6 +44,11 @@ public class ChartsPresenterImpl extends ChartsPresenter {
         loadData ();
     }
 
+    @Override
+    public void saveState (int firstVisibleItem) {
+        savedState.put (VISIBLE_ITEM, firstVisibleItem);
+    }
+
     @SuppressLint("CheckResult")
     private void loadData () {
 
@@ -48,7 +58,11 @@ public class ChartsPresenterImpl extends ChartsPresenter {
                 .observeOn (mainScheduler)
                 .subscribe (charts -> {
                     if ( view != null ) {
-                        view.showCharts (charts);
+                        int firstVisibleItem = 0;
+                        if ( savedState.containsKey (VISIBLE_ITEM) ) {
+                            firstVisibleItem = (int) savedState.get (VISIBLE_ITEM);
+                        }
+                        view.showCharts (charts, firstVisibleItem);
                     }
 
                 }, throwable -> {

@@ -109,18 +109,23 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
     @Override
     public void onDestroyView () {
         super.onDestroyView ();
+        presenter.saveState (((GridLayoutManager) recyclerView.getLayoutManager ())
+                .findLastCompletelyVisibleItemPosition ());
         presenter.detachView ();
         unbinder.unbind ();
     }
 
     @Override
-    public void showCharts (List<Chart> charts) {
+    public void showCharts (List<Chart> charts, int firstVisibleItem) {
 
         if ( charts.isEmpty () ) {
             chartsAdapter.setError (getString (R.string.no_charts_err));
         } else {
             chartsAdapter.setItems (charts);
         }
+
+        recyclerView.post (() -> recyclerView.getLayoutManager ()
+                .scrollToPosition (firstVisibleItem));
     }
 
     @Override

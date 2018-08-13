@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ChartsView extends BaseView {
 
-    void showCharts (List<Chart> charts);
+    void showCharts (List<Chart> charts, int firstVisibleItem);
 
     List<String> getDefaultCharts ();
 }

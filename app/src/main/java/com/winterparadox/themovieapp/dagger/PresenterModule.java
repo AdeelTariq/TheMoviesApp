@@ -77,6 +77,7 @@ public class PresenterModule {
         return new PersonDetailsPresenterImpl (api, mainScheduler);
     }
 
+    @Singleton
     @Provides
     public ChartsPresenter provideChartsPresenter (ChartsApiInteractor api,
                                                    AppDatabase appDatabase,
