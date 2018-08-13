@@ -4,7 +4,7 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.winterparadox.themovieapp.room.AppDatabase;
+import com.winterparadox.themovieapp.common.room.AppDatabase;
 
 import javax.inject.Singleton;
 

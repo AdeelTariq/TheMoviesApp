@@ -6,6 +6,7 @@ import com.winterparadox.themovieapp.charts.ChartsPresenterImpl;
 import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListApiInteractor;
 import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListPresenter;
 import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListPresenterImpl;
+import com.winterparadox.themovieapp.common.room.AppDatabase;
 import com.winterparadox.themovieapp.favorites.FavoritesPresenter;
 import com.winterparadox.themovieapp.favorites.FavoritesPresenterImpl;
 import com.winterparadox.themovieapp.home.HomeApiInteractor;
@@ -14,15 +15,18 @@ import com.winterparadox.themovieapp.home.HomePresenterImpl;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsApiInteractor;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsPresenter;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsPresenterImpl;
+import com.winterparadox.themovieapp.movieDetails.addToList.UserListDialogPresenter;
+import com.winterparadox.themovieapp.movieDetails.addToList.UserListDialogPresenterImpl;
 import com.winterparadox.themovieapp.personDetails.PersonApiInteractor;
 import com.winterparadox.themovieapp.personDetails.PersonDetailsPresenter;
 import com.winterparadox.themovieapp.personDetails.PersonDetailsPresenterImpl;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedPresenter;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedPresenterImpl;
-import com.winterparadox.themovieapp.room.AppDatabase;
 import com.winterparadox.themovieapp.search.HostApiInteractor;
 import com.winterparadox.themovieapp.search.HostPresenter;
 import com.winterparadox.themovieapp.search.HostPresenterImpl;
+import com.winterparadox.themovieapp.userLists.UserListsPresenter;
+import com.winterparadox.themovieapp.userLists.UserListsPresenterImpl;
 
 import javax.inject.Singleton;
 
@@ -94,4 +98,18 @@ public class PresenterModule {
                                                               Scheduler mainScheduler) {
         return new ChartMovieListPresenterImpl (interactor, mainScheduler);
     }
+
+    @Provides
+    @Singleton
+    public UserListsPresenter provideUserListPresenter (AppDatabase database,
+                                                        Scheduler mainScheduler) {
+        return new UserListsPresenterImpl (database, mainScheduler);
+    }
+
+    @Provides
+    @Singleton
+    public UserListDialogPresenter provideUserListDialogPresenter (AppDatabase database) {
+        return new UserListDialogPresenterImpl (database);
+    }
+
 }

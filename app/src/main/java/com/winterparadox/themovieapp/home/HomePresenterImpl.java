@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.HomeSection;
 import com.winterparadox.themovieapp.common.beans.Movie;
-import com.winterparadox.themovieapp.room.AppDatabase;
+import com.winterparadox.themovieapp.common.room.AppDatabase;
 
 import java.util.ArrayList;
 import java.util.Collections;

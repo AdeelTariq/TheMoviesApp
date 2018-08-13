@@ -27,4 +27,10 @@
     <string name="top_rated">Top Rated</string>
     <string name="no_charts_err">Something is amiss. Please connect to an internet connection and try again.</string>
     <string name="images">Images</string>
+    <string name="watchlist">Watchlist</string>
+    <string name="watched">Watched</string>
+    <string name="collection">Collection</string>
+    <string name="add_to_list">Add To List</string>
+    <string name="ok">OK</string>
+    <string name="create_new_list">Create new list</string>
 </resources>

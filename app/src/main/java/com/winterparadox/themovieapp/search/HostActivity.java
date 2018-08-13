@@ -30,11 +30,14 @@ import com.winterparadox.themovieapp.common.NetworkUtils;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.Person;
+import com.winterparadox.themovieapp.common.beans.UserList;
 import com.winterparadox.themovieapp.favorites.FavoritesFragment;
 import com.winterparadox.themovieapp.home.HomeFragment;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsFragment;
+import com.winterparadox.themovieapp.movieDetails.addToList.UserListDialogFragment;
 import com.winterparadox.themovieapp.personDetails.PersonDetailsFragment;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedFragment;
+import com.winterparadox.themovieapp.userLists.UserListsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -287,7 +290,19 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
 
     @Override
     public void openMyLists () {
-        //
+        resurfaceFragment (this, new UserListsFragment (),
+                "myLists", null);
+    }
+
+    @Override
+    public void openMyList (UserList list) {
+
+    }
+
+    @Override
+    public void openListSelector (ArrayList<UserList> userLists, int movieId) {
+        UserListDialogFragment dialog = UserListDialogFragment.instance (movieId, userLists);
+        dialog.show (getSupportFragmentManager (), "listSelector");
     }
 
     @Override

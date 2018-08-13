@@ -11,13 +11,16 @@ import com.winterparadox.themovieapp.common.beans.Person;
 import com.winterparadox.themovieapp.common.beans.RecentlyViewed;
 import com.winterparadox.themovieapp.common.beans.RegionItem;
 import com.winterparadox.themovieapp.common.beans.ReleaseDatesItem;
-import com.winterparadox.themovieapp.room.AppDatabase;
+import com.winterparadox.themovieapp.common.beans.UserList;
+import com.winterparadox.themovieapp.common.room.AppDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Completable;
@@ -165,5 +168,38 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
         if ( navigator != null ) {
             navigator.openPerson (member, view);
         }
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void onAddToListClicked () {
+        database.userListDao ()
+                .anyExists ()
+                .map (anyExists -> {
+                    if ( !anyExists ) {
+                        if ( view != null ) {
+                            List<String> defaultLists = view.getDefaultLists ();
+                            for ( String defaultList : defaultLists ) {
+                                database.userListDao ().insert (new UserList (defaultList));
+                            }
+                        }
+                    }
+                    return anyExists;
+                })
+                .flatMap (b -> database.userListDao ().getUserLists ())
+                .toObservable ().flatMapIterable (userLists -> userLists)
+                .map (userList -> {
+                    userList.isAdded = database.userListDao ()
+                            .isInList (movie.id, userList.id);
+                    return userList;
+                })
+                .toList ()
+                .subscribeOn (Schedulers.io ())
+                .observeOn (mainScheduler)
+                .subscribe (userLists -> {
+                    if ( navigator != null ) {
+                        navigator.openListSelector (new ArrayList<> (userLists), movie.id);
+                    }
+                });
     }
 }

@@ -21,4 +21,6 @@ public abstract class MovieDetailsPresenter extends BasePresenter<MovieDetailsVi
     public abstract void onMovieClicked (Movie movie, Object element);
 
     public abstract void onPersonClicked (Person member, Object view);
+
+    public abstract void onAddToListClicked ();
 }

@@ -40,6 +40,9 @@ import com.winterparadox.themovieapp.common.views.HorizontalMoviesAdapter;
 import com.winterparadox.themovieapp.common.views.LockableScrollView;
 import com.winterparadox.themovieapp.common.views.TransitionNames;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
@@ -115,7 +118,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         movie = (Movie) arguments.getSerializable (MOVIE);
 
         requestOptions = new RequestOptions ()
-                .transforms (new CenterCrop (), new RoundedCorners (4));
+                .transforms (new CenterCrop (), new RoundedCorners (8));
 
 
         requestOptionsBackDrop = new RequestOptions ()
@@ -231,7 +234,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
 
     @OnClick({R.id.btnAdd, R.id.captionAdd})
     void addToList () {
-
+        presenter.onAddToListClicked ();
     }
 
     @Override
@@ -271,29 +274,16 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     @Override
     public void onCastClick (CastMember member, View view) {
         presenter.onPersonClicked (member, view);
-        scrollUp ();
     }
 
     @Override
     public void onCrewClick (CrewMember member, View view) {
         presenter.onPersonClicked (member, view);
-        scrollUp ();
     }
 
     @Override
     public void onMovieClick (Movie movie, View element) {
         presenter.onMovieClicked (movie, element);
-        scrollUp ();
-    }
-
-    private void scrollUp () {
-        if ( scrollView != null ) {
-            scrollView.postDelayed (() -> {
-                if ( scrollView != null ) {
-                    scrollView.fullScroll (View.FOCUS_UP);
-                }
-            }, 2000);
-        }
     }
 
     @Override
@@ -304,5 +294,14 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     @Override
     public void showError (String message) {
         Toast.makeText (getActivity (), message, Toast.LENGTH_LONG).show ();
+    }
+
+    @Override
+    public List<String> getDefaultLists () {
+        List<String> list = new ArrayList<> ();
+        list.add (getString (R.string.watchlist));
+        list.add (getString (R.string.watched));
+        list.add (getString (R.string.collection));
+        return list;
     }
 }

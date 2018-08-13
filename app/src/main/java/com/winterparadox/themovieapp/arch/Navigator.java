@@ -3,6 +3,9 @@ package com.winterparadox.themovieapp.arch;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.Person;
+import com.winterparadox.themovieapp.common.beans.UserList;
+
+import java.util.ArrayList;
 
 public interface Navigator {
 
@@ -23,4 +26,8 @@ public interface Navigator {
     void openPerson (Person person, Object view);
 
     void openChartMovieList (Chart chart);
+
+    void openMyList (UserList list);
+
+    void openListSelector (ArrayList<UserList> userLists, int movieId);
 }

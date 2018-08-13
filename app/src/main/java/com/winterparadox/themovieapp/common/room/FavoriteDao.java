@@ -1,4 +1,4 @@
-package com.winterparadox.themovieapp.room;
+package com.winterparadox.themovieapp.common.room;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;

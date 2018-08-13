@@ -38,7 +38,7 @@
             android:layout_marginStart="24dp"
             app:cardBackgroundColor="@color/shimmerColor"
             app:cardElevation="1dp"
-            app:cardCornerRadius="2dp"
+            app:cardCornerRadius="4dp"
             android:layout_marginTop="80dp"
             app:layout_constraintTop_toTopOf="@id/ivBackdrop"
             app:layout_constraintStart_toStartOf="parent">

@@ -5,7 +5,7 @@ import android.annotation.SuppressLint;
 import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.beans.Favorite;
 import com.winterparadox.themovieapp.common.beans.Movie;
-import com.winterparadox.themovieapp.room.AppDatabase;
+import com.winterparadox.themovieapp.common.room.AppDatabase;
 
 import java.util.HashMap;
 

@@ -2,7 +2,7 @@ package com.winterparadox.themovieapp.search;
 
 import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.PresenterUtils;
-import com.winterparadox.themovieapp.room.AppDatabase;
+import com.winterparadox.themovieapp.common.room.AppDatabase;
 
 import java.util.List;
 

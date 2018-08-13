@@ -105,7 +105,7 @@ public class PersonDetailsFragment extends Fragment implements PersonDetailsView
 
 
         RequestOptions requestOptions = new RequestOptions ()
-                .transforms (new CenterCrop (), new RoundedCorners (4));
+                .transforms (new CenterCrop (), new RoundedCorners (8));
 
         tvName.setText (person.name);
         tvName.setTransitionName (TransitionNames.PERSON_NAME + person.name);
