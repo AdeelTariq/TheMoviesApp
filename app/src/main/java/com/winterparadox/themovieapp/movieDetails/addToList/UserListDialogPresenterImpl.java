@@ -17,16 +17,21 @@ public class UserListDialogPresenterImpl extends UserListDialogPresenter {
     }
 
     @Override
-    public void addToList (int movieId, UserList list) {
+    public void addToList (long movieId, UserList list) {
         Completable.fromAction (() -> database.userListDao ()
                 .addToList (new UserListItem (list.id, movieId)))
                 .subscribeOn (Schedulers.io ()).subscribe ();
     }
 
     @Override
-    public void removeFromList (int movieId, UserList list) {
+    public void removeFromList (long movieId, UserList list) {
         Completable.fromAction (() -> database.userListDao ()
                 .removeFromList (new UserListItem (list.id, movieId)))
                 .subscribeOn (Schedulers.io ()).subscribe ();
+    }
+
+    @Override
+    public void onCreateNewClicked (long movieId) {
+        navigator.openCreateList (movieId);
     }
 }

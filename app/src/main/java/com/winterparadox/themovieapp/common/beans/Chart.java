@@ -12,7 +12,7 @@ public class Chart implements Serializable {
     public static final int CHART_POPULAR = 0, CHART_LATEST = 1, CHART_TOP_RATED = 2;
 
     @PrimaryKey
-    public int id;
+    public long id;
 
     public String name;
 

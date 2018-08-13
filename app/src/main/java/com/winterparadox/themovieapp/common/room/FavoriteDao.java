@@ -36,7 +36,7 @@ public interface FavoriteDao {
     void deleteAll (Favorite... movies);
 
     @Query("SELECT EXISTS(SELECT 1 FROM Favorite WHERE movieId=:movieId)")
-    Single<Boolean> isFavorite (int movieId);
+    Single<Boolean> isFavorite (long movieId);
 
     @Query("SELECT EXISTS(SELECT 1 FROM Favorite)")
     Flowable<Boolean> anyExists ();

@@ -31,6 +31,7 @@ import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.Person;
 import com.winterparadox.themovieapp.common.beans.UserList;
+import com.winterparadox.themovieapp.createList.CreateListDialogFragment;
 import com.winterparadox.themovieapp.favorites.FavoritesFragment;
 import com.winterparadox.themovieapp.home.HomeFragment;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsFragment;
@@ -302,7 +303,7 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
     }
 
     @Override
-    public void openListSelector (ArrayList<UserList> userLists, int movieId) {
+    public void openListSelector (ArrayList<UserList> userLists, long movieId) {
         UserListDialogFragment dialog = UserListDialogFragment.instance (movieId, userLists);
         dialog.show (getSupportFragmentManager (), "listSelector");
     }
@@ -312,6 +313,12 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
         resurfaceFragment (this,
                 ChartMovieListFragment.instance (chart),
                 chart.name, null);
+    }
+
+    @Override
+    public void openCreateList (long movieId) {
+        CreateListDialogFragment dialog = CreateListDialogFragment.instance (movieId);
+        dialog.show (getSupportFragmentManager (), "createList");
     }
 
     public static void resurfaceFragment (AppCompatActivity activity,

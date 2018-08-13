@@ -14,7 +14,7 @@ public class RecentlyViewed {
     public long time;
 
     @PrimaryKey
-    public int movieId;
+    public long movieId;
 
     public RecentlyViewed () {
     }

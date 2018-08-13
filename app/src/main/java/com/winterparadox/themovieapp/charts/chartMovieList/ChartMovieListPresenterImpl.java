@@ -78,19 +78,18 @@ public class ChartMovieListPresenterImpl extends ChartMovieListPresenter {
 
         Single<List<Movie>> movieSingle;
 
-        switch ( chart.id ) {
-            case CHART_POPULAR:
-                movieSingle = api.popularMovies (page);
-                break;
-            case CHART_LATEST:
-                movieSingle = api.latestMovies (page);
-                break;
-            case CHART_TOP_RATED:
-                movieSingle = api.topRatedMovies (page);
-                break;
-            default:
-                movieSingle = api.topRatedInGenre (chart.id, page);
-                break;
+        if ( chart.id == CHART_POPULAR ) {
+            movieSingle = api.popularMovies (page);
+
+        } else if ( chart.id == CHART_LATEST ) {
+            movieSingle = api.latestMovies (page);
+
+        } else if ( chart.id == CHART_TOP_RATED ) {
+            movieSingle = api.topRatedMovies (page);
+
+        } else {
+            movieSingle = api.topRatedInGenre (chart.id, page);
+
         }
 
         movieSingle

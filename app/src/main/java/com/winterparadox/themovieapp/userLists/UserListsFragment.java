@@ -10,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class UserListsFragment extends Fragment implements UserListsView, UserListsAdapter
@@ -38,6 +40,7 @@ public class UserListsFragment extends Fragment implements UserListsView, UserLi
     @BindView(R.id.recyclerView) ShimmerRecyclerView recyclerView;
     @BindView(R.id.scrollIndicator) ImageView scrollIndicator;
     Unbinder unbinder;
+    @BindView(R.id.btnAdd) ImageButton btnAdd;
     private UserListsAdapter userListsAdapter;
 
     @Inject UserListsPresenter presenter;
@@ -53,6 +56,8 @@ public class UserListsFragment extends Fragment implements UserListsView, UserLi
         unbinder = ButterKnife.bind (this, view);
 
         tvHeader.setText (R.string.my_lists);
+
+        btnAdd.setVisibility (View.VISIBLE);
 
         userListsAdapter = new UserListsAdapter (this);
 
@@ -126,6 +131,11 @@ public class UserListsFragment extends Fragment implements UserListsView, UserLi
 
         recyclerView.post (() -> recyclerView.getLayoutManager ()
                 .scrollToPosition (firstVisibleItem));
+    }
+
+    @OnClick(R.id.btnAdd)
+    public void add () {
+        presenter.onAddClicked ();
     }
 
     @Override

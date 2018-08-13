@@ -16,9 +16,10 @@ import java.util.ArrayList;
 @Entity(indices = {@Index("title")})
 public class Movie implements Serializable {
 
+    public static final int NONE = -99;
     @PrimaryKey
     @SerializedName("id")
-    public int id;
+    public long id;
 
     @SerializedName("original_language")
     public String originalLanguage;
@@ -95,7 +96,7 @@ public class Movie implements Serializable {
 
     @Override
     public int hashCode () {
-        return id;
+        return (int) id;
     }
 
     @Override

@@ -8,4 +8,6 @@ public abstract class UserListsPresenter extends BasePresenter<UserListsView> {
     public abstract void saveState (int lastVisibleItem);
 
     public abstract void onUserListClicked (UserList list);
+
+    public abstract void onAddClicked ();
 }

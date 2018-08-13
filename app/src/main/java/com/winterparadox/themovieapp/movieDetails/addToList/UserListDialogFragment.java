@@ -26,13 +26,13 @@ public class UserListDialogFragment extends AppCompatDialogFragment implements
     private CharSequence[] labels;
 
     @Inject UserListDialogPresenter presenter;
-    private int movieId;
+    private long movieId;
 
-    public static UserListDialogFragment instance (int movieId, ArrayList<UserList> lists) {
+    public static UserListDialogFragment instance (long movieId, ArrayList<UserList> lists) {
         UserListDialogFragment userListDialogFragment = new UserListDialogFragment ();
         Bundle args = new Bundle ();
         args.putSerializable (LISTS, lists);
-        args.putInt (MOVIE, movieId);
+        args.putLong (MOVIE, movieId);
         userListDialogFragment.setArguments (args);
         return userListDialogFragment;
     }
@@ -45,7 +45,7 @@ public class UserListDialogFragment extends AppCompatDialogFragment implements
 
         lists = (ArrayList<UserList>) getArguments ()
                 .getSerializable (LISTS);
-        movieId = getArguments ().getInt (MOVIE);
+        movieId = getArguments ().getLong (MOVIE);
 
         labels = new CharSequence[lists.size ()];
         checked = new boolean[lists.size ()];
@@ -59,17 +59,29 @@ public class UserListDialogFragment extends AppCompatDialogFragment implements
         presenter.attachView (this, (Navigator) getActivity ());
     }
 
+
+    @Override
+    public void onDestroy () {
+        super.onDestroy ();
+        presenter.detachView ();
+    }
+
     @Override
     public Dialog onCreateDialog (Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder (getActivity ());
+        AlertDialog.Builder builder = new AlertDialog.Builder (getActivity (),
+                R.style.Theme_Movies_Dialog);
         builder.setTitle (R.string.add_to_list);
         builder.setMultiChoiceItems (labels, checked, this);
 
         builder.setPositiveButton (R.string.ok, null);
-        builder.setNeutralButton (R.string.create_new_list, null);
+        builder.setNeutralButton (R.string.create_new_list,
+                (d, v) -> presenter.onCreateNewClicked (movieId));
 
         // Create the AlertDialog object and return it
-        return builder.create ();
+        AlertDialog alertDialog = builder.create ();
+        alertDialog.getWindow ().setBackgroundDrawable (
+                getResources ().getDrawable (R.drawable.dialog_background));
+        return alertDialog;
     }
 
     @Override

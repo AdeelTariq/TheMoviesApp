@@ -68,15 +68,14 @@ public class HostPresenterImpl extends HostPresenter {
             List<String> defaultCharts = view.getDefaultCharts ();
             chartsDisposable = PresenterUtils.createChartss (api.generes (),
                     chart -> {
-                        switch ( chart.id ) {
-                            case CHART_POPULAR:
-                                return api.popularMovieBackdrop (chart);
-                            case CHART_LATEST:
-                                return api.latestMovieBackdrop (chart);
-                            case CHART_TOP_RATED:
-                                return api.topRatedMovieBackdrop (chart);
-                            default:
-                                return api.genreMovieBackdrop (chart);
+                        if ( chart.id == CHART_POPULAR ) {
+                            return api.popularMovieBackdrop (chart);
+                        } else if ( chart.id == CHART_LATEST ) {
+                            return api.latestMovieBackdrop (chart);
+                        } else if ( chart.id == CHART_TOP_RATED ) {
+                            return api.topRatedMovieBackdrop (chart);
+                        } else {
+                            return api.genreMovieBackdrop (chart);
                         }
 
                     }, database, defaultCharts);

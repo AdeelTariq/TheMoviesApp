@@ -14,7 +14,7 @@ public class Favorite {
     public long time;
 
     @PrimaryKey
-    public int movieId;
+    public long movieId;
 
     public Favorite () {
     }

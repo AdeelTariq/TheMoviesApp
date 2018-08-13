@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/backgroundColor"
     android:clickable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -16,6 +17,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <ImageButton
+        android:id="@+id/btnAdd"
+        tools:visibility="visible"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/tvHeader"
+        app:layout_constraintBottom_toBottomOf="@id/tvHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:tint="@color/toolbarIconColor"
+        app:srcCompat="@drawable/ic_add"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <com.cooltechworks.views.shimmer.ShimmerRecyclerView

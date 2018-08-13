@@ -198,7 +198,8 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
                 .observeOn (mainScheduler)
                 .subscribe (userLists -> {
                     if ( navigator != null ) {
-                        navigator.openListSelector (new ArrayList<> (userLists), movie.id);
+                        ArrayList<UserList> objects = new ArrayList<> (userLists);
+                        navigator.openListSelector (objects, movie.id);
                     }
                 });
     }

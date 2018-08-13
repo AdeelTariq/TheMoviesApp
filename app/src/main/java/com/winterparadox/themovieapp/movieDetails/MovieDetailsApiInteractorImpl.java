@@ -15,7 +15,7 @@ public class MovieDetailsApiInteractorImpl implements MovieDetailsApiInteractor 
     }
 
     @Override
-    public Single<Movie> movieDetails (int id) {
+    public Single<Movie> movieDetails (long id) {
         return service.movieDetails (id)
                 .subscribeOn (Schedulers.io ());
     }

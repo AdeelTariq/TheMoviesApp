@@ -19,7 +19,7 @@ public interface ChartsApiService {
     Single<MoviesResponse> topRated (@Query("page") int page);
 
     @GET("discover/movie?sort_by=vote_average.desc&vote_count.gte=100&include_adult=false")
-    Single<MoviesResponse> topRatedInGenre (@Query("with_genres") int genreId,
+    Single<MoviesResponse> topRatedInGenre (@Query("with_genres") long genreId,
                                             @Query("page") int page);
 
 }

@@ -7,6 +7,8 @@ import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListApiInte
 import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListPresenter;
 import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListPresenterImpl;
 import com.winterparadox.themovieapp.common.room.AppDatabase;
+import com.winterparadox.themovieapp.createList.CreateListDialogPresenter;
+import com.winterparadox.themovieapp.createList.CreateListDialogPresenterImpl;
 import com.winterparadox.themovieapp.favorites.FavoritesPresenter;
 import com.winterparadox.themovieapp.favorites.FavoritesPresenterImpl;
 import com.winterparadox.themovieapp.home.HomeApiInteractor;
@@ -109,7 +111,6 @@ public class PresenterModule {
     }
 
     @Provides
-    @Singleton
     public UserListDialogPresenter provideUserListDialogPresenter (AppDatabase database) {
         return new UserListDialogPresenterImpl (database);
     }
@@ -119,6 +120,11 @@ public class PresenterModule {
     public UserMovieListPresenter provideUserMovieListPresenter (AppDatabase database,
                                                                  Scheduler mainScheduler) {
         return new UserMovieListPresenterImpl (database, mainScheduler);
+    }
+
+    @Provides
+    public CreateListDialogPresenter provideCreateListPresenter (AppDatabase database) {
+        return new CreateListDialogPresenterImpl (database);
     }
 
 }

@@ -21,6 +21,15 @@
         <item name="android:fontFamily">@font/raleway_semibold</item>
     </style>
 
+    <style name="Theme.Movies.Dialog" parent="Theme.MaterialComponents.Dialog.Alert">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/textButtonColor</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:fontFamily">@font/raleway_regular</item>
+    </style>
+
 
     <style name="Widget.Movies.Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">?attr/colorAccent</item>

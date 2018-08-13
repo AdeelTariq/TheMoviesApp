@@ -30,5 +30,5 @@ public interface ChartDao {
     Long update (Chart chart);
 
     @Query("SELECT * FROM Chart WHERE id = :id")
-    Single<Chart> getChart (int id);
+    Single<Chart> getChart (long id);
 }

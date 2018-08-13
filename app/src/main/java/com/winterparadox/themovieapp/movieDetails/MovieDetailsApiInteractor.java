@@ -5,5 +5,5 @@ import com.winterparadox.themovieapp.common.beans.Movie;
 import io.reactivex.Single;
 
 public interface MovieDetailsApiInteractor {
-    Single<Movie> movieDetails (int id);
+    Single<Movie> movieDetails (long id);
 }

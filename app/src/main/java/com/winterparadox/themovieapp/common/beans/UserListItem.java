@@ -10,15 +10,15 @@ public class UserListItem {
 
     public int order;
 
-    public int movieId;
+    public long movieId;
 
-    public int userListId;
+    public long userListId;
 
     public UserListItem () {
     }
 
     @Ignore
-    public UserListItem (int userListId, int movieId) {
+    public UserListItem (long userListId, long movieId) {
         this.userListId = userListId;
         this.order = Integer.MAX_VALUE;
         this.movieId = movieId;

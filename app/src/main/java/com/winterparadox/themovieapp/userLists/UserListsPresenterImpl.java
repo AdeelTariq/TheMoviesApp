@@ -95,4 +95,11 @@ public class UserListsPresenterImpl extends UserListsPresenter {
             navigator.openMyList (list);
         }
     }
+
+    @Override
+    public void onAddClicked () {
+        if ( navigator != null ) {
+            navigator.openCreateList (Movie.NONE);
+        }
+    }
 }

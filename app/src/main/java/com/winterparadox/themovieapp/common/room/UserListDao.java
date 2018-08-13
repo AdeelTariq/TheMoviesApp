@@ -28,11 +28,11 @@ public interface UserListDao {
 
     @Query("SELECT * FROM Movie INNER JOIN UserListItem ON Movie.id=UserListItem.movieId " +
             " WHERE UserListItem.userListId= :userListId ORDER BY voteAverage LIMIT 1")
-    Single<Movie> getTopListMovie (int userListId);
+    Single<Movie> getTopListMovie (long userListId);
 
     @Query("SELECT * FROM Movie INNER JOIN UserListItem ON Movie.id=UserListItem.movieId " +
             " WHERE UserListItem.userListId= :userListId ORDER BY UserListItem.`order`")
-    Single<List<Movie>> getListMovies (int userListId);
+    Single<List<Movie>> getListMovies (long userListId);
 
 
     @Insert(onConflict = IGNORE)
@@ -46,5 +46,5 @@ public interface UserListDao {
 
     @Query("SELECT EXISTS(SELECT 1 FROM UserListItem WHERE UserListItem.movieId = :movieId" +
             " AND UserListItem.userListId = :listId)")
-    boolean isInList (int movieId, int listId);
+    boolean isInList (long movieId, long listId);
 }

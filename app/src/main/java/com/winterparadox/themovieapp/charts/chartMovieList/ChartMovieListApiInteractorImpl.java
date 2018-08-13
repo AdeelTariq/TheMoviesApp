@@ -39,7 +39,7 @@ public class ChartMovieListApiInteractorImpl implements ChartMovieListApiInterac
     }
 
     @Override
-    public Single<List<Movie>> topRatedInGenre (int genre, int page) {
+    public Single<List<Movie>> topRatedInGenre (long genre, int page) {
         return service.topRatedInGenre (genre, page + 1)
                 .subscribeOn (Schedulers.io ())
                 .map (moviesResponse -> moviesResponse.results);
