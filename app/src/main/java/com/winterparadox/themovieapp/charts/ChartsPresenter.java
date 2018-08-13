@@ -9,5 +9,5 @@ public abstract class ChartsPresenter extends BasePresenter<ChartsView> {
 
     public abstract void onChartClicked (Chart chart);
 
-    public abstract void saveState (int firstVisibleItem);
+    public abstract void saveState (int lastVisibleItem);
 }

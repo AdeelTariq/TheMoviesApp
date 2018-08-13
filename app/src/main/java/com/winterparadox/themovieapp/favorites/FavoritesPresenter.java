@@ -8,4 +8,6 @@ public abstract class FavoritesPresenter extends BasePresenter<FavoritesView> {
     abstract void unFavorite (Movie movie);
 
     public abstract void onMovieClicked (Movie movie, Object element);
+
+    public abstract void saveState (int lastVisibleItem);
 }

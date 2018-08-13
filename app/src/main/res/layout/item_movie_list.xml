@@ -93,6 +93,7 @@
     </android.support.v7.widget.CardView>
 
     <ProgressBar
+        android:visibility="gone"
         android:id="@+id/pageProgress"
         android:padding="24dp"
         android:layout_width="match_parent"

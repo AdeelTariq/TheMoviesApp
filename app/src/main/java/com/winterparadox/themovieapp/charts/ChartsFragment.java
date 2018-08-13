@@ -75,6 +75,10 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
 
         view.postDelayed (() -> {
 
+            if ( getActivity () == null ) {
+                return;
+            }
+
             GridLayoutManager gridLayoutManager;
 
             if ( getActivity ().getResources ().getConfiguration ().orientation == Configuration
@@ -109,8 +113,10 @@ public class ChartsFragment extends Fragment implements ChartsView, ChartsAdapte
     @Override
     public void onDestroyView () {
         super.onDestroyView ();
-        presenter.saveState (((GridLayoutManager) recyclerView.getLayoutManager ())
-                .findLastCompletelyVisibleItemPosition ());
+        if ( recyclerView.getLayoutManager () != null ) {
+            presenter.saveState (((GridLayoutManager) recyclerView.getLayoutManager ())
+                    .findLastCompletelyVisibleItemPosition ());
+        }
         presenter.detachView ();
         unbinder.unbind ();
     }

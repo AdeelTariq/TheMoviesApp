@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface FavoritesView extends BaseView {
 
-    void showMovies (List<Movie> movies);
+    void showMovies (List<Movie> movies, int lastVisibleItem);
 
 }

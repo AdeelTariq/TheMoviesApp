@@ -57,6 +57,10 @@ public class RecentlyViewedFragment extends Fragment implements RecentlyViewedVi
 
         view.postDelayed (() -> {
 
+            if ( getActivity () == null ) {
+                return;
+            }
+
             GridLayoutManager gridLayoutManager;
 
             if ( getActivity ().getResources ().getConfiguration ().orientation == Configuration
@@ -110,12 +114,20 @@ public class RecentlyViewedFragment extends Fragment implements RecentlyViewedVi
     @Override
     public void onDestroyView () {
         super.onDestroyView ();
+        if ( recyclerView.getLayoutManager () != null ) {
+            presenter.saveState (((GridLayoutManager) recyclerView.getLayoutManager ())
+                    .findLastCompletelyVisibleItemPosition ());
+        }
+        presenter.detachView ();
         unbinder.unbind ();
     }
 
     @Override
-    public void showMovies (List<Movie> movies) {
+    public void showMovies (List<Movie> movies, int lastVisibleItem) {
         movieAdapter.setItems (movies);
+
+        recyclerView.post (() -> recyclerView.getLayoutManager ()
+                .scrollToPosition (lastVisibleItem));
     }
 
     @Override

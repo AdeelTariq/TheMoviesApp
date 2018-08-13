@@ -45,8 +45,8 @@ public class ChartsPresenterImpl extends ChartsPresenter {
     }
 
     @Override
-    public void saveState (int firstVisibleItem) {
-        savedState.put (VISIBLE_ITEM, firstVisibleItem);
+    public void saveState (int lastVisibleItem) {
+        savedState.put (VISIBLE_ITEM, lastVisibleItem);
     }
 
     @SuppressLint("CheckResult")
@@ -58,11 +58,11 @@ public class ChartsPresenterImpl extends ChartsPresenter {
                 .observeOn (mainScheduler)
                 .subscribe (charts -> {
                     if ( view != null ) {
-                        int firstVisibleItem = 0;
+                        int lastVisibleItem = 0;
                         if ( savedState.containsKey (VISIBLE_ITEM) ) {
-                            firstVisibleItem = (int) savedState.get (VISIBLE_ITEM);
+                            lastVisibleItem = (int) savedState.get (VISIBLE_ITEM);
                         }
-                        view.showCharts (charts, firstVisibleItem);
+                        view.showCharts (charts, lastVisibleItem);
                     }
 
                 }, throwable -> {

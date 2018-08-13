@@ -114,6 +114,12 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
     }
 
     @Override
+    protected void onDestroy () {
+        super.onDestroy ();
+        presenter.detachView ();
+    }
+
+    @Override
     public void onBackPressed () {
         if ( backDropNavigationListener.isBackdropShown () ) {
             if ( searchItem.isActionViewExpanded () ) {

@@ -136,10 +136,12 @@ public class ChartMovieListFragment extends Fragment implements ChartMovieListVi
     @Override
     public void onDestroyView () {
         super.onDestroyView ();
-        int visibleItemPosition = ((GridLayoutManager) recyclerView.getLayoutManager ())
-                .findLastCompletelyVisibleItemPosition ();
-        List<Object> items = movieListAdapter.getItems ();
-        presenter.saveState (visibleItemPosition, items);
+        if ( recyclerView.getLayoutManager () != null ) {
+            int visibleItemPosition = ((GridLayoutManager) recyclerView
+                    .getLayoutManager ()).findLastCompletelyVisibleItemPosition ();
+            List<Object> items = movieListAdapter.getItems ();
+            presenter.saveState (visibleItemPosition, items);
+        }
         presenter.detachView ();
         unbinder.unbind ();
     }

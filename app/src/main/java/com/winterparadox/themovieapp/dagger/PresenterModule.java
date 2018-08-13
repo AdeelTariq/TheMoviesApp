@@ -51,12 +51,14 @@ public class PresenterModule {
         return new MovieDetailsPresenterImpl (apiInteractor, mainScheduler, database);
     }
 
+    @Singleton
     @Provides
     public RecentlyViewedPresenter provideRecentlyViewedPresenter (AppDatabase database,
                                                                    Scheduler mainScheduler) {
         return new RecentlyViewedPresenterImpl (database, mainScheduler);
     }
 
+    @Singleton
     @Provides
     public FavoritesPresenter provideFavoritePresenter (AppDatabase database,
                                                         Scheduler mainScheduler) {
