@@ -14,7 +14,7 @@
     </style>
 
     <style name="Theme.Movies.Popup" parent="Theme.Movies">
-        <item name="android:popupBackground">@drawable/dialog_background</item>
+        <item name="android:popupBackground">@drawable/popup_background</item>
         <item name="android:popupElevation">80dp</item>
     </style>
 

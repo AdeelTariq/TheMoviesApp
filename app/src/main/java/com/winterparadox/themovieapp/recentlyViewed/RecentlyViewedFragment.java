@@ -68,7 +68,7 @@ public class RecentlyViewedFragment extends Fragment implements RecentlyViewedVi
                 gridLayoutManager = new GridLayoutManager (getActivity (), 3);
 
             } else {
-                gridLayoutManager = new GridLayoutManager (getActivity (), 4);
+                gridLayoutManager = new GridLayoutManager (getActivity (), 5);
             }
 
             recyclerView.setLayoutManager (gridLayoutManager);

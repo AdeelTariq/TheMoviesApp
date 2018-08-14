@@ -38,7 +38,7 @@
     <string name="show_me">Show Me</string>
     <string name="create">Create</string>
     <string name="cancel">Cancel</string>
-    <string name="name">Name</string>
+    <string name="list_name">List name…</string>
     <string name="rename">Rename</string>
     <string name="duplicate">Duplicate</string>
     <string name="delete">Delete</string>

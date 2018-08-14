@@ -36,9 +36,10 @@ public class RecentMovieDecoration extends DefaultItemDecoration {
             outRect.top = (int) dpToPx (itemPadding);
         }
 
+        int i = parent.getChildAdapterPosition (view) % spanCount;
+
         if ( spanCount == 3 ) {
 
-            int i = parent.getChildAdapterPosition (view) % 3;
             if ( i == 1 ) {
                 outRect.right = (int) dpToPx (itemPadding);
                 outRect.left = (int) dpToPx (itemPadding);
@@ -52,24 +53,28 @@ public class RecentMovieDecoration extends DefaultItemDecoration {
                 outRect.left = 0;
             }
 
-        } else if ( spanCount == 4 ) {
+        } else if ( spanCount == 5 ) {
 
-            int i = parent.getChildAdapterPosition (view) % 4;
             if ( i == 0 ) {
                 outRect.right = 0;
             }
 
             if ( i == 1 ) {
-                outRect.right = (int) dpToPx (itemPadding);
-                outRect.left = (int) dpToPx (itemPadding * 2);
+                outRect.left = (int) dpToPx (defaultOffset * 3 / 4);
+                outRect.right = (int) dpToPx (defaultOffset / 4);
             }
 
             if ( i == 2 ) {
-                outRect.right = (int) dpToPx (itemPadding * 2);
-                outRect.left = (int) dpToPx (itemPadding);
+                outRect.left = (int) dpToPx (defaultOffset / 2);
+                outRect.right = (int) dpToPx (defaultOffset / 2);
             }
 
             if ( i == 3 ) {
+                outRect.left = (int) dpToPx (defaultOffset / 4);
+                outRect.right = (int) dpToPx (defaultOffset * 3 / 4);
+            }
+
+            if ( i == 4 ) {
                 outRect.left = 0;
             }
 
