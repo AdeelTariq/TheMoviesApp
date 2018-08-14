@@ -18,6 +18,7 @@
         <!--app:boxCornerRadiusBottomLeft="4dp"-->
         <android.support.design.widget.TextInputEditText
             android:id="@+id/etName"
+            android:inputType="text"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

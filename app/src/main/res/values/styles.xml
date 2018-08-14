@@ -10,6 +10,12 @@
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:fontFamily">@font/raleway_regular</item>
         <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:popupMenuStyle">@style/Theme.Movies.Popup</item>
+    </style>
+
+    <style name="Theme.Movies.Popup" parent="Theme.Movies">
+        <item name="android:popupBackground">@drawable/dialog_background</item>
+        <item name="android:popupElevation">80dp</item>
     </style>
 
     <style name="Theme.Movies.Overlay" parent="Theme.Movies">

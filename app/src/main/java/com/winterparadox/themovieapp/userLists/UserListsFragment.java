@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -141,6 +142,29 @@ public class UserListsFragment extends Fragment implements UserListsView, UserLi
     @Override
     public void onUserListClick (UserList list) {
         presenter.onUserListClicked (list);
+    }
+
+    @Override
+    public void onUserListLongClick (UserList list, View view) {
+        PopupMenu popup = new PopupMenu (getActivity (), view);
+        popup.inflate (R.menu.user_list_context_menu);
+
+        popup.setOnMenuItemClickListener (item -> {
+            switch ( item.getItemId () ) {
+                case R.id.action_rename:
+                    presenter.onRenameClicked (list);
+                    break;
+                case R.id.action_duplicate:
+                    presenter.duplicateList (list);
+                    break;
+                case R.id.action_delete:
+                    presenter.deleteList (list);
+                    break;
+            }
+            return true;
+        });
+
+        popup.show ();
     }
 
     @Override

@@ -24,7 +24,7 @@ public class CreateListDialogPresenterImpl extends CreateListDialogPresenter {
         }
 
         Completable.fromAction (() -> {
-            long id = database.userListDao ().insert (new UserList (name));
+            long id = database.userListDao ().insertList (new UserList (name));
 
             if ( movieId != Movie.NONE ) {
                 database.userListDao ().addToList (new UserListItem (id, movieId));

@@ -70,6 +70,10 @@ public class UserListsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         itemHolder.title.setText (userList.name);
 
         itemHolder.itemView.setOnClickListener (v -> listener.onUserListClick (userList));
+        itemHolder.itemView.setOnLongClickListener (v -> {
+            listener.onUserListLongClick (userList, v);
+            return true;
+        });
     }
 
     @Override
@@ -90,5 +94,7 @@ public class UserListsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     interface ClickListener {
         void onUserListClick (UserList list);
+
+        void onUserListLongClick (UserList list, View view);
     }
 }

@@ -5,6 +5,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.RoomWarnings;
+import android.arch.persistence.room.Transaction;
 
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.UserList;
@@ -12,39 +13,73 @@ import com.winterparadox.themovieapp.common.beans.UserListItem;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 import static android.arch.persistence.room.OnConflictStrategy.IGNORE;
+import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 
 @Dao
 @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
-public interface UserListDao {
+public abstract class UserListDao {
 
     @Query("SELECT * FROM UserList")
-    Single<List<UserList>> getUserLists ();
+    public abstract Flowable<List<UserList>> getUserLists ();
+
+    @Query("SELECT * FROM UserList")
+    public abstract Single<List<UserList>> getUserListsOnce ();
 
     @Query("SELECT EXISTS(SELECT 1 FROM UserList)")
-    Single<Boolean> anyExists ();
+    public abstract Single<Boolean> anyListExists ();
+
+    @Query("SELECT EXISTS(SELECT 1 FROM UserListItem WHERE UserListItem.userListId= :userListId)")
+    public abstract boolean anyItemExists (long userListId);
 
     @Query("SELECT * FROM Movie INNER JOIN UserListItem ON Movie.id=UserListItem.movieId " +
-            " WHERE UserListItem.userListId= :userListId ORDER BY voteAverage LIMIT 1")
-    Single<Movie> getTopListMovie (long userListId);
+            " WHERE UserListItem.userListId= :userListId ORDER BY voteAverage DESC LIMIT 1")
+    public abstract Single<Movie> getTopListMovie (long userListId);
 
     @Query("SELECT * FROM Movie INNER JOIN UserListItem ON Movie.id=UserListItem.movieId " +
             " WHERE UserListItem.userListId= :userListId ORDER BY UserListItem.`order`")
-    Single<List<Movie>> getListMovies (long userListId);
+    public abstract Single<List<Movie>> getListMovies (long userListId);
 
 
     @Insert(onConflict = IGNORE)
-    Long insert (UserList list);
+    public abstract Long insertList (UserList list);
 
-    @Insert(onConflict = IGNORE)
-    Long addToList (UserListItem listItem);
+    @Insert(onConflict = REPLACE)
+    public abstract Long updateList (UserList list);
 
     @Delete
-    void removeFromList (UserListItem list);
+    public abstract void deleteList (UserList list);
+
+    @Insert(onConflict = REPLACE)
+    public abstract Long addToList (UserListItem listItem);
+
+    @Delete
+    public abstract void removeFromList (UserListItem listItem);
 
     @Query("SELECT EXISTS(SELECT 1 FROM UserListItem WHERE UserListItem.movieId = :movieId" +
             " AND UserListItem.userListId = :listId)")
-    boolean isInList (long movieId, long listId);
+    public abstract boolean isInList (long movieId, long listId);
+
+    @Query("DELETE FROM UserListItem WHERE userListId = :listId")
+    public abstract void deleteListItems (long listId);
+
+    // for transaction
+    @Query("SELECT * FROM UserListItem WHERE userListId = :oldId;")
+    abstract List<UserListItem> copyItemFromOld (long oldId);
+
+    // ---
+
+    @Transaction
+    public void duplicateListItems (UserList list) {
+        Long newId = insertList (new UserList (list.name + " copy"));
+
+        List<UserListItem> userListItems = copyItemFromOld (list.id);
+        for ( UserListItem userListItem : userListItems ) {
+            userListItem.userListId = newId;
+            addToList (userListItem);
+        }
+    }
 }

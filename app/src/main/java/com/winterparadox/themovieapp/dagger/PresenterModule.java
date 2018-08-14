@@ -29,6 +29,8 @@ import com.winterparadox.themovieapp.search.HostPresenter;
 import com.winterparadox.themovieapp.search.HostPresenterImpl;
 import com.winterparadox.themovieapp.userLists.UserListsPresenter;
 import com.winterparadox.themovieapp.userLists.UserListsPresenterImpl;
+import com.winterparadox.themovieapp.userLists.renameList.RenameListDialogPresenter;
+import com.winterparadox.themovieapp.userLists.renameList.RenameListDialogPresenterImpl;
 import com.winterparadox.themovieapp.userLists.userMovieList.UserMovieListPresenter;
 import com.winterparadox.themovieapp.userLists.userMovieList.UserMovieListPresenterImpl;
 
@@ -125,6 +127,11 @@ public class PresenterModule {
     @Provides
     public CreateListDialogPresenter provideCreateListPresenter (AppDatabase database) {
         return new CreateListDialogPresenterImpl (database);
+    }
+
+    @Provides
+    public RenameListDialogPresenter provideRenameListPresenter (AppDatabase database) {
+        return new RenameListDialogPresenterImpl (database);
     }
 
 }

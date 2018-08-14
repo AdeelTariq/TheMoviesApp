@@ -10,6 +10,7 @@ import com.winterparadox.themovieapp.common.room.AppDatabase;
 import java.util.HashMap;
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 
@@ -44,32 +45,29 @@ public class UserListsPresenterImpl extends UserListsPresenter {
     private void loadData () {
 
         database.userListDao ()
-                .anyExists ()
+                .anyListExists ()
                 .map (anyExists -> {
                     if ( !anyExists ) {
                         if ( view != null ) {
                             List<String> defaultLists = view.getDefaultLists ();
                             for ( String defaultList : defaultLists ) {
-                                database.userListDao ().insert (new UserList (defaultList));
+                                database.userListDao ().insertList (new UserList (defaultList));
                             }
                         }
                     }
                     return anyExists;
                 })
-                .map (b -> database.userListDao ().getUserLists ().blockingGet ())
-                .toObservable ()
-                .flatMapIterable (userLists -> userLists)
-                .map (userList -> {
-                    try {
-                        Movie movie = database.userListDao ()
-                                .getTopListMovie (userList.id).blockingGet ();
-                        userList.backDropPath = movie.backdropPath;
-                    } catch ( Exception e ) {
-                        e.printStackTrace ();
+                .flatMapPublisher (b -> database.userListDao ().getUserLists ())
+                .map (userLists -> {
+                    for ( UserList userList : userLists ) {
+                        if ( database.userListDao ().anyItemExists (userList.id) ) {
+                            Movie movie = database.userListDao ()
+                                    .getTopListMovie (userList.id).blockingGet ();
+                            userList.backDropPath = movie.backdropPath;
+                        }
                     }
-                    return userList;
+                    return userLists;
                 })
-                .toList ()
                 .subscribeOn (Schedulers.io ())
                 .observeOn (mainScheduler)
                 .subscribe (userLists -> {
@@ -90,6 +88,21 @@ public class UserListsPresenterImpl extends UserListsPresenter {
     }
 
     @Override
+    public void duplicateList (UserList list) {
+        Completable.fromAction (() -> database.userListDao ()
+                .duplicateListItems (list))
+                .subscribeOn (Schedulers.io ()).subscribe ();
+    }
+
+    @Override
+    public void deleteList (UserList list) {
+        Completable.fromAction (() -> {
+            database.userListDao ().deleteListItems (list.id);
+            database.userListDao ().deleteList (list);
+        }).subscribeOn (Schedulers.io ()).subscribe ();
+    }
+
+    @Override
     public void onUserListClicked (UserList list) {
         if ( navigator != null ) {
             navigator.openMyList (list);
@@ -100,6 +113,13 @@ public class UserListsPresenterImpl extends UserListsPresenter {
     public void onAddClicked () {
         if ( navigator != null ) {
             navigator.openCreateList (Movie.NONE);
+        }
+    }
+
+    @Override
+    public void onRenameClicked (UserList list) {
+        if ( navigator != null ) {
+            navigator.openRenameList (list);
         }
     }
 }

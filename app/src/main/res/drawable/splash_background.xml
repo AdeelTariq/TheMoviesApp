@@ -6,8 +6,12 @@
     </item>
 
     <item android:top="96dp">
-        <nine-patch android:src="@drawable/front_sheet"/>
+        <shape android:shape="rectangle">
+            <corners
+                android:topLeftRadius="24dp"
+                android:topRightRadius="24dp"/>
+            <solid android:color="@color/backgroundColor"/>
+        </shape>
     </item>
-
 
 </layer-list>

@@ -32,4 +32,6 @@ public interface Navigator {
     void openListSelector (ArrayList<UserList> userLists, long movieId);
 
     void openCreateList (long movieId);
+
+    void openRenameList (UserList list);
 }

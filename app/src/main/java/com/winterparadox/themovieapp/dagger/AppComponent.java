@@ -13,6 +13,7 @@ import com.winterparadox.themovieapp.personDetails.PersonDetailsFragment;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedFragment;
 import com.winterparadox.themovieapp.search.HostActivity;
 import com.winterparadox.themovieapp.userLists.UserListsFragment;
+import com.winterparadox.themovieapp.userLists.renameList.RenameListDialogFragment;
 import com.winterparadox.themovieapp.userLists.userMovieList.UserMovieListFragment;
 
 import javax.inject.Singleton;
@@ -53,4 +54,6 @@ public interface AppComponent {
     void inject (UserMovieListFragment target);
 
     void inject (CreateListDialogFragment target);
+
+    void inject (RenameListDialogFragment target);
 }

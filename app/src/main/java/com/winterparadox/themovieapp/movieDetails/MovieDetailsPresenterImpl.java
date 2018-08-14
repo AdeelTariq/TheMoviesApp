@@ -174,20 +174,21 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
     @Override
     public void onAddToListClicked () {
         database.userListDao ()
-                .anyExists ()
+                .anyListExists ()
                 .map (anyExists -> {
                     if ( !anyExists ) {
                         if ( view != null ) {
                             List<String> defaultLists = view.getDefaultLists ();
                             for ( String defaultList : defaultLists ) {
-                                database.userListDao ().insert (new UserList (defaultList));
+                                database.userListDao ().insertList (new UserList (defaultList));
                             }
                         }
                     }
                     return anyExists;
                 })
-                .flatMap (b -> database.userListDao ().getUserLists ())
-                .toObservable ().flatMapIterable (userLists -> userLists)
+                .flatMap (b -> database.userListDao ().getUserListsOnce ())
+                .toObservable ()
+                .flatMapIterable (userLists -> userLists)
                 .map (userList -> {
                     userList.isAdded = database.userListDao ()
                             .isInList (movie.id, userList.id);

@@ -39,6 +39,7 @@ import com.winterparadox.themovieapp.movieDetails.addToList.UserListDialogFragme
 import com.winterparadox.themovieapp.personDetails.PersonDetailsFragment;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedFragment;
 import com.winterparadox.themovieapp.userLists.UserListsFragment;
+import com.winterparadox.themovieapp.userLists.renameList.RenameListDialogFragment;
 import com.winterparadox.themovieapp.userLists.userMovieList.UserMovieListFragment;
 
 import java.util.ArrayList;
@@ -319,6 +320,12 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
     public void openCreateList (long movieId) {
         CreateListDialogFragment dialog = CreateListDialogFragment.instance (movieId);
         dialog.show (getSupportFragmentManager (), "createList");
+    }
+
+    @Override
+    public void openRenameList (UserList list) {
+        RenameListDialogFragment dialog = RenameListDialogFragment.instance (list);
+        dialog.show (getSupportFragmentManager (), "renameList");
     }
 
     public static void resurfaceFragment (AppCompatActivity activity,
