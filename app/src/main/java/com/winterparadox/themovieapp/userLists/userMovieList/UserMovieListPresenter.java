@@ -5,6 +5,8 @@ import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.UserList;
 
+import java.util.List;
+
 public abstract class UserMovieListPresenter extends BasePresenter<UserMovieListView> {
 
     protected UserList userList;
@@ -21,4 +23,8 @@ public abstract class UserMovieListPresenter extends BasePresenter<UserMovieList
     public abstract void saveState (int visibleItemPosition);
 
     public abstract void onDiscoverClick ();
+
+    public abstract void deleteMovie (Movie movie);
+
+    public abstract void saveListOrder (List<Object> movies);
 }

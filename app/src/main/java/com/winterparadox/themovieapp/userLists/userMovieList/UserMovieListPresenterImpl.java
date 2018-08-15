@@ -5,10 +5,13 @@ import android.annotation.SuppressLint;
 import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.UserList;
+import com.winterparadox.themovieapp.common.beans.UserListItem;
 import com.winterparadox.themovieapp.common.room.AppDatabase;
 
 import java.util.HashMap;
+import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 
@@ -61,6 +64,29 @@ public class UserMovieListPresenterImpl extends UserMovieListPresenter {
                     throwable.printStackTrace ();
                 });
 
+    }
+
+    @Override
+    public void deleteMovie (Movie movie) {
+        Completable.fromAction (() -> database.userListDao ()
+                .removeFromList (new UserListItem (userList.id, movie.id)))
+                .subscribeOn (Schedulers.io ())
+                .subscribe ();
+    }
+
+    @Override
+    public void saveListOrder (List<Object> movies) {
+        Completable.fromAction (() -> {
+            for ( int i = 0, moviesSize = movies.size (); i < moviesSize; i++ ) {
+                Object movie = movies.get (i);
+                if ( !(movie instanceof Movie) ) {
+                    continue;
+                }
+                UserListItem listItem = new UserListItem (userList.id, ((Movie) movie).id);
+                listItem.order = i;
+                database.userListDao ().addToList (listItem);
+            }
+        }).subscribeOn (Schedulers.io ()).subscribe ();
     }
 
     @Override

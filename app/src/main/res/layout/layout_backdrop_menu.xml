@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/action_favorite"
-            app:icon="@drawable/ic_favorite_filled"
+            app:icon="@drawable/ic_favorite_border"
             android:text="@string/favorites"/>
 
         <android.support.design.button.MaterialButton
@@ -45,6 +45,14 @@
             android:id="@+id/action_charts"
             app:icon="@drawable/ic_charts"
             android:text="@string/charts"/>
+
+        <android.support.design.button.MaterialButton
+            style="@style/Widget.Movies.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/action_about"
+            app:icon="@drawable/ic_charts"
+            android:text="@string/about"/>
 
 
         <ImageView

@@ -12,6 +12,16 @@
                 android:valueType="floatType"/>
         </set>
     </item>
+    <item
+        android:state_hovered="true">
+        <set>
+            <objectAnimator
+                android:duration="@android:integer/config_shortAnimTime"
+                android:propertyName="translationZ"
+                android:valueTo="8dp"
+                android:valueType="floatType"/>
+        </set>
+    </item>
     <item>
         <set>
             <objectAnimator

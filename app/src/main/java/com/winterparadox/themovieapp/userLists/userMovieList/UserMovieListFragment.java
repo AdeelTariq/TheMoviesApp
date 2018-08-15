@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.arch.Navigator;
@@ -22,7 +21,9 @@ import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.UserList;
 import com.winterparadox.themovieapp.common.views.DefaultListDecoration;
 import com.winterparadox.themovieapp.common.views.OnScrollObserver;
+import com.woxthebox.draglistview.DragListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,11 +33,11 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class UserMovieListFragment extends Fragment implements UserMovieListView,
-        UserMovieListAdapter.ClickListener {
+        UserMovieListAdapter.ClickListener, DragListView.DragListListener {
 
     private static final String LIST = "list";
     @BindView(R.id.tvHeader) TextView tvHeader;
-    @BindView(R.id.recyclerView) ShimmerRecyclerView recyclerView;
+    @BindView(R.id.recyclerView) DragListView recyclerView;
     @BindView(R.id.scrollIndicator) ImageView scrollIndicator;
     Unbinder unbinder;
     private UserList list;
@@ -65,7 +66,7 @@ public class UserMovieListFragment extends Fragment implements UserMovieListView
     @Override
     public View onCreateView (@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                               @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate (R.layout.fragment_home, container, false);
+        View view = inflater.inflate (R.layout.fragment_draggable_recyclerview, container, false);
         unbinder = ButterKnife.bind (this, view);
 
         tvHeader.setText (list.name);
@@ -86,21 +87,17 @@ public class UserMovieListFragment extends Fragment implements UserMovieListView
                 DividerItemDecoration.VERTICAL, gridLayoutManager.getSpanCount ());
         decor.setDefaultOffset (24);
         decor.setItemPadding (8);
-        recyclerView.addItemDecoration (decor);
+        recyclerView.getRecyclerView ().addItemDecoration (decor);
+        recyclerView.setCanDragHorizontally (false);
 
-        recyclerView.setItemViewCacheSize (20);
+        recyclerView.getRecyclerView ().setItemViewCacheSize (20);
         recyclerView.setDrawingCacheEnabled (true);
-
-        recyclerView.setDemoChildCount (10);
-        recyclerView.setDemoLayoutManager (ShimmerRecyclerView.LayoutMangerType.GRID);
-        recyclerView.setDemoLayoutReference (R.layout.layout_movie_list_shimmer_item);
-        recyclerView.setGridChildCount (gridLayoutManager.getSpanCount ());
 
         movieListAdapter = new UserMovieListAdapter (this, presenter::onDiscoverClick);
 
-        recyclerView.setAdapter (movieListAdapter);
+        recyclerView.setAdapter (movieListAdapter, false);
 
-        recyclerView.addOnScrollListener (new OnScrollObserver () {
+        recyclerView.getRecyclerView ().addOnScrollListener (new OnScrollObserver () {
             @Override
             public void onScrolling () {
                 scrollIndicator.setVisibility (View.VISIBLE);
@@ -112,6 +109,20 @@ public class UserMovieListFragment extends Fragment implements UserMovieListView
             }
         });
 
+        // dont allow error item to be dragged
+        recyclerView.setDragListCallback (new DragListView.DragListCallback () {
+            @Override
+            public boolean canDragItemAtPosition (int dragPosition) {
+                return movieListAdapter.getItemList ().get (dragPosition) instanceof Movie;
+            }
+
+            @Override
+            public boolean canDropItemAtPosition (int dropPosition) {
+                return true;
+            }
+        });
+        recyclerView.setDragListListener (this);
+
         presenter.attachView (this, list, (Navigator) getActivity ());
 
         return view;
@@ -121,8 +132,8 @@ public class UserMovieListFragment extends Fragment implements UserMovieListView
     @Override
     public void onDestroyView () {
         super.onDestroyView ();
-        if ( recyclerView.getLayoutManager () != null ) {
-            int visibleItemPosition = ((GridLayoutManager) recyclerView
+        if ( recyclerView.getRecyclerView ().getLayoutManager () != null ) {
+            int visibleItemPosition = ((GridLayoutManager) recyclerView.getRecyclerView ()
                     .getLayoutManager ()).findLastCompletelyVisibleItemPosition ();
             presenter.saveState (visibleItemPosition);
         }
@@ -132,7 +143,7 @@ public class UserMovieListFragment extends Fragment implements UserMovieListView
 
     @Override
     public void showMovies (List<Movie> movies) {
-        movieListAdapter.setItems (movies);
+        movieListAdapter.setMovies (movies);
 
         if ( movies.isEmpty () ) {
             movieListAdapter.setError (getString (R.string.no_movies_user_list));
@@ -145,13 +156,34 @@ public class UserMovieListFragment extends Fragment implements UserMovieListView
     }
 
     @Override
+    public void onDeleteClick (Movie movie) {
+        presenter.deleteMovie (movie);
+    }
+
+    @Override
+    public void onItemDragEnded (int fromPosition, int toPosition) {
+        List<Object> itemList = movieListAdapter.getItemList ();
+
+        ArrayList<Object> movies = new ArrayList<> (itemList);
+        presenter.saveListOrder (movies);
+    }
+
+    @Override
+    public void onItemDragStarted (int position) {
+
+    }
+
+    @Override
+    public void onItemDragging (int itemPosition, float x, float y) {
+
+    }
+
+    @Override
     public void showProgress () {
-        recyclerView.showShimmerAdapter ();
     }
 
     @Override
     public void hideProgress () {
-        recyclerView.hideShimmerAdapter ();
     }
 
     @Override
