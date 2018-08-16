@@ -7,6 +7,8 @@
     android:orientation="vertical"
     android:paddingStart="24dp"
     android:paddingEnd="24dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="64dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout

@@ -14,6 +14,12 @@ import com.winterparadox.themovieapp.favorites.FavoritesPresenterImpl;
 import com.winterparadox.themovieapp.home.HomeApiInteractor;
 import com.winterparadox.themovieapp.home.HomePresenter;
 import com.winterparadox.themovieapp.home.HomePresenterImpl;
+import com.winterparadox.themovieapp.hostAndSearch.HostApiInteractor;
+import com.winterparadox.themovieapp.hostAndSearch.HostPresenter;
+import com.winterparadox.themovieapp.hostAndSearch.HostPresenterImpl;
+import com.winterparadox.themovieapp.hostAndSearch.searchResults.SearchResultApiInteractor;
+import com.winterparadox.themovieapp.hostAndSearch.searchResults.SearchResultPresenter;
+import com.winterparadox.themovieapp.hostAndSearch.searchResults.SearchResultPresenterImpl;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsApiInteractor;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsPresenter;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsPresenterImpl;
@@ -24,9 +30,6 @@ import com.winterparadox.themovieapp.personDetails.PersonDetailsPresenter;
 import com.winterparadox.themovieapp.personDetails.PersonDetailsPresenterImpl;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedPresenter;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedPresenterImpl;
-import com.winterparadox.themovieapp.search.HostApiInteractor;
-import com.winterparadox.themovieapp.search.HostPresenter;
-import com.winterparadox.themovieapp.search.HostPresenterImpl;
 import com.winterparadox.themovieapp.userLists.UserListsPresenter;
 import com.winterparadox.themovieapp.userLists.UserListsPresenterImpl;
 import com.winterparadox.themovieapp.userLists.renameList.RenameListDialogPresenter;
@@ -132,6 +135,12 @@ public class PresenterModule {
     @Provides
     public RenameListDialogPresenter provideRenameListPresenter (AppDatabase database) {
         return new RenameListDialogPresenterImpl (database);
+    }
+
+    @Provides
+    public SearchResultPresenter provideSearchResultPresenter (SearchResultApiInteractor interactor,
+                                                               Scheduler scheduler) {
+        return new SearchResultPresenterImpl (interactor, scheduler);
     }
 
 }

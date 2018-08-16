@@ -1,4 +1,4 @@
-package com.winterparadox.themovieapp.search;
+package com.winterparadox.themovieapp.hostAndSearch;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;

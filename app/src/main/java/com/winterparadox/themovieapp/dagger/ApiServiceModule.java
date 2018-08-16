@@ -6,9 +6,10 @@ import com.winterparadox.themovieapp.BuildConfig;
 import com.winterparadox.themovieapp.common.apiServices.ChartsApiService;
 import com.winterparadox.themovieapp.common.retrofit.ApiBuilder;
 import com.winterparadox.themovieapp.home.HomeApiService;
+import com.winterparadox.themovieapp.hostAndSearch.ConfigurationApiService;
+import com.winterparadox.themovieapp.hostAndSearch.SearchApiService;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsApiService;
 import com.winterparadox.themovieapp.personDetails.PersonApiService;
-import com.winterparadox.themovieapp.search.ConfigurationApiService;
 
 import javax.inject.Singleton;
 
@@ -51,6 +52,12 @@ public class ApiServiceModule {
     @Singleton
     public ChartsApiService provideChartsApiService (Context context) {
         return ApiBuilder.build (context, ChartsApiService.class, BuildConfig.DEBUG);
+    }
+
+    @Provides
+    @Singleton
+    public SearchApiService provideSearchApiService (Context context) {
+        return ApiBuilder.build (context, SearchApiService.class, BuildConfig.DEBUG);
     }
 
 }

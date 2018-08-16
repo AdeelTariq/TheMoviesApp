@@ -7,11 +7,12 @@ import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListFragmen
 import com.winterparadox.themovieapp.createList.CreateListDialogFragment;
 import com.winterparadox.themovieapp.favorites.FavoritesFragment;
 import com.winterparadox.themovieapp.home.HomeFragment;
+import com.winterparadox.themovieapp.hostAndSearch.HostActivity;
+import com.winterparadox.themovieapp.hostAndSearch.searchResults.SearchResultFragment;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsFragment;
 import com.winterparadox.themovieapp.movieDetails.addToList.UserListDialogFragment;
 import com.winterparadox.themovieapp.personDetails.PersonDetailsFragment;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedFragment;
-import com.winterparadox.themovieapp.search.HostActivity;
 import com.winterparadox.themovieapp.userLists.UserListsFragment;
 import com.winterparadox.themovieapp.userLists.renameList.RenameListDialogFragment;
 import com.winterparadox.themovieapp.userLists.userMovieList.UserMovieListFragment;
@@ -56,4 +57,6 @@ public interface AppComponent {
     void inject (CreateListDialogFragment target);
 
     void inject (RenameListDialogFragment target);
+
+    void inject (SearchResultFragment target);
 }

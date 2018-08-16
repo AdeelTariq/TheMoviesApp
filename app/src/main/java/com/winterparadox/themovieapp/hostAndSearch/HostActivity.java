@@ -1,4 +1,4 @@
-package com.winterparadox.themovieapp.search;
+package com.winterparadox.themovieapp.hostAndSearch;
 
 import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
@@ -11,6 +11,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
@@ -34,6 +37,7 @@ import com.winterparadox.themovieapp.common.beans.UserList;
 import com.winterparadox.themovieapp.createList.CreateListDialogFragment;
 import com.winterparadox.themovieapp.favorites.FavoritesFragment;
 import com.winterparadox.themovieapp.home.HomeFragment;
+import com.winterparadox.themovieapp.hostAndSearch.searchResults.SearchResultFragment;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsFragment;
 import com.winterparadox.themovieapp.movieDetails.addToList.UserListDialogFragment;
 import com.winterparadox.themovieapp.personDetails.PersonDetailsFragment;
@@ -50,7 +54,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HostActivity extends AppCompatActivity implements HostView, Navigator {
+public class HostActivity extends AppCompatActivity implements HostView, Navigator,
+        SuggestionAdapter.ClickListener {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.app_bar) AppBarLayout appBar;
@@ -64,6 +69,9 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
     private MenuItem offlineModeItem, searchItem;
 
     @Inject HostPresenter presenter;
+    private RecyclerView rvSuggestions;
+    private SuggestionAdapter suggestionAdapter;
+    private View searchProgressbar;
 
     @SuppressLint("InflateParams")
     @Override
@@ -90,25 +98,24 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
             layoutChild.getChildAt (i).setOnClickListener (this::onMenuClick);
         }
 
+        View seachLayout = getLayoutInflater ().inflate (R.layout.layout_backdrop_search,
+                null, false);
+        rvSuggestions = seachLayout.findViewById (R.id.rvSuggestions);
+        searchProgressbar = seachLayout.findViewById (R.id.searchProgress);
+        rvSuggestions.setLayoutManager (new LinearLayoutManager (this));
+        suggestionAdapter = new SuggestionAdapter (this);
+        rvSuggestions.setAdapter (suggestionAdapter);
+
         backDropNavigationListener = new BackDropNavigationListener (this,
                 toolbar.getChildAt (1),
-                frontSheet, backdropHolder, menuLayout,
-                getLayoutInflater ().inflate (R.layout.layout_backdrop_search, null, false),
+                frontSheet, backdropHolder, menuLayout, seachLayout,
                 new DecelerateInterpolator (),
                 getDrawable (R.drawable.ic_menu),
                 getDrawable (R.drawable.ic_close));
 
         setSupportActionBar (toolbar);
         toolbar.setNavigationOnClickListener (backDropNavigationListener);
-        frontSheet.setOnClickListener ((v) -> {
-            if ( backDropNavigationListener.isBackdropShown () ) {
-                if ( searchItem.isActionViewExpanded () ) {
-                    searchItem.collapseActionView ();
-                } else {
-                    backDropNavigationListener.toggle ();
-                }
-            }
-        });
+        frontSheet.setOnClickListener ((v) -> closeBackdrop ());
 
         presenter.attachView (this, this);
 
@@ -123,6 +130,16 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
     protected void onDestroy () {
         super.onDestroy ();
         presenter.detachView ();
+    }
+
+    private void closeBackdrop () {
+        if ( backDropNavigationListener.isBackdropShown () ) {
+            if ( searchItem.isActionViewExpanded () ) {
+                searchItem.collapseActionView ();
+            } else {
+                backDropNavigationListener.toggle ();
+            }
+        }
     }
 
     @Override
@@ -163,7 +180,8 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
             }
 
             @Override
-            public boolean onQueryTextChange (String s) {
+            public boolean onQueryTextChange (String query) {
+                presenter.getSuggestions (query);
                 return false;
             }
         });
@@ -189,7 +207,23 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
     }
 
     private void search (String query) {
+        presenter.search (query);
+    }
 
+    @Override
+    public void showSuggestions (List<Movie> movies) {
+        suggestionAdapter.setItems (movies);
+    }
+
+    @Override
+    public void clearSuggestions () {
+        suggestionAdapter.clear ();
+    }
+
+    @Override
+    public void onMovieSuggestionClick (Movie movie) {
+        closeBackdrop ();
+        presenter.onMovieSuggestionClicked (movie);
     }
 
     ConnectivityManager.NetworkCallback callback = new ConnectivityManager.NetworkCallback () {
@@ -232,7 +266,7 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
     /**
      * Menu click listener
      *
-     * @param v
+     * @param v view
      */
     public void onMenuClick (View v) {
         backDropNavigationListener.toggle ();
@@ -328,6 +362,19 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
         dialog.show (getSupportFragmentManager (), "renameList");
     }
 
+    @Override
+    public void openSearch () {
+        searchItem.expandActionView ();
+    }
+
+    @Override
+    public void openSearchResults (String query, List<Movie> movies) {
+        closeBackdrop ();
+        resurfaceFragment (this,
+                SearchResultFragment.instance (query, new ArrayList<> (movies)),
+                "search " + query, null);
+    }
+
     public static void resurfaceFragment (AppCompatActivity activity,
                                           Fragment fragment, String tag,
                                           View sharedElement) {
@@ -373,12 +420,16 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
 
     @Override
     public void showProgress () {
-
+        if ( searchProgressbar != null ) {
+            searchProgressbar.setVisibility (View.VISIBLE);
+        }
     }
 
     @Override
     public void hideProgress () {
-
+        if ( searchProgressbar != null ) {
+            searchProgressbar.setVisibility (View.GONE);
+        }
     }
 
     @Override
@@ -388,7 +439,7 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
 
     @Override
     public void showError (String message) {
-
+        Toast.makeText (this, message, Toast.LENGTH_LONG).show ();
     }
 
     @Override

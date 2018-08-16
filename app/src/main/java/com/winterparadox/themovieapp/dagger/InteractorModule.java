@@ -8,15 +8,18 @@ import com.winterparadox.themovieapp.common.apiServices.ChartsApiService;
 import com.winterparadox.themovieapp.home.HomeApiInteractor;
 import com.winterparadox.themovieapp.home.HomeApiInteractorImpl;
 import com.winterparadox.themovieapp.home.HomeApiService;
+import com.winterparadox.themovieapp.hostAndSearch.ConfigurationApiService;
+import com.winterparadox.themovieapp.hostAndSearch.HostApiInteractor;
+import com.winterparadox.themovieapp.hostAndSearch.HostApiInteractorImpl;
+import com.winterparadox.themovieapp.hostAndSearch.SearchApiService;
+import com.winterparadox.themovieapp.hostAndSearch.searchResults.SearchResultApiInteractor;
+import com.winterparadox.themovieapp.hostAndSearch.searchResults.SearchResultApiInteractorImpl;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsApiInteractor;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsApiInteractorImpl;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsApiService;
 import com.winterparadox.themovieapp.personDetails.PersonApiInteractor;
 import com.winterparadox.themovieapp.personDetails.PersonApiInteractorImpl;
 import com.winterparadox.themovieapp.personDetails.PersonApiService;
-import com.winterparadox.themovieapp.search.ConfigurationApiService;
-import com.winterparadox.themovieapp.search.HostApiInteractor;
-import com.winterparadox.themovieapp.search.HostApiInteractorImpl;
 
 import javax.inject.Singleton;
 
@@ -53,8 +56,9 @@ public class InteractorModule {
     @Provides
     @Singleton
     public HostApiInteractor provideHostApiInteractor (ConfigurationApiService apiService,
-                                                       ChartsApiService chartsService) {
-        return new HostApiInteractorImpl (apiService, chartsService);
+                                                       ChartsApiService chartsService,
+                                                       SearchApiService searchService) {
+        return new HostApiInteractorImpl (apiService, chartsService, searchService);
     }
 
     @Provides
@@ -69,6 +73,16 @@ public class InteractorModule {
     public ChartMovieListApiInteractor provideChartMovieListApiInteractor (ChartsApiService
                                                                                        chartsService) {
         return new ChartMovieListApiInteractorImpl (chartsService);
+    }
+
+
+    @Provides
+    @Singleton
+    public SearchResultApiInteractor provideSearchResultApiInteractor (ChartsApiService
+                                                                                   chartsService,
+                                                                       SearchApiService
+                                                                               searchView) {
+        return new SearchResultApiInteractorImpl (chartsService, searchView);
     }
 
 }

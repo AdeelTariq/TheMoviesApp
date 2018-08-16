@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Movies">
         <activity
             android:configChanges="screenLayout"
-            android:name=".search.HostActivity">
+            android:name=".hostAndSearch.HostActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

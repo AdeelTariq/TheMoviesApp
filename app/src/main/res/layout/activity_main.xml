@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".search.HostActivity">
+    tools:context=".hostAndSearch.HostActivity">
 
 
     <LinearLayout
@@ -14,9 +14,7 @@
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="32dp"
-        android:paddingBottom="96dp">
+        android:orientation="vertical">
 
 
     </LinearLayout>

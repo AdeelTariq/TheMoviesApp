@@ -1,6 +1,7 @@
-package com.winterparadox.themovieapp.search;
+package com.winterparadox.themovieapp.hostAndSearch;
 
 import com.winterparadox.themovieapp.arch.BaseView;
+import com.winterparadox.themovieapp.common.beans.Movie;
 
 import java.util.List;
 
@@ -20,4 +21,8 @@ public interface HostView extends BaseView {
      * @return names of default charts to be added to database
      */
     List<String> getDefaultCharts ();
+
+    void showSuggestions (List<Movie> movies);
+
+    void clearSuggestions ();
 }

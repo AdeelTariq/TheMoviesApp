@@ -44,4 +44,6 @@
     <string name="delete">Delete</string>
     <string name="done">Done</string>
     <string name="about">About</string>
+    <string name="results_for">Results for \'%s\'</string>
+    <string name="not_found">No movies found matching the query.</string>
 </resources>

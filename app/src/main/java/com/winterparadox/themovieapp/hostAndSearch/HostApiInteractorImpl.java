@@ -1,4 +1,4 @@
-package com.winterparadox.themovieapp.search;
+package com.winterparadox.themovieapp.hostAndSearch;
 
 import com.winterparadox.themovieapp.common.apiServices.ChartsApiService;
 import com.winterparadox.themovieapp.common.beans.Chart;
@@ -12,13 +12,15 @@ import io.reactivex.schedulers.Schedulers;
 public class HostApiInteractorImpl implements HostApiInteractor {
 
     private final ChartsApiService chartService;
+    private SearchApiService searchService;
     private ConfigurationApiService configService;
 
     public HostApiInteractorImpl (ConfigurationApiService configService, ChartsApiService
-            chartsService) {
+            chartsService, SearchApiService searchService) {
 
         this.configService = configService;
         this.chartService = chartsService;
+        this.searchService = searchService;
     }
 
     @Override
@@ -70,5 +72,12 @@ public class HostApiInteractorImpl implements HostApiInteractor {
                     chart.backDropPath = movie.backdropPath;
                     return chart;
                 });
+    }
+
+    @Override
+    public Single<List<Movie>> search (String query) {
+        return searchService.search (query, 1)
+                .subscribeOn (Schedulers.io ())
+                .map (searchResponse -> searchResponse.results);
     }
 }

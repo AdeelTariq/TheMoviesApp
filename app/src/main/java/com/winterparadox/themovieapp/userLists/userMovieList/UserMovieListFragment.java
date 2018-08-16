@@ -88,7 +88,7 @@ public class UserMovieListFragment extends Fragment implements UserMovieListView
         decor.setDefaultOffset (24);
         decor.setItemPadding (8);
         recyclerView.getRecyclerView ().addItemDecoration (decor);
-        recyclerView.setCanDragHorizontally (false);
+        recyclerView.setCanDragHorizontally (true);
 
         recyclerView.getRecyclerView ().setItemViewCacheSize (20);
         recyclerView.setDrawingCacheEnabled (true);

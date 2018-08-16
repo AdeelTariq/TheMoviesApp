@@ -1,9 +1,13 @@
-package com.winterparadox.themovieapp.search;
+package com.winterparadox.themovieapp.hostAndSearch;
+
+import android.annotation.SuppressLint;
 
 import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.PresenterUtils;
+import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.room.AppDatabase;
 
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Scheduler;
@@ -82,6 +86,58 @@ public class HostPresenterImpl extends HostPresenter {
         }
     }
 
+    @SuppressLint("CheckResult")
+    @Override
+    public void getSuggestions (String query) {
+        if ( query.length () < 3 ) {
+            view.clearSuggestions ();
+            return;
+        }
+
+        database.movieDao ()
+                .search ("%" + query + "%", 10)
+                .map (movies -> {
+                    Collections.sort (movies,
+                            (o1, o2) -> Integer.compare (o1.title.indexOf (query),
+                                    o2.title.indexOf (query)));
+                    return movies;
+                })
+                .subscribeOn (Schedulers.io ())
+                .observeOn (mainScheduler)
+                .subscribe (movies -> {
+                    if ( view != null ) {
+                        view.showSuggestions (movies);
+                    }
+                });
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void search (String query) {
+        if ( query.isEmpty () ) {
+            return;
+        }
+        view.showProgress ();
+        api.search (query)
+                .observeOn (mainScheduler)
+                .subscribe ((movies, throwable) -> {
+                    if ( throwable != null ) {
+                        throwable.printStackTrace ();
+                        if ( view != null ) {
+                            view.showError (throwable.getMessage ());
+                            view.hideProgress ();
+                        }
+                    } else {
+                        if ( view != null ) {
+                            view.hideProgress ();
+                        }
+                        if ( navigator != null ) {
+                            navigator.openSearchResults (query, movies);
+                        }
+                    }
+                });
+    }
+
     @Override
     public void onRecentlyViewedClicked () {
         if ( navigator != null ) {
@@ -107,6 +163,13 @@ public class HostPresenterImpl extends HostPresenter {
     public void onChartsClicked () {
         if ( navigator != null ) {
             navigator.openCharts ();
+        }
+    }
+
+    @Override
+    public void onMovieSuggestionClicked (Movie movie) {
+        if ( navigator != null ) {
+            navigator.openMovie (movie, null);
         }
     }
 

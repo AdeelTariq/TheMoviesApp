@@ -1,6 +1,7 @@
-package com.winterparadox.themovieapp.search;
+package com.winterparadox.themovieapp.hostAndSearch;
 
 import com.winterparadox.themovieapp.common.beans.Chart;
+import com.winterparadox.themovieapp.common.beans.Movie;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface HostApiInteractor {
     Single<Chart> topRatedMovieBackdrop (Chart chart);
 
     Single<Chart> genreMovieBackdrop (Chart chart);
+
+    Single<List<Movie>> search (String query);
 }

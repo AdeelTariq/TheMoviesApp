@@ -3,7 +3,7 @@ package com.winterparadox.themovieapp.charts;
 import com.winterparadox.themovieapp.common.apiServices.ChartsApiService;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.Movie;
-import com.winterparadox.themovieapp.search.ConfigurationApiService;
+import com.winterparadox.themovieapp.hostAndSearch.ConfigurationApiService;
 
 import java.util.List;
 

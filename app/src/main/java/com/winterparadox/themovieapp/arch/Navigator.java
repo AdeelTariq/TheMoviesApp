@@ -6,6 +6,7 @@ import com.winterparadox.themovieapp.common.beans.Person;
 import com.winterparadox.themovieapp.common.beans.UserList;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface Navigator {
 
@@ -34,4 +35,8 @@ public interface Navigator {
     void openCreateList (long movieId);
 
     void openRenameList (UserList list);
+
+    void openSearchResults (String query, List<Movie> movies);
+
+    void openSearch ();
 }

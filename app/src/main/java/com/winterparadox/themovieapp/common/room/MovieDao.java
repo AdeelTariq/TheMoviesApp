@@ -20,10 +20,11 @@ public interface MovieDao {
     @Query("SELECT * FROM Movie WHERE id IN (:movieIds)")
     Single<List<Movie>> loadAllByIds (int[] movieIds);
 
-    @Query("SELECT * FROM Movie WHERE title LIKE :name LIMIT 1")
-    Movie findByName (String name);
+    @Query("SELECT * FROM Movie WHERE title LIKE :query LIMIT :count")
+    Single<List<Movie>> search (String query, int count);
 
     @Insert(onConflict = REPLACE)
     Long[] insertAll (Movie... movies);
+
 
 }
