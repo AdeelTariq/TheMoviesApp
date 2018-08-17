@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="define_shimmer_layout">year;owner</string>
+    <!-- Author section -->
+    <string name="library_shimmer_layout_author">Supercharge</string>
+    <string name="library_shimmer_layout_authorWebsite">http://supercharge.io/</string>
+    <!-- Library section -->
+    <string name="library_shimmer_layout_libraryName">ShimmerLayout</string>
+    <string name="library_shimmer_layout_libraryDescription">ShimmerLayout can be used to add shimmer effect (like the one used at Facebook or at LinkedIn) to your Android application.</string>
+    <string name="library_shimmer_layout_libraryWebsite">https://github.com/team-supercharge/ShimmerLayout</string>
+    <string name="library_shimmer_layout_libraryVersion">1.1.0</string>
+    <!-- OpenSource section -->
+    <string name="library_shimmer_layout_isOpenSource">true</string>
+    <string name="library_shimmer_layout_repositoryLink">https://github.com/team-supercharge/ShimmerLayout</string>
+    <!-- License section -->
+    <string name="library_shimmer_layout_licenseId">apache_2_0</string>
+    <!-- Custom variables section -->
+</resources>

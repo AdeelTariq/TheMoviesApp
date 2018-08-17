@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="define_lottie">year;owner</string>
+    <!-- Author section -->
+    <string name="library_lottie_author">Airbnb</string>
+    <string name="library_lottie_authorWebsite">https://github.com/airbnb</string>
+    <!-- Library section -->
+    <string name="library_lottie_libraryName">Lottie for Android</string>
+    <string name="library_lottie_libraryDescription">Render After Effects animations natively on Android and iOS, Web, and React Native</string>
+    <string name="library_lottie_libraryWebsite">http://airbnb.io/lottie/</string>
+    <string name="library_lottie_libraryVersion">2.5.6</string>
+    <!-- OpenSource section -->
+    <string name="library_lottie_isOpenSource">true</string>
+    <string name="library_lottie_repositoryLink">https://github.com/airbnb/lottie-android</string>
+    <!-- License section -->
+    <string name="library_lottie_licenseId">apache_2_0</string>
+    <!-- Custom variables section -->
+</resources>

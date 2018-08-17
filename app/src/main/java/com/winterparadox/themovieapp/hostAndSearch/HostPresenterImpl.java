@@ -174,6 +174,13 @@ public class HostPresenterImpl extends HostPresenter {
     }
 
     @Override
+    public void onAboutClicked () {
+        if ( navigator != null ) {
+            navigator.openAbout ();
+        }
+    }
+
+    @Override
     public void detachView () {
         super.detachView ();
         if ( favMenuDisposable != null && !favMenuDisposable.isDisposed () ) {

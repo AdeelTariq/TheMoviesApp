@@ -39,4 +39,6 @@ public interface Navigator {
     void openSearchResults (String query, List<Movie> movies);
 
     void openSearch ();
+
+    void openAbout ();
 }

@@ -46,4 +46,6 @@
     <string name="about">About</string>
     <string name="results_for">Results for \'%s\'</string>
     <string name="not_found">No movies found matching the query.</string>
+    <string
+        name="about_text"><![CDATA[This is an open source app built by<br /><a href="http://winterparadox.com"><b>Adeel Tariq</b></a><br/>with the help of the following libraries:]]></string>
 </resources>

@@ -20,4 +20,6 @@ public abstract class HostPresenter extends BasePresenter<HostView> {
     public abstract void onMovieSuggestionClicked (Movie movie);
 
     public abstract void search (String query);
+
+    public abstract void onAboutClicked ();
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="define_room">year;owner</string>
+    <string name="library_room_author">AOSP</string>
+    <string name="library_room_authorWebsite">https://developer.android.com/</string>
+    <string name="library_room_libraryName">Room Persistence Library</string>
+    <string name="library_room_libraryDescription">
+        The Room persistence library provides an abstraction layer over SQLite to allow for more robust database access while harnessing the full power of SQLite.
+    </string>
+    <string name="library_room_libraryVersion">1.1.1</string>
+    <string name="library_room_libraryWebsite">https://developer.android.com/topic/libraries/architecture/room</string>
+    <string name="library_room_licenseId">apache_2_0</string>
+    <string name="library_room_isOpenSource">true</string>
+    <!-- Custom variables section -->
+</resources>

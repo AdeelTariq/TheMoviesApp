@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="define_draglistview">year;owner</string>
+    <string name="library_draglistview_author">Magnus Woxblom</string>
+    <string name="library_draglistview_authorWebsite">https://github.com/woxblom</string>
+    <string name="library_draglistview_libraryName">DragListView</string>
+    <string name="library_draglistview_libraryDescription">
+        DragListView can be used when you want to be able to re-id items in a list, grid or a board. It also supports horizontal swiping of items in a list.
+    </string>
+    <string name="library_draglistview_libraryVersion">1.4.3</string>
+    <string name="library_draglistview_libraryWebsite">https://github.com/woxblom/DragListView</string>
+    <string name="library_draglistview_licenseId">apache_2_0</string>
+    <string name="library_draglistview_isOpenSource">true</string>
+    <string name="library_draglistview_repositoryLink">https://github.com/woxblom/DragListView</string>
+    <!-- Custom variables section -->
+</resources>

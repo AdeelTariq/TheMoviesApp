@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="define_circular">year;owner</string>
+    <string name="library_circular_author">Anton Kozyriatskyi</string>
+    <string name="library_circular_authorWebsite">https://github.com/antonKozyriatskyi</string>
+    <string name="library_circular_libraryName">Circular Progress Indicator</string>
+    <string name="library_circular_libraryDescription">
+        The Room persistence library provides an abstraction layer over SQLite to allow for more robust database access while harnessing the full power of SQLite.
+    </string>
+    <string name="library_circular_libraryVersion">1.1.3</string>
+    <string name="library_circular_libraryWebsite">https://github.com/antonKozyriatskyi/CircularProgressIndicator</string>
+    <string name="library_circular_licenseId">apache_2_0</string>
+    <string name="library_circular_isOpenSource">true</string>
+    <string name="library_circular_repositoryLink">https://github.com/antonKozyriatskyi/CircularProgressIndicator</string>
+    <!-- Custom variables section -->
+</resources>

@@ -24,6 +24,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.mikepenz.aboutlibraries.LibsBuilder;
+import com.mikepenz.aboutlibraries.ui.LibsSupportFragment;
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.arch.Navigator;
@@ -288,13 +290,17 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
             case R.id.action_charts:
                 presenter.onChartsClicked ();
                 break;
+
+            case R.id.action_about:
+                presenter.onAboutClicked ();
+                break;
         }
     }
 
     @Override
     public void openMovie (Movie movie, Object view) {
         View element = ((View) view);
-        resurfaceFragment (this,
+        openFragment (this,
                 MovieDetailsFragment.instance (movie),
                 movie.title, element);
     }
@@ -302,38 +308,38 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
     @Override
     public void openPerson (Person person, Object view) {
         View element = ((View) view);
-        resurfaceFragment (this,
+        openFragment (this,
                 PersonDetailsFragment.instance (person),
                 person.name, element);
     }
 
     @Override
     public void openFavorites () {
-        resurfaceFragment (this, new FavoritesFragment (),
+        openFragment (this, new FavoritesFragment (),
                 "favorites", null);
     }
 
     @Override
     public void openRecentlyViewed () {
-        resurfaceFragment (this, new RecentlyViewedFragment (),
+        openFragment (this, new RecentlyViewedFragment (),
                 "recents", null);
     }
 
     @Override
     public void openCharts () {
-        resurfaceFragment (this, new ChartsFragment (),
+        openFragment (this, new ChartsFragment (),
                 "charts", null);
     }
 
     @Override
     public void openMyLists () {
-        resurfaceFragment (this, new UserListsFragment (),
+        openFragment (this, new UserListsFragment (),
                 "myLists", null);
     }
 
     @Override
     public void openMyList (UserList list) {
-        resurfaceFragment (this, UserMovieListFragment.instance (list),
+        openFragment (this, UserMovieListFragment.instance (list),
                 list.name, null);
     }
 
@@ -345,7 +351,7 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
 
     @Override
     public void openChartMovieList (Chart chart) {
-        resurfaceFragment (this,
+        openFragment (this,
                 ChartMovieListFragment.instance (chart),
                 chart.name, null);
     }
@@ -370,34 +376,39 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
     @Override
     public void openSearchResults (String query, List<Movie> movies) {
         closeBackdrop ();
-        resurfaceFragment (this,
+        openFragment (this,
                 SearchResultFragment.instance (query, new ArrayList<> (movies)),
                 "search " + query, null);
     }
 
-    public static void resurfaceFragment (AppCompatActivity activity,
-                                          Fragment fragment, String tag,
-                                          View sharedElement) {
+    @Override
+    public void openAbout () {
+        LibsSupportFragment fragment = new LibsBuilder ()
+                .withAboutIconShown (true)
+                .withAboutVersionShown (true)
+                .withAboutDescription (getString (R.string.about_text))
+                .supportFragment ();
+
+        openFragment (this, fragment, "about", null);
+    }
+
+    public static void openFragment (AppCompatActivity activity,
+                                     Fragment fragment, String tag,
+                                     View sharedElement) {
         FragmentManager fragmentManager = activity.getSupportFragmentManager ();
 
-        boolean fragmentPopped = fragmentManager
-                .popBackStackImmediate (tag, 0);
+        FragmentTransaction ftx = fragmentManager.beginTransaction ();
 
-        if ( !fragmentPopped && fragmentManager.findFragmentByTag (tag) == null ) {
-
-            FragmentTransaction ftx = fragmentManager.beginTransaction ();
-
-            if ( sharedElement != null ) {
-                ftx.addSharedElement (sharedElement, sharedElement.getTransitionName ());
-            }
-
-
-            ftx.replace (R.id.container, fragment, tag);
-
-            ftx.addToBackStack (tag);
-
-            ftx.commit ();
+        if ( sharedElement != null ) {
+            ftx.addSharedElement (sharedElement, sharedElement.getTransitionName ());
         }
+
+
+        ftx.replace (R.id.container, fragment, tag);
+
+        ftx.addToBackStack (tag);
+
+        ftx.commit ();
     }
 
     @Override

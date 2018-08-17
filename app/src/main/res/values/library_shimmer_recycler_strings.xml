@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="define_shimmer_recycler">year;owner</string>
+    <!-- Author section -->
+    <string name="library_shimmer_recycler_author">Harish Sridharan</string>
+    <string name="library_shimmer_recycler_authorWebsite">https://github.com/sharish</string>
+    <!-- Library section -->
+    <string name="library_shimmer_recycler_libraryName">ShimmerRecyclerView</string>
+    <string name="library_shimmer_recycler_libraryDescription">A custom recycler view with shimmer views to indicate that views are loading.</string>
+    <string name="library_shimmer_recycler_libraryWebsite">https://github.com/sharish/ShimmerRecyclerView</string>
+    <string name="library_shimmer_recycler_libraryVersion">1.3</string>
+    <!-- OpenSource section -->
+    <string name="library_shimmer_recycler_isOpenSource">true</string>
+    <string name="library_shimmer_recycler_repositoryLink">https://github.com/sharish/ShimmerRecyclerView</string>
+    <!-- License section -->
+    <string name="library_shimmer_recycler_licenseId">apache_2_0</string>
+    <!-- Custom variables section -->
+</resources>
