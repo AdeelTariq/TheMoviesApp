@@ -37,7 +37,7 @@ public class Movie implements Serializable {
     public String backdropPath;
 
     @SerializedName("revenue")
-    public int revenue;
+    public long revenue;
 
     @TypeConverters(Movie.class)
     @SerializedName("genres")
@@ -50,7 +50,7 @@ public class Movie implements Serializable {
     public int voteCount;
 
     @SerializedName("budget")
-    public int budget;
+    public long budget;
 
     @SerializedName("overview")
     public String overview;

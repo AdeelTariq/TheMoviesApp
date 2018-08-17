@@ -73,12 +73,16 @@ public class UserMovieListFragment extends Fragment implements UserMovieListView
 
         GridLayoutManager gridLayoutManager;
 
+        boolean isLargeTablet = getResources ().getBoolean (R.bool.isLargeTablet);
+
         if ( getActivity ().getResources ().getConfiguration ().orientation == Configuration
                 .ORIENTATION_PORTRAIT ) {
-            gridLayoutManager = new GridLayoutManager (getActivity (), 1);
+            gridLayoutManager = new GridLayoutManager (getActivity (),
+                    1 + (isLargeTablet ? 1 : 0));
 
         } else {
-            gridLayoutManager = new GridLayoutManager (getActivity (), 2);
+            gridLayoutManager = new GridLayoutManager (getActivity (),
+                    2 + (isLargeTablet ? 1 : 0));
         }
 
         recyclerView.setLayoutManager (gridLayoutManager);

@@ -2,15 +2,20 @@ package com.winterparadox.themovieapp.recentlyViewed;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.GlideApp;
 import com.winterparadox.themovieapp.common.beans.Movie;
+import com.winterparadox.themovieapp.common.views.GradientColorFilterTransformation;
 import com.winterparadox.themovieapp.common.views.TransitionNames;
 
 import java.util.List;
@@ -25,11 +30,14 @@ public class RecentMoviesAdapter extends RecyclerView.Adapter<RecentMoviesAdapte
         .MovieItemHolder> {
 
 
+    private final RequestOptions requestOptions;
     private List<Movie> items;
     private ClickListener listener;
 
     RecentMoviesAdapter (ClickListener listener) {
         this.listener = listener;
+        requestOptions = new RequestOptions ()
+                .transforms (new CenterCrop (), new GradientColorFilterTransformation ());
     }
 
     void setItems (List<Movie> items) {
@@ -40,9 +48,19 @@ public class RecentMoviesAdapter extends RecyclerView.Adapter<RecentMoviesAdapte
     @NonNull
     @Override
     public MovieItemHolder onCreateViewHolder (@NonNull ViewGroup viewGroup, int type) {
+
+        boolean isTablet = viewGroup.getContext ().getResources ()
+                .getBoolean (R.bool.isLargeTablet);
+
         LayoutInflater inflater = LayoutInflater.from (viewGroup.getContext ());
-        View view1 = inflater.inflate (R.layout.item_movie_small,
-                viewGroup, false);
+        View view1;
+        if ( isTablet ) {
+            view1 = inflater.inflate (R.layout.item_movie_large,
+                    viewGroup, false);
+        } else {
+            view1 = inflater.inflate (R.layout.item_movie_small,
+                    viewGroup, false);
+        }
         return new MovieItemHolder (view1);
     }
 
@@ -51,12 +69,23 @@ public class RecentMoviesAdapter extends RecyclerView.Adapter<RecentMoviesAdapte
 
         Movie movie = items.get (i);
 
-        GlideApp.with (itemHolder.itemView)
-                .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
-                .centerCrop ()
-                .into (itemHolder.thumbnail);
 
         itemHolder.thumbnail.setTransitionName (TransitionNames.MOVIE_POSTER + movie.id);
+
+        if ( itemHolder.title != null ) {
+            itemHolder.title.setText (movie.title);
+
+            GlideApp.with (itemHolder.itemView)
+                    .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
+                    .apply (requestOptions)
+                    .into (itemHolder.thumbnail);
+
+        } else {
+            GlideApp.with (itemHolder.itemView)
+                    .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
+                    .centerCrop ()
+                    .into (itemHolder.thumbnail);
+        }
 
         itemHolder.itemView.setOnClickListener (v -> listener.onMovieClick (movie, itemHolder
                 .thumbnail));
@@ -71,6 +100,9 @@ public class RecentMoviesAdapter extends RecyclerView.Adapter<RecentMoviesAdapte
     static class MovieItemHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.thumbnail) ImageView thumbnail;
+        @Nullable
+        @BindView(R.id.name)
+        TextView title;
 
         MovieItemHolder (@NonNull View itemView) {
             super (itemView);

@@ -11,8 +11,11 @@ import static com.winterparadox.themovieapp.common.UiUtils.dpToPx;
 
 public class HomeItemDecoration extends DefaultItemDecoration {
 
-    HomeItemDecoration (Context context, int orientation) {
+    private final int spanCount;
+
+    HomeItemDecoration (Context context, int orientation, int spanCount) {
         super (context, orientation);
+        this.spanCount = spanCount;
     }
 
     private int middleHorizontalPadding;
@@ -34,31 +37,57 @@ public class HomeItemDecoration extends DefaultItemDecoration {
         outRect.bottom = (int) dpToPx (verticalOffset);
 
         if ( parent.getChildAdapterPosition (view) % 5 == 0 ) {
-            outRect.top = (int) dpToPx (8);
+            outRect.top = (int) dpToPx (verticalOffset);
             outRect.bottom = 0;
         }
 
-        if ( parent.getChildAdapterPosition (view) % 5 == 2 ) {
-            outRect.right = 0;
-        }
+        if ( spanCount == 3 ) {
+            if ( parent.getChildAdapterPosition (view) % 5 == 2 ) {
+                outRect.right = 0;
+            }
 
-        if ( parent.getChildAdapterPosition (view) % 5 == 3 ) {
-            outRect.right = (int) dpToPx (middleHorizontalPadding);
-            outRect.left = (int) dpToPx (middleHorizontalPadding);
-        }
+            if ( parent.getChildAdapterPosition (view) % 5 == 3 ) {
+                outRect.right = (int) dpToPx (middleHorizontalPadding);
+                outRect.left = (int) dpToPx (middleHorizontalPadding);
+            }
 
-        if ( parent.getChildAdapterPosition (view) % 5 == 4 ) {
-            outRect.left = 0;
+            if ( parent.getChildAdapterPosition (view) % 5 == 4 ) {
+                outRect.left = 0;
+            }
+
+        } else {
+            if ( parent.getChildAdapterPosition (view) % 5 == 1 ) {
+                outRect.right = 0;
+            }
+
+            if ( parent.getChildAdapterPosition (view) % 5 == 2 ) {
+                outRect.left = (int) dpToPx (middleHorizontalPadding * 2);
+                outRect.right = (int) dpToPx (middleHorizontalPadding);
+            }
+
+            if ( parent.getChildAdapterPosition (view) % 5 == 3 ) {
+                outRect.left = (int) dpToPx (middleHorizontalPadding);
+                outRect.right = (int) dpToPx (middleHorizontalPadding * 2);
+            }
+
+            if ( parent.getChildAdapterPosition (view) % 5 == 4 ) {
+                outRect.left = 0;
+            }
+
+            if ( parent.getChildAdapterPosition (view) == parent.getAdapter ().getItemCount () -
+                    4 ) {
+                outRect.bottom = (int) dpToPx (verticalOffset * 2);
+            }
         }
 
         if ( parent.getChildAdapterPosition (view) == parent.getAdapter ().getItemCount () - 1 ) {
-            outRect.bottom = (int) dpToPx (16);
+            outRect.bottom = (int) dpToPx (verticalOffset * 2);
         }
         if ( parent.getChildAdapterPosition (view) == parent.getAdapter ().getItemCount () - 2 ) {
-            outRect.bottom = (int) dpToPx (16);
+            outRect.bottom = (int) dpToPx (verticalOffset * 2);
         }
         if ( parent.getChildAdapterPosition (view) == parent.getAdapter ().getItemCount () - 3 ) {
-            outRect.bottom = (int) dpToPx (16);
+            outRect.bottom = (int) dpToPx (verticalOffset * 2);
         }
     }
 }

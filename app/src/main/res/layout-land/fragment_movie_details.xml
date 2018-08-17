@@ -16,38 +16,38 @@
         <ImageView
             android:id="@+id/ivBackdrop"
             android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
+            android:layout_height="160dp"
             android:background="@drawable/image_shimmer_background"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
-            app:srcCompat="@drawable/tmdb_stacked"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/ivBackdrop"
-            android:layout_margin="24dp"
-            android:layout_width="32dp"
-            android:layout_height="32dp"/>
+            app:srcCompat="@drawable/tmdb_stacked"/>
 
         <android.support.v7.widget.CardView
             android:id="@+id/posterCard"
             android:layout_width="104dp"
             android:layout_height="152dp"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
             app:cardBackgroundColor="@color/shimmerColor"
-            app:cardElevation="1dp"
             app:cardCornerRadius="4dp"
-            android:layout_marginTop="80dp"
-            app:layout_constraintTop_toTopOf="@id/ivBackdrop"
-            app:layout_constraintStart_toStartOf="parent">
+            app:cardElevation="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivBackdrop">
 
             <ImageView
                 android:id="@+id/ivPoster"
-                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"/>
         </android.support.v7.widget.CardView>
 
         <TextView
@@ -55,13 +55,13 @@
             style="@style/TextAppearance.Movies.Text.Medium.HighEmphasis.Bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:paddingTop="8dp"
+            app:layout_constraintBottom_toTopOf="@id/tvYear"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/posterCard"
-            app:layout_constraintBottom_toTopOf="@id/tvYear"
             tools:text="Movie Title"/>
 
         <TextView
@@ -69,11 +69,11 @@
             style="@style/TextAppearance.Movies.Text.Small.HighEmphasis.Regular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/ivBackdrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/posterCard"
-            app:layout_constraintBottom_toBottomOf="@id/ivBackdrop"
             tools:text="(2018)"/>
 
 
@@ -108,80 +108,80 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            app:layout_constraintTop_toTopOf="@id/circularVotes"
+            android:text="@string/user_score"
             app:layout_constraintBottom_toBottomOf="@id/circularVotes"
-            app:layout_constraintStart_toEndOf="@id/circularVotes"
             app:layout_constraintEnd_toStartOf="@id/divider0"
-            android:text="@string/user_score"/>
+            app:layout_constraintStart_toEndOf="@id/circularVotes"
+            app:layout_constraintTop_toTopOf="@id/circularVotes"/>
 
         <ImageView
-            app:layout_constraintStart_toEndOf="@id/tvCaption0"
-            app:layout_constraintEnd_toStartOf="@id/btnFavorite"
-            app:layout_constraintTop_toTopOf="@id/tvCaption0"
-            app:layout_constraintBottom_toBottomOf="@id/tvCaption0"
             android:id="@+id/divider0"
-            android:background="@color/shimmerColor"
-            android:layout_marginStart="8dp"
             android:layout_width="0.5dp"
-            android:layout_height="24dp"/>
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/shimmerColor"
+            app:layout_constraintBottom_toBottomOf="@id/tvCaption0"
+            app:layout_constraintEnd_toStartOf="@id/btnFavorite"
+            app:layout_constraintStart_toEndOf="@id/tvCaption0"
+            app:layout_constraintTop_toTopOf="@id/tvCaption0"/>
 
         <com.airbnb.lottie.LottieAnimationView
-            app:layout_constraintTop_toTopOf="@id/captionFav"
-            app:layout_constraintBottom_toBottomOf="@id/captionFav"
-            app:layout_constraintStart_toEndOf="@id/divider0"
-            app:layout_constraintEnd_toStartOf="@id/captionFav"
             android:id="@+id/btnFavorite"
-            android:focusedByDefault="true"
-            android:defaultFocusHighlightEnabled="true"
-            android:nextFocusRight="@id/btnAdd"
-            android:nextFocusForward="@id/btnAdd"
-            android:nextFocusDown="@id/rvCast"
-            android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_width="48dp"
-            android:layout_height="48dp"/>
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:defaultFocusHighlightEnabled="true"
+            android:focusedByDefault="true"
+            android:nextFocusDown="@id/rvCast"
+            android:nextFocusForward="@id/btnAdd"
+            android:nextFocusRight="@id/btnAdd"
+            app:layout_constraintBottom_toBottomOf="@id/captionFav"
+            app:layout_constraintEnd_toStartOf="@id/captionFav"
+            app:layout_constraintStart_toEndOf="@id/divider0"
+            app:layout_constraintTop_toTopOf="@id/captionFav"/>
 
         <TextView
             android:id="@+id/captionFav"
             style="@style/TextAppearance.Movies.Text.Small.HighEmphasis.MediumBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="0dp"
-            android:paddingTop="8dp"
+            android:background="?attr/selectableItemBackground"
+            android:focusable="false"
             android:paddingBottom="8dp"
             android:paddingEnd="8dp"
-            android:focusable="false"
-            android:background="?attr/selectableItemBackground"
-            app:layout_constraintEnd_toStartOf="@id/divider1"
-            app:layout_constraintTop_toTopOf="@id/btnAdd"
+            android:paddingStart="0dp"
+            android:paddingTop="8dp"
+            android:text="@string/favorite"
             app:layout_constraintBottom_toBottomOf="@id/btnAdd"
+            app:layout_constraintEnd_toStartOf="@id/divider1"
             app:layout_constraintStart_toEndOf="@id/btnFavorite"
-            android:text="@string/favorite"/>
+            app:layout_constraintTop_toTopOf="@id/btnAdd"/>
 
         <ImageView
-            app:layout_constraintStart_toEndOf="@id/captionFav"
-            app:layout_constraintEnd_toStartOf="@id/btnAdd"
-            app:layout_constraintTop_toTopOf="@id/btnAdd"
-            app:layout_constraintBottom_toBottomOf="@id/btnAdd"
             android:id="@+id/divider1"
-            android:background="@color/shimmerColor"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_width="0.5dp"
-            android:layout_height="24dp"/>
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/shimmerColor"
+            app:layout_constraintBottom_toBottomOf="@id/btnAdd"
+            app:layout_constraintEnd_toStartOf="@id/btnAdd"
+            app:layout_constraintStart_toEndOf="@id/captionFav"
+            app:layout_constraintTop_toTopOf="@id/btnAdd"/>
 
         <ImageView
             android:id="@+id/btnAdd"
-            app:layout_constraintTop_toBottomOf="@id/barrier2"
-            app:layout_constraintStart_toEndOf="@id/divider1"
-            app:layout_constraintEnd_toStartOf="@id/captionAdd"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginTop="16dp"
-            android:nextFocusLeft="@id/btnFavorite"
-            android:nextFocusForward="@id/rvCast"
-            android:nextFocusDown="@id/rvCast"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:layout_marginTop="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:nextFocusDown="@id/rvCast"
+            android:nextFocusForward="@id/rvCast"
+            android:nextFocusLeft="@id/btnFavorite"
             android:tint="@color/toolbarIconColor"
+            app:layout_constraintEnd_toStartOf="@id/captionAdd"
+            app:layout_constraintStart_toEndOf="@id/divider1"
+            app:layout_constraintTop_toBottomOf="@id/barrier2"
             app:srcCompat="@drawable/ic_add"/>
 
         <TextView
@@ -189,135 +189,151 @@
             style="@style/TextAppearance.Movies.Text.Small.HighEmphasis.MediumBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:focusable="false"
+            android:layout_marginEnd="8dp"
             android:background="?attr/selectableItemBackground"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintTop_toTopOf="@id/btnAdd"
+            android:focusable="false"
+            android:padding="8dp"
+            android:text="@string/add"
             app:layout_constraintBottom_toBottomOf="@id/btnAdd"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toEndOf="@id/btnAdd"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/add"/>
+            app:layout_constraintTop_toTopOf="@id/btnAdd"/>
 
         <TextView
             android:id="@+id/tvPlot"
             style="@style/TextAppearance.Movies.Text.Small.HighEmphasis.MediumBold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/circularVotes"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/barrier2"
             tools:text="As Scott Lang awaits expiration of his term of house detention, Hope van Dyne and Dr. Hank Pym involve him in a scheme to rescue Mrs. van Dyne from the micro-universe into which she has fallen, while two groups of schemers converge on them with intentions of stealing Dr. Pym's inventions."/>
 
 
         <io.supercharge.shimmerlayout.ShimmerLayout
             android:id="@+id/shimmerLayout"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvPlot"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnFavorite">
 
             <TextView
                 android:id="@+id/tvInfo"
                 style="@style/TextAppearance.Movies.Text.Small.MediumEmphasis.Regular"
-                android:layout_gravity="center"
-                android:minWidth="200dp"
-                android:minLines="2"
-                android:lineSpacingMultiplier="1.4"
-                android:layout_marginEnd="24dp"
-                android:layout_marginStart="24dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
                 android:background="@drawable/text_shimmer_background"
                 android:gravity="center"
+                android:lineSpacingMultiplier="1.4"
+                android:minLines="2"
+                android:minWidth="200dp"
                 tools:text="PG 13 | 1h 50m | Adventure, Drama"/>
         </io.supercharge.shimmerlayout.ShimmerLayout>
 
         <TextView
             android:id="@+id/caption0"
-            app:layout_constraintTop_toBottomOf="@id/shimmerLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="24dp"
-            android:text="@string/cast"
-            android:layout_marginEnd="24dp"
-            android:layout_marginStart="24dp"
             style="@style/TextAppearance.Movies.Text.Medium.HighEmphasis.Bold"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/cast"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/barrier3"/>
 
         <com.cooltechworks.views.shimmer.ShimmerRecyclerView
             android:id="@+id/rvCast"
-            app:layout_constraintTop_toBottomOf="@id/caption0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
             android:nestedScrollingEnabled="false"
+            android:paddingBottom="16dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="24dp"
+            android:paddingTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/caption0"
             app:shimmer_demo_angle="20"
             app:shimmer_demo_child_count="1"
-            android:paddingTop="16dp"
-            android:paddingStart="24dp"
-            android:paddingEnd="0dp"
-            android:paddingBottom="16dp"
-            android:clipToPadding="false"
             app:shimmer_demo_layout="@layout/layout_cast_shimmer_item"
-            app:shimmer_demo_shimmer_color="@color/shimmerColor"
             app:shimmer_demo_layout_manager_type="linear_horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            app:shimmer_demo_shimmer_color="@color/shimmerColor"/>
 
         <TextView
             android:id="@+id/caption1"
-            app:layout_constraintTop_toBottomOf="@id/rvCast"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="8dp"
-            android:text="@string/crew"
-            android:layout_marginEnd="24dp"
-            android:layout_marginStart="24dp"
             style="@style/TextAppearance.Movies.Text.Medium.HighEmphasis.Bold"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/crew"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rvCast"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvCrew"
-            app:layout_constraintTop_toBottomOf="@id/caption1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:nestedScrollingEnabled="false"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="24dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:nestedScrollingEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/caption1"/>
 
         <TextView
             android:id="@+id/captionSimilar"
-            app:layout_constraintTop_toBottomOf="@id/rvCrew"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="24dp"
-            android:text="@string/similar_movies"
-            android:layout_marginEnd="24dp"
-            android:layout_marginStart="24dp"
             style="@style/TextAppearance.Movies.Text.Medium.HighEmphasis.Bold"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/similar_movies"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rvCrew"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvSimilar"
-            app:layout_constraintTop_toBottomOf="@id/captionSimilar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:nestedScrollingEnabled="false"
-            android:defaultFocusHighlightEnabled="true"
-            android:paddingTop="16dp"
-            android:paddingStart="24dp"
-            android:paddingEnd="0dp"
-            android:paddingBottom="24dp"
-            android:clipToPadding="false"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:defaultFocusHighlightEnabled="true"
+            android:nestedScrollingEnabled="false"
+            android:paddingBottom="24dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="24dp"
+            android:paddingTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/captionSimilar"/>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="336dp"/>
+
+        <android.support.constraint.Barrier
+            android:id="@+id/barrier3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="shimmerLayout,tvPlot"
+            tools:layout_editor_absoluteY="1119dp"/>
 
 
     </android.support.constraint.ConstraintLayout>

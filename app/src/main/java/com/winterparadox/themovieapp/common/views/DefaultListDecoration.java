@@ -31,11 +31,20 @@ public class DefaultListDecoration extends DefaultItemDecoration {
 
         if ( spanCount == 2 ) {
 
-            if ( parent.getChildLayoutPosition (view) % 2 == 0 )
+            if ( parent.getChildLayoutPosition (view) % spanCount == 0 )
                 outRect.right = (int) dpToPx (itemPadding);
 
-            if ( parent.getChildLayoutPosition (view) % 2 == 1 )
+            if ( parent.getChildLayoutPosition (view) % spanCount == 1 )
                 outRect.left = (int) dpToPx (itemPadding);
+        }
+
+        if ( spanCount == 3 ) {
+
+            if ( parent.getChildLayoutPosition (view) % spanCount == 0 )
+                outRect.right = 0;
+
+            if ( parent.getChildLayoutPosition (view) % spanCount == 2 )
+                outRect.left = 0;
         }
     }
 }

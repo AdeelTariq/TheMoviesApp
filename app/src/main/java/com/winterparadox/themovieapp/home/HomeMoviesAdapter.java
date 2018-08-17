@@ -33,17 +33,20 @@ import static com.winterparadox.themovieapp.common.retrofit.ApiBuilder.MEDIUM_PO
 
 public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int HEADER = 0, MOVIE_LARGE = 1, MOVIE_SMALL = 2, ERROR = 99;
+    private static final int HEADER = 0, MOVIE_LARGE = 1, MOVIE_SMALL = 2,
+            MOVIE_VIEW_ALL = 3, ERROR = 99;
     private final RequestOptions requestOptions;
 
     private List<Object> items;
     private ClickListener listener;
     private ErrorViewHolder.OnClickListener retryListener;
+    private boolean isLandscape;
 
-    HomeMoviesAdapter (ClickListener listener, ErrorViewHolder.OnClickListener
-            retryListener) {
+    HomeMoviesAdapter (ClickListener listener, ErrorViewHolder.OnClickListener retryListener,
+                       boolean isLandscape) {
         this.listener = listener;
         this.retryListener = retryListener;
+        this.isLandscape = isLandscape;
 
         requestOptions = new RequestOptions ()
                 .transforms (new CenterCrop (), new GradientColorFilterTransformation ());
@@ -74,6 +77,11 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder (@NonNull ViewGroup viewGroup, int type) {
+
+        boolean isTablet = viewGroup.getContext ().getResources ()
+                .getBoolean (R.bool.isLargeTablet);
+
+
         LayoutInflater inflater = LayoutInflater.from (viewGroup.getContext ());
         switch ( type ) {
             case ERROR:
@@ -83,13 +91,29 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 View view1 = inflater.inflate (R.layout.item_movie_header, viewGroup, false);
                 return new HeaderItemHolder (view1);
             case MOVIE_LARGE:
-                View view2 = inflater.inflate (R.layout.item_movie_large, viewGroup, false);
+                int resource;
+                if ( isTablet ) {
+                    resource = R.layout.item_movie_large;
+                } else if ( !isLandscape ) {
+                    resource = R.layout.item_movie_large;
+                } else {
+                    resource = R.layout.item_movie_small;
+                }
+                View view2 = inflater.inflate (resource, viewGroup, false);
                 return new MovieItemHolder (view2);
+            case MOVIE_VIEW_ALL:
+                View view4 = inflater.inflate (R.layout.item_movie_small, viewGroup, false);
+                return new MovieItemHolder (view4);
             default:
-                View view3 = inflater.inflate (R.layout.item_movie_small, viewGroup, false);
+                int resource1;
+                if ( isTablet ) {
+                    resource1 = R.layout.item_movie_large;
+                } else {
+                    resource1 = R.layout.item_movie_small;
+                }
+                View view3 = inflater.inflate (resource1, viewGroup, false);
                 return new MovieItemHolder (view3);
         }
-
     }
 
     @Override
@@ -102,7 +126,7 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             bindHeader (((HeaderItemHolder) viewHolder), ((HomeSection) items.get (i)));
         }
 
-        if ( viewHolder instanceof MovieItemHolder && i % 5 == 1 ) {
+        if ( viewHolder instanceof MovieItemHolder && i % 5 == 1 && !isLandscape ) {
             bindMovie (((MovieItemHolder) viewHolder), ((Movie) items.get (i)));
 
         } else if ( viewHolder instanceof MovieItemHolder ) {
@@ -139,19 +163,33 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     .into (viewHolder.thumbnail);
 
         } else {
-            GlideApp.with (viewHolder.itemView)
-                    .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
-                    .centerCrop ()
-                    .into (viewHolder.thumbnail);
+            if ( viewHolder.name != null ) {
+                viewHolder.name.setText (movie.title);
+
+                GlideApp.with (viewHolder.itemView)
+                        .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
+                        .apply (requestOptions)
+                        .into (viewHolder.thumbnail);
+
+            } else {
+                GlideApp.with (viewHolder.itemView)
+                        .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
+                        .centerCrop ()
+                        .into (viewHolder.thumbnail);
+            }
         }
 
         viewHolder.thumbnail.setTransitionName (TransitionNames.MOVIE_POSTER + movie.id);
         if ( isLast ) {
+            viewHolder.btnBackground.setVisibility (View.VISIBLE);
             viewHolder.viewAll.setVisibility (View.VISIBLE);
             viewHolder.viewAll.setOnClickListener (
                     v -> listener.onSubHeaderClick (releventSection.id));
         } else {
-            viewHolder.viewAll.setVisibility (View.GONE);
+            if ( viewHolder.btnBackground != null && viewHolder.viewAll != null ) {
+                viewHolder.btnBackground.setVisibility (View.GONE);
+                viewHolder.viewAll.setVisibility (View.GONE);
+            }
         }
 
         viewHolder.itemView.setOnClickListener (v -> listener.onMovieClick (movie, viewHolder.thumbnail));
@@ -166,7 +204,8 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public int getItemViewType (int position) {
         return items.get (position) instanceof HomeSection ? HEADER :
                 items.get (position) instanceof String ? ERROR :
-                        position % 5 == 1 ? MOVIE_LARGE : MOVIE_SMALL;
+                        position % 5 == 1 ? MOVIE_LARGE :
+                                position % 5 == 4 ? MOVIE_VIEW_ALL : MOVIE_SMALL;
     }
 
     @Override
@@ -207,6 +246,9 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Nullable
         @BindView(R.id.viewAll)
         Button viewAll;
+        @Nullable
+        @BindView(R.id.btnBackground)
+        View btnBackground;
         @Nullable
         @BindView(R.id.name)
         TextView name;

@@ -1,5 +1,6 @@
 package com.winterparadox.themovieapp.home;
 
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Bundle;
@@ -62,27 +63,50 @@ public class HomeFragment extends Fragment implements HomeView, HomeMoviesAdapte
 
         presenter.attachView (this, (Navigator) getActivity ());
 
+
+        boolean isLandscape = false;
+
         // setting up grid layout manager
-        GridLayoutManager gridLayoutManager = new GridLayoutManager (getActivity (), 3);
-        gridLayoutManager.setSpanSizeLookup (new GridLayoutManager.SpanSizeLookup () {
-            @Override
-            public int getSpanSize (int position) {
-                //define span size for this position
-                //some example for your first three items
-                if ( position % 5 == 0 ) {
-                    return 3; //item will take full row
-                } else if ( position % 5 == 1 ) {
-                    return 3; //you will have full row
-                } else {
-                    return 1; //you will have 1/3 row size item
+        GridLayoutManager gridLayoutManager;
+
+        if ( getActivity ().getResources ().getConfiguration ().orientation == Configuration
+                .ORIENTATION_PORTRAIT ) {
+
+            gridLayoutManager = new GridLayoutManager (getActivity (), 3);
+            gridLayoutManager.setSpanSizeLookup (new GridLayoutManager.SpanSizeLookup () {
+                @Override
+                public int getSpanSize (int position) {
+                    if ( position % 5 == 0 ) {
+                        return 3; //item will take full row
+                    } else if ( position % 5 == 1 ) {
+                        return 3; //you will have full row
+                    } else {
+                        return 1; //you will have 1/3 row size item
+                    }
                 }
-            }
-        });
+            });
+
+        } else {
+            gridLayoutManager = new GridLayoutManager (getActivity (), 4);
+            gridLayoutManager.setSpanSizeLookup (new GridLayoutManager.SpanSizeLookup () {
+                @Override
+                public int getSpanSize (int position) {
+                    if ( position % 5 == 0 ) {
+                        return 4; //item will take full row
+                    } else {
+                        return 1; //you will have 1/4 row size item
+                    }
+                }
+            });
+
+            isLandscape = true;
+        }
+
         recyclerView.setLayoutManager (gridLayoutManager);
 
         // setting divider space
         HomeItemDecoration dividerItemDecoration = new HomeItemDecoration (getActivity (),
-                gridLayoutManager.getOrientation ());
+                gridLayoutManager.getOrientation (), gridLayoutManager.getSpanCount ());
         dividerItemDecoration.setMiddleHorizontalPadding (8);
         dividerItemDecoration.setVerticalOffset (8);
         dividerItemDecoration.setDefaultOffset (24);
@@ -94,7 +118,7 @@ public class HomeFragment extends Fragment implements HomeView, HomeMoviesAdapte
         recyclerView.setDrawingCacheEnabled (true);
 
 
-        moviesAdapter = new HomeMoviesAdapter (this, presenter::fetchData);
+        moviesAdapter = new HomeMoviesAdapter (this, presenter::fetchData, isLandscape);
         recyclerView.setAdapter (moviesAdapter);
 
         recyclerView.addOnScrollListener (new OnScrollObserver () {
