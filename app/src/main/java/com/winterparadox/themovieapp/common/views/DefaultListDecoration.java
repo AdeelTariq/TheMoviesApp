@@ -27,7 +27,7 @@ public class DefaultListDecoration extends DefaultItemDecoration {
                                 RecyclerView.State state) {
         outRect.left = (int) dpToPx (defaultOffset);
         outRect.right = (int) dpToPx (defaultOffset);
-        outRect.top = (int) dpToPx (itemPadding);
+        outRect.bottom = (int) dpToPx (itemPadding);
 
         if ( spanCount == 2 ) {
 

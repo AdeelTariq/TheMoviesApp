@@ -3,6 +3,7 @@ package com.winterparadox.themovieapp.charts.chartMovieList;
 import android.annotation.SuppressLint;
 
 import com.winterparadox.themovieapp.arch.Navigator;
+import com.winterparadox.themovieapp.common.PresenterUtils;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.Movie;
 
@@ -97,10 +98,16 @@ public class ChartMovieListPresenterImpl extends ChartMovieListPresenter {
                 .subscribe (movies -> {
                     if ( view != null ) {
                         if ( page == 0 ) {
+                            for ( Movie movie : movies ) {
+                                movie.year = PresenterUtils.yearFromDateString (movie.releaseDate);
+                            }
                             view.showMovies (movies);
                             view.hideProgress ();
 
                         } else {
+                            for ( Movie movie : movies ) {
+                                movie.year = PresenterUtils.yearFromDateString (movie.releaseDate);
+                            }
                             view.hidePageProgress ();
                             view.addMovies (movies);
                         }

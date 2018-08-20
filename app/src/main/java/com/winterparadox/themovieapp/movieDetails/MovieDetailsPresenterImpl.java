@@ -14,12 +14,7 @@ import com.winterparadox.themovieapp.common.beans.ReleaseDatesItem;
 import com.winterparadox.themovieapp.common.beans.UserList;
 import com.winterparadox.themovieapp.common.room.AppDatabase;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -65,18 +60,9 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
                     }
                 });
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat ("yyyy-mm-dd",
-                Locale.getDefault ());
 
-        GregorianCalendar gregorianCalendar = new GregorianCalendar ();
-        try {
-            Date date = simpleDateFormat.parse (movie.releaseDate);
-            gregorianCalendar.setTime (date);
-        } catch ( ParseException e ) {
-            e.printStackTrace ();
-        }
         view.showMovie (movie, String.format (Locale.getDefault (),
-                "(%d)", gregorianCalendar.get (Calendar.YEAR)));
+                "(%s)", PresenterUtils.yearFromDateString (movie.releaseDate)));
 
         fetchAdditionalDetails ();
     }

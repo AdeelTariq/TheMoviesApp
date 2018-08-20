@@ -3,6 +3,7 @@ package com.winterparadox.themovieapp.userLists.userMovieList;
 import android.annotation.SuppressLint;
 
 import com.winterparadox.themovieapp.arch.Navigator;
+import com.winterparadox.themovieapp.common.PresenterUtils;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.UserList;
 import com.winterparadox.themovieapp.common.beans.UserListItem;
@@ -52,6 +53,9 @@ public class UserMovieListPresenterImpl extends UserMovieListPresenter {
                 .observeOn (mainScheduler)
                 .subscribe (movies -> {
                     if ( view != null ) {
+                        for ( Movie movie : movies ) {
+                            movie.year = PresenterUtils.yearFromDateString (movie.releaseDate);
+                        }
                         view.showMovies (movies);
                         view.hideProgress ();
                     }

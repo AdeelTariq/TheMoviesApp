@@ -132,6 +132,9 @@ public class HostPresenterImpl extends HostPresenter {
                             view.hideProgress ();
                         }
                         if ( navigator != null ) {
+                            for ( Movie movie : movies ) {
+                                movie.year = PresenterUtils.yearFromDateString (movie.releaseDate);
+                            }
                             navigator.openSearchResults (query, movies);
                         }
                     }

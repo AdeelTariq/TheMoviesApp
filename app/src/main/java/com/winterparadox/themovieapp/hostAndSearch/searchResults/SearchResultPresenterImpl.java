@@ -3,6 +3,7 @@ package com.winterparadox.themovieapp.hostAndSearch.searchResults;
 import android.annotation.SuppressLint;
 
 import com.winterparadox.themovieapp.arch.Navigator;
+import com.winterparadox.themovieapp.common.PresenterUtils;
 import com.winterparadox.themovieapp.common.beans.Movie;
 
 import java.util.HashMap;
@@ -63,10 +64,16 @@ public class SearchResultPresenterImpl extends SearchResultPresenter {
                 .subscribe (movies -> {
                     if ( view != null ) {
                         if ( page == 0 ) {
+                            for ( Movie movie : movies ) {
+                                movie.year = PresenterUtils.yearFromDateString (movie.releaseDate);
+                            }
                             view.showMovies (movies);
                             view.hideProgress ();
 
                         } else {
+                            for ( Movie movie : movies ) {
+                                movie.year = PresenterUtils.yearFromDateString (movie.releaseDate);
+                            }
                             view.hidePageProgress ();
                             view.addMovies (movies);
                         }

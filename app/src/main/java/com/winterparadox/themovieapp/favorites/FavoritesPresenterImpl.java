@@ -3,6 +3,7 @@ package com.winterparadox.themovieapp.favorites;
 import android.annotation.SuppressLint;
 
 import com.winterparadox.themovieapp.arch.Navigator;
+import com.winterparadox.themovieapp.common.PresenterUtils;
 import com.winterparadox.themovieapp.common.beans.Favorite;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.room.AppDatabase;
@@ -51,6 +52,9 @@ public class FavoritesPresenterImpl extends FavoritesPresenter {
                             int lastVisibleItem = 0;
                             if ( savedState.containsKey (VISIBLE_ITEM) ) {
                                 lastVisibleItem = (int) savedState.get (VISIBLE_ITEM);
+                            }
+                            for ( Movie movie : movies ) {
+                                movie.year = PresenterUtils.yearFromDateString (movie.releaseDate);
                             }
                             view.showMovies (movies, lastVisibleItem);
                             view.hideProgress ();

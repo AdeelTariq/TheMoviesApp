@@ -36,11 +36,11 @@
                 app:layout_constraintStart_toEndOf="@id/thumbnail"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="24dp"
                 android:ellipsize="end"
-                android:lines="1"
+                android:maxLines="2"
                 style="@style/TextAppearance.Movies.Text.Medium.HighEmphasis.MediumBold"
                 tools:text="Movie Title"
                 android:layout_width="0dp"
@@ -51,14 +51,15 @@
                 app:layout_constraintStart_toEndOf="@id/thumbnail"
                 app:layout_constraintEnd_toStartOf="@id/favorite"
                 app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:maxLines="3"
+                android:layout_marginBottom="8dp"
                 android:ellipsize="end"
                 style="@style/TextAppearance.Movies.Text.Small.MediumEmphasis.Regular"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                tools:text="The long overview of the movie plot The long long overview long long long"/>
+                android:layout_height="0dp"
+                tools:text="The long overview of the movie plot The long long overview long long long, oh it's so very much long"/>
 
 
             <com.airbnb.lottie.LottieAnimationView

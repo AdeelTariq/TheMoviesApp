@@ -112,7 +112,7 @@ public class UserMovieListAdapter extends DragItemAdapter<Object, DragItemAdapte
 
         itemHolder.thumbnail.setTransitionName (TransitionNames.MOVIE_POSTER + movie.id);
 
-        itemHolder.title.setText (movie.title);
+        itemHolder.title.setText (String.format ("%s (%s)", movie.title, movie.year));
         itemHolder.plot.setText (movie.overview);
 
         itemHolder.delete.setOnClickListener (v -> {

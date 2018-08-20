@@ -67,7 +67,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter
 
         itemHolder.thumbnail.setTransitionName (TransitionNames.MOVIE_POSTER + movie.id);
 
-        itemHolder.title.setText (movie.title);
+        itemHolder.title.setText (String.format ("%s (%s)", movie.title, movie.year));
+
         itemHolder.plot.setText (movie.overview);
 
         if ( itemHolder.favorite.getProgress () > 0 ) {

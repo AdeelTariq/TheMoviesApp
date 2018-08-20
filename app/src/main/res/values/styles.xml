@@ -113,6 +113,13 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
+    <style name="TextAppearance.Movies.Text.Medium.MediumEmphasis.MediumBold"
+           parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/raleway_medium</item>
+        <item name="android:alpha">0.6</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
 
     <style name="Widget.Movies.Backdrop" parent="">
         <item name="android:background">?attr/colorAccent</item>
