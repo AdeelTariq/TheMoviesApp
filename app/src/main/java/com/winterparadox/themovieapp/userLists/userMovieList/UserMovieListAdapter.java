@@ -107,6 +107,7 @@ public class UserMovieListAdapter extends DragItemAdapter<Object, DragItemAdapte
 
         GlideApp.with (itemHolder.itemView)
                 .load (Uri.parse (IMAGE + SMALL_POSTER + movie.posterPath))
+                .placeholder (R.drawable.ic_fallback_poster)
                 .centerCrop ()
                 .into (itemHolder.thumbnail);
 

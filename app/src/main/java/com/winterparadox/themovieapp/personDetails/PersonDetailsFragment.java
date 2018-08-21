@@ -114,6 +114,7 @@ public class PersonDetailsFragment extends Fragment implements PersonDetailsView
 
         GlideApp.with (getActivity ())
                 .load (Uri.parse (IMAGE + LARGE_PROFILE + person.profilePath))
+                .placeholder (R.drawable.ic_fallback_person)
                 .apply (requestOptions)
                 .into (ivProfile);
 

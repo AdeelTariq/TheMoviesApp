@@ -52,6 +52,7 @@ public class HorizontalMoviesAdapter extends RecyclerView.Adapter<HorizontalMovi
 
         GlideApp.with (itemHolder.itemView)
                 .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
+                .placeholder (R.drawable.ic_fallback_poster)
                 .centerCrop ()
                 .into (itemHolder.thumbnail);
 

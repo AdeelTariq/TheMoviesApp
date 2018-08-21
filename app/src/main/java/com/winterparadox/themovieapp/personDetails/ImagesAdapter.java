@@ -56,6 +56,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageItemH
 
         GlideApp.with (itemHolder.itemView)
                 .load (Uri.parse (IMAGE + LARGE_PROFILE + image.filePath))
+                .placeholder (R.drawable.ic_fallback_image)
                 .into (itemHolder.image);
 
         itemHolder.image.setTransitionName (TransitionNames.PERSON_IMAGE + image.id);

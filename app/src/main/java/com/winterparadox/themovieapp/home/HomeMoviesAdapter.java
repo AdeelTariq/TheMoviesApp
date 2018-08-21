@@ -144,6 +144,7 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         GlideApp.with (viewHolder.itemView)
                 .load (Uri.parse (IMAGE + MEDIUM_BACKDROP + movie.backdropPath))
+                .placeholder (R.drawable.ic_fallback_backdrop)
                 .apply (requestOptions)
                 .into (viewHolder.thumbnail);
         viewHolder.name.setText (movie.title);
@@ -159,6 +160,7 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if ( isLast ) {
             GlideApp.with (viewHolder.itemView)
                     .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
+                    .placeholder (R.drawable.ic_fallback_poster)
                     .apply (requestOptions)
                     .into (viewHolder.thumbnail);
 
@@ -168,12 +170,14 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                 GlideApp.with (viewHolder.itemView)
                         .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
+                        .placeholder (R.drawable.ic_fallback_poster)
                         .apply (requestOptions)
                         .into (viewHolder.thumbnail);
 
             } else {
                 GlideApp.with (viewHolder.itemView)
                         .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
+                        .placeholder (R.drawable.ic_fallback_poster)
                         .centerCrop ()
                         .into (viewHolder.thumbnail);
             }

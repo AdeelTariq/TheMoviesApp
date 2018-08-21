@@ -200,11 +200,13 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     public void showMovie (Movie movie, String year) {
         GlideApp.with (getActivity ())
                 .load (Uri.parse (IMAGE + MEDIUM_BACKDROP + movie.backdropPath))
+                .placeholder (R.drawable.ic_fallback_backdrop)
                 .apply (requestOptionsBackDrop)
                 .into (ivBackdrop);
 
         GlideApp.with (getActivity ())
                 .load (Uri.parse (IMAGE + MEDIUM_POSTER + movie.posterPath))
+                .placeholder (R.drawable.ic_fallback_poster)
                 .apply (requestOptions)
                 .into (ivPoster);
 

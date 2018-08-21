@@ -52,6 +52,7 @@ public class MoviesDetailsCastAdapter extends RecyclerView.Adapter<MoviesDetails
 
         GlideApp.with (itemHolder.itemView)
                 .load (Uri.parse (IMAGE + LARGE_PROFILE + castMember.profilePath))
+                .placeholder (R.drawable.ic_fallback_person)
                 .centerCrop ()
                 .into (itemHolder.profile);
         itemHolder.name.setText (castMember.name);
