@@ -9,6 +9,7 @@ import android.support.transition.ChangeBounds;
 import android.support.transition.ChangeImageTransform;
 import android.support.transition.ChangeTransform;
 import android.support.transition.Fade;
+import android.support.transition.TransitionManager;
 import android.support.transition.TransitionSet;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -18,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -136,6 +138,8 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         View view = inflater.inflate (R.layout.fragment_movie_details, container, false);
         unbinder = ButterKnife.bind (this, view);
 
+        postponeEnterTransition ();
+
         ivBackdrop.setTransitionName (TransitionNames.MOVIE_BACKDROP + movie.id);
         ivPoster.setTransitionName (TransitionNames.MOVIE_POSTER + movie.id);
 
@@ -237,6 +241,16 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     @Override
     public void showAdditionalDetails (Movie movie, String ageRating,
                                        String runtime, String genres) {
+
+        ChangeBounds transition = new ChangeBounds ();
+        Fade transition2 = new Fade ();
+        TransitionSet transitionSet = new TransitionSet ().addTransition (transition)
+                .addTransition (transition2);
+        transitionSet.setInterpolator (new AccelerateInterpolator (1));
+        transitionSet.setDuration (300);
+        TransitionManager.beginDelayedTransition ((ViewGroup) ivBackdrop.getParent (),
+                transitionSet);
+
 
         tvInfo.setText (String.format ("%s\t\t|\t\t%s\t\t|\t\t%s\n%s", ageRating,
                 runtime, movie.originalLanguage, genres));

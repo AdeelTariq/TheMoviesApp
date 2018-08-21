@@ -8,6 +8,7 @@ import android.support.transition.ChangeBounds;
 import android.support.transition.ChangeImageTransform;
 import android.support.transition.ChangeTransform;
 import android.support.transition.Fade;
+import android.support.transition.TransitionManager;
 import android.support.transition.TransitionSet;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -16,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -103,6 +105,7 @@ public class PersonDetailsFragment extends Fragment implements PersonDetailsView
         View view = inflater.inflate (R.layout.fragment_person_details, container, false);
         unbinder = ButterKnife.bind (this, view);
 
+        postponeEnterTransition ();
 
         RequestOptions requestOptions = new RequestOptions ()
                 .transforms (new CenterCrop (), new RoundedCorners (8));
@@ -162,6 +165,15 @@ public class PersonDetailsFragment extends Fragment implements PersonDetailsView
     @Override
     public void showAdditionalDetails (String bio, String knownFor,
                                        String creditCount, List<Movie> topCredits) {
+
+        ChangeBounds transition = new ChangeBounds ();
+        Fade transition2 = new Fade ();
+        TransitionSet transitionSet = new TransitionSet ().addTransition (transition)
+                .addTransition (transition2);
+        transitionSet.setInterpolator (new AccelerateInterpolator (1));
+        transitionSet.setDuration (300);
+        TransitionManager.beginDelayedTransition ((ViewGroup) tvName.getParent (), transitionSet);
+
         tvBio.setText (bio);
         tvKnownFor.setText (knownFor);
         tvCredits.setText (creditCount);

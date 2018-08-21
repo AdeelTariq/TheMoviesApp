@@ -4,12 +4,17 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.transition.ChangeBounds;
+import android.support.transition.Fade;
+import android.support.transition.TransitionManager;
+import android.support.transition.TransitionSet;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -124,6 +129,15 @@ public class RecentlyViewedFragment extends Fragment implements RecentlyViewedVi
 
     @Override
     public void showMovies (List<Movie> movies, int lastVisibleItem) {
+
+        ChangeBounds transition = new ChangeBounds ();
+        Fade transition2 = new Fade ();
+        TransitionSet transitionSet = new TransitionSet ().addTransition (transition)
+                .addTransition (transition2);
+        transitionSet.setInterpolator (new AccelerateInterpolator (1));
+        transitionSet.setDuration (300);
+        TransitionManager.beginDelayedTransition ((ViewGroup) tvHeader.getParent (), transitionSet);
+
         movieAdapter.setItems (movies);
 
         recyclerView.post (() -> recyclerView.getLayoutManager ()
