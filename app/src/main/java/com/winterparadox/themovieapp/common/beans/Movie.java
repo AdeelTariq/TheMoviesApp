@@ -95,6 +95,10 @@ public class Movie implements Serializable {
     @SerializedName("similar")
     public Similar similar;
 
+    @TypeConverters(Movie.class)
+    @SerializedName("videos")
+    public Videos videos;
+
     @Ignore
     public String year;
 
@@ -181,6 +185,17 @@ public class Movie implements Serializable {
     @TypeConverter
     public static String similarToStoredString (Similar similar) {
         return Singleton.gson.toJson (similar);
+    }
+
+    @TypeConverter
+    public static Videos storedStringToVideos (String value) {
+        return Singleton.gson.fromJson (value, new TypeToken<Videos> () {
+        }.getType ());
+    }
+
+    @TypeConverter
+    public static String VideosToStoredString (Videos videos) {
+        return Singleton.gson.toJson (videos);
     }
 
 }

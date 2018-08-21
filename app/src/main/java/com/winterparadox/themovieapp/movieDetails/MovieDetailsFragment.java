@@ -81,6 +81,8 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     @BindView(R.id.rvSimilar) RecyclerView rvSimilar;
     @BindView(R.id.scrollView) LockableScrollView scrollView;
     @BindView(R.id.captionSimilar) TextView captionSimilar;
+    @BindView(R.id.captionVideos) TextView captionVideos;
+    @BindView(R.id.rvVideos) RecyclerView rvVideos;
 
     private Movie movie;
     private RequestOptions requestOptions, requestOptionsBackDrop;
@@ -90,6 +92,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     private MoviesDetailsCastAdapter castAdapter;
     private MoviesDetailsCrewAdapter crewAdapter;
     private HorizontalMoviesAdapter movieAdapter;
+    private VideosAdapter videoAdapter;
 
     public static MovieDetailsFragment instance (Movie movie) {
         MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment ();
@@ -170,6 +173,15 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         rvSimilar.setDrawingCacheEnabled (true);
 
 
+        LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager (getActivity (),
+                HORIZONTAL, false);
+        rvVideos.setLayoutManager (linearLayoutManager3);
+        rvVideos.addItemDecoration (decor);
+        rvVideos.setHasFixedSize (true);
+        rvVideos.setItemViewCacheSize (10);
+        rvVideos.setDrawingCacheEnabled (true);
+
+
         castAdapter = new MoviesDetailsCastAdapter (this);
         rvCast.setAdapter (castAdapter);
 
@@ -180,6 +192,11 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
 
         movieAdapter = new HorizontalMoviesAdapter (this);
         rvSimilar.setAdapter (movieAdapter);
+
+
+        videoAdapter = new VideosAdapter ();
+        rvVideos.setAdapter (videoAdapter);
+
 
         btnFavorite.setAnimation (R.raw.favorite);
         btnFavorite.invalidate ();
@@ -218,19 +235,25 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
     }
 
     @Override
-    public void showAdditionalDetails (Movie movie, String ageRating, String runtime,
-                                       String genres) {
+    public void showAdditionalDetails (Movie movie, String ageRating,
+                                       String runtime, String genres) {
 
-        tvInfo.setText (String.format ("%s\t\t|\t\t%s\t\t|\t\t%s\n%s", ageRating, runtime,
-                movie.originalLanguage, genres));
+        tvInfo.setText (String.format ("%s\t\t|\t\t%s\t\t|\t\t%s\n%s", ageRating,
+                runtime, movie.originalLanguage, genres));
 
         castAdapter.setItems (movie.credits.cast);
         crewAdapter.setItems (movie.credits.crew);
         movieAdapter.setItems (movie.similar.movies);
+        videoAdapter.setItems (movie.videos.results);
 
         if ( movieAdapter.getItemCount () == 0 ) {
             rvSimilar.setVisibility (View.GONE);
             captionSimilar.setVisibility (View.GONE);
+        }
+
+        if ( videoAdapter.getItemCount () == 0 ) {
+            rvVideos.setVisibility (View.GONE);
+            captionVideos.setVisibility (View.GONE);
         }
     }
 
