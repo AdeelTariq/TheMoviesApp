@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<androidx.cardview.widget.CardView
     android:id="@+id/item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,7 +12,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="88dp">
 
@@ -68,5 +68,5 @@
             android:layout_width="40dp"
             android:layout_height="40dp"/>
 
-    </android.support.constraint.ConstraintLayout>
-</android.support.v7.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

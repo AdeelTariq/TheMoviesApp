@@ -1,13 +1,13 @@
 package com.winterparadox.themovieapp.common.views;
 
-import android.support.annotation.NonNull;
-import android.support.design.button.MaterialButton;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
 import com.winterparadox.themovieapp.R;
 import com.woxthebox.draglistview.DragItemAdapter;
 
+import androidx.annotation.NonNull;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

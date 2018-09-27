@@ -1,8 +1,8 @@
 package com.winterparadox.themovieapp.common.beans;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.Index;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.Index;
 
 @Entity(primaryKeys = {"movieId", "userListId"},
         indices = {@Index(value = "order")})

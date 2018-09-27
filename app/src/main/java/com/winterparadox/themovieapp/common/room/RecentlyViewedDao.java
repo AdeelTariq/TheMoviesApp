@@ -1,19 +1,18 @@
 package com.winterparadox.themovieapp.common.room;
 
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.Query;
-import android.arch.persistence.room.RoomWarnings;
-
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.RecentlyViewed;
 
 import java.util.List;
 
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.Query;
+import androidx.room.RoomWarnings;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
-import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
+import static androidx.room.OnConflictStrategy.REPLACE;
 
 @Dao
 @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)

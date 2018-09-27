@@ -1,7 +1,6 @@
 package com.winterparadox.themovieapp.home;
 
 import android.annotation.SuppressLint;
-import android.support.annotation.NonNull;
 
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.HomeSection;
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;

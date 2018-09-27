@@ -1,18 +1,18 @@
 package com.winterparadox.themovieapp.common.beans;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.Index;
-import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverter;
-import android.arch.persistence.room.TypeConverters;
-
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import com.winterparadox.themovieapp.common.Singleton;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 
 @Entity(indices = {@Index("title")})
 public class Movie implements Serializable {

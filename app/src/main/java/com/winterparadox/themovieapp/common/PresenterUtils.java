@@ -1,7 +1,5 @@
 package com.winterparadox.themovieapp.common;
 
-import android.support.annotation.NonNull;
-
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.room.AppDatabase;
 
@@ -17,6 +15,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
 import io.reactivex.Single;
 import io.reactivex.SingleSource;
 import io.reactivex.disposables.Disposable;

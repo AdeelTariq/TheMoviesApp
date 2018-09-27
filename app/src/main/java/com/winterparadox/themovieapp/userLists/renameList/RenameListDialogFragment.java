@@ -3,20 +3,21 @@ package com.winterparadox.themovieapp.userLists.renameList;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.beans.UserList;
 
 import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class RenameListDialogFragment extends AppCompatDialogFragment implements
         RenameListDialogView {

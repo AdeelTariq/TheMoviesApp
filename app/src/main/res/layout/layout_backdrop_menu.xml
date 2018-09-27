@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             style="@style/Widget.Movies.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             app:icon="@drawable/ic_history"
             android:text="@string/recently_viewed"/>
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             style="@style/Widget.Movies.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
             app:icon="@drawable/ic_favorite_border"
             android:text="@string/favorites"/>
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             style="@style/Widget.Movies.Button.TextButton"
             android:id="@+id/action_lists"
             android:layout_width="match_parent"
@@ -40,7 +40,7 @@
             app:icon="@drawable/ic_list"
             android:text="@string/my_lists"/>
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             style="@style/Widget.Movies.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             app:icon="@drawable/ic_charts"
             android:text="@string/charts"/>
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             style="@style/Widget.Movies.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -8,12 +8,12 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Shader;
-import android.support.annotation.NonNull;
 
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 
 import java.security.MessageDigest;
 
+import androidx.annotation.NonNull;
 import jp.wasabeef.glide.transformations.BitmapTransformation;
 
 public class GradientColorFilterTransformation extends BitmapTransformation {

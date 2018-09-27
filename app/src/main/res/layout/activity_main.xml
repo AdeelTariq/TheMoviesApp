@@ -20,13 +20,13 @@
     </LinearLayout>
 
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:elevation="0dp">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/Widget.Movies.Toolbar"
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             app:navigationIcon="@drawable/ic_menu"
             app:theme="@style/Theme.Movies.Overlay"
             app:title="@string/app_name"/>
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
 
     <FrameLayout

@@ -2,10 +2,11 @@ package com.winterparadox.themovieapp.movieDetails;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.winterparadox.themovieapp.common.views.DefaultItemDecoration;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.winterparadox.themovieapp.common.UiUtils.dpToPx;
 

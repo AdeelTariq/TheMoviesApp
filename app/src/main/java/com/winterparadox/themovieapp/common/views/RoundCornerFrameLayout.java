@@ -5,11 +5,12 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
 import com.winterparadox.themovieapp.R;
+
+import androidx.annotation.NonNull;
 
 /**
  * Frame layout that has rounded corners (it clips content too).

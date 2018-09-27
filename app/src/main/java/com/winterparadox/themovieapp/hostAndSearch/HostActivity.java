@@ -5,16 +5,6 @@ import android.annotation.SuppressLint;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Bundle;
-import android.support.design.button.MaterialButton;
-import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +14,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.mikepenz.aboutlibraries.ui.LibsSupportFragment;
 import com.winterparadox.themovieapp.App;
@@ -53,6 +45,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

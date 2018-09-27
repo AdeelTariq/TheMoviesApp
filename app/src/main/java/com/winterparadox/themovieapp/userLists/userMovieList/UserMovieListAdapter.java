@@ -2,7 +2,6 @@ package com.winterparadox.themovieapp.userLists.userMovieList;
 
 import android.animation.Animator;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import com.woxthebox.draglistview.DragItemAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

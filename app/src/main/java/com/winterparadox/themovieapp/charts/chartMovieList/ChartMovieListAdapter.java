@@ -1,9 +1,6 @@
 package com.winterparadox.themovieapp.charts.chartMovieList;
 
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +17,9 @@ import com.winterparadox.themovieapp.common.views.TransitionNames;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

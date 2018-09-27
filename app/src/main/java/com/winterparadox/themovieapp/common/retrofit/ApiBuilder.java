@@ -83,6 +83,8 @@ public class ApiBuilder {
         httpClient.addNetworkInterceptor (interceptor);
         httpClient.addInterceptor (interceptorOffline);
 
+        httpClient.cache (new Cache (context.getCacheDir (), 10 * 1024 * 1024));
+
         // add api key to request
         httpClient.addInterceptor (chain -> {
             Request request = chain.request ();
@@ -92,8 +94,6 @@ public class ApiBuilder {
             request = request.newBuilder ().url (url).build ();
             return chain.proceed (request);
         });
-
-        httpClient.cache (new Cache (context.getCacheDir (), 10 * 1024 * 1024));
 
         // build
         OkHttpClient OkHttpClient = httpClient.build ();

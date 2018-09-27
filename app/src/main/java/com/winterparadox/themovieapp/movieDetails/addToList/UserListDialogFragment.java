@@ -3,9 +3,6 @@ package com.winterparadox.themovieapp.movieDetails.addToList;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialogFragment;
 
 import com.winterparadox.themovieapp.App;
 import com.winterparadox.themovieapp.R;
@@ -15,6 +12,10 @@ import com.winterparadox.themovieapp.common.beans.UserList;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class UserListDialogFragment extends AppCompatDialogFragment implements
         UserListDialogView, DialogInterface.OnMultiChoiceClickListener {

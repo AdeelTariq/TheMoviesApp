@@ -1,6 +1,5 @@
 package com.winterparadox.themovieapp.dagger;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.google.gson.Gson;
@@ -8,6 +7,7 @@ import com.winterparadox.themovieapp.common.room.AppDatabase;
 
 import javax.inject.Singleton;
 
+import androidx.room.Room;
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.Scheduler;

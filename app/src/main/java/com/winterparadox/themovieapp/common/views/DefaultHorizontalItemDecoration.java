@@ -2,8 +2,9 @@ package com.winterparadox.themovieapp.common.views;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.winterparadox.themovieapp.common.UiUtils.dpToPx;
 
