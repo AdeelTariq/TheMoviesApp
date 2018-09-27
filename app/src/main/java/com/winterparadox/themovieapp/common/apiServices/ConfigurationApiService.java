@@ -1,4 +1,4 @@
-package com.winterparadox.themovieapp.hostAndSearch;
+package com.winterparadox.themovieapp.common.apiServices;
 
 import com.winterparadox.themovieapp.common.beans.GenresResponse;
 

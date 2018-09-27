@@ -1,6 +1,7 @@
 package com.winterparadox.themovieapp.hostAndSearch;
 
 import com.winterparadox.themovieapp.common.apiServices.ChartsApiService;
+import com.winterparadox.themovieapp.common.apiServices.ConfigurationApiService;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.Movie;
 

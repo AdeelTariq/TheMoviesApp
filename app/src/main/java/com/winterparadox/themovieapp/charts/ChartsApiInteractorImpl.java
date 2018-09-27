@@ -1,9 +1,9 @@
 package com.winterparadox.themovieapp.charts;
 
 import com.winterparadox.themovieapp.common.apiServices.ChartsApiService;
+import com.winterparadox.themovieapp.common.apiServices.ConfigurationApiService;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.Movie;
-import com.winterparadox.themovieapp.hostAndSearch.ConfigurationApiService;
 
 import java.util.List;
 
@@ -15,8 +15,8 @@ public class ChartsApiInteractorImpl implements ChartsApiInteractor {
     private final ChartsApiService chartService;
     private ConfigurationApiService configService;
 
-    public ChartsApiInteractorImpl (ConfigurationApiService configService, ChartsApiService
-            chartsService) {
+    public ChartsApiInteractorImpl (ConfigurationApiService configService,
+                                    ChartsApiService chartsService) {
 
         this.configService = configService;
         this.chartService = chartsService;

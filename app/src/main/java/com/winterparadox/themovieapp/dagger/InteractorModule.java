@@ -5,10 +5,10 @@ import com.winterparadox.themovieapp.charts.ChartsApiInteractorImpl;
 import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListApiInteractor;
 import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListApiInteractorImpl;
 import com.winterparadox.themovieapp.common.apiServices.ChartsApiService;
+import com.winterparadox.themovieapp.common.apiServices.ConfigurationApiService;
 import com.winterparadox.themovieapp.home.HomeApiInteractor;
 import com.winterparadox.themovieapp.home.HomeApiInteractorImpl;
 import com.winterparadox.themovieapp.home.HomeApiService;
-import com.winterparadox.themovieapp.hostAndSearch.ConfigurationApiService;
 import com.winterparadox.themovieapp.hostAndSearch.HostApiInteractor;
 import com.winterparadox.themovieapp.hostAndSearch.HostApiInteractorImpl;
 import com.winterparadox.themovieapp.hostAndSearch.SearchApiService;
@@ -42,7 +42,7 @@ public class InteractorModule {
     @Provides
     @Singleton
     public MovieDetailsApiInteractor provideMovieDetailsApiInteractor (MovieDetailsApiService
-                                                                               apiService) {
+                                                                                   apiService) {
         return new MovieDetailsApiInteractorImpl (apiService);
     }
 

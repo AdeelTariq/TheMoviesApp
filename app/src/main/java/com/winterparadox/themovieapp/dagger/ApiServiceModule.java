@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.winterparadox.themovieapp.BuildConfig;
 import com.winterparadox.themovieapp.common.apiServices.ChartsApiService;
+import com.winterparadox.themovieapp.common.apiServices.ConfigurationApiService;
 import com.winterparadox.themovieapp.common.retrofit.ApiBuilder;
 import com.winterparadox.themovieapp.home.HomeApiService;
-import com.winterparadox.themovieapp.hostAndSearch.ConfigurationApiService;
 import com.winterparadox.themovieapp.hostAndSearch.SearchApiService;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsApiService;
 import com.winterparadox.themovieapp.personDetails.PersonApiService;

@@ -14,7 +14,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.winterparadox.themovieapp.R;
 import com.winterparadox.themovieapp.common.GlideApp;
 import com.winterparadox.themovieapp.common.beans.VideoItem;
-import com.winterparadox.themovieapp.common.views.GradientColorFilterTransformation;
 
 import java.util.List;
 
@@ -32,7 +31,9 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoItemH
     public VideosAdapter () {
 
         requestOptionsBackDrop = new RequestOptions ()
-                .transforms (new CenterCrop (), new GradientColorFilterTransformation ());
+                .transforms (new CenterCrop ()
+                        //                        , new GradientColorFilterTransformation ()
+                );
 
     }
 
