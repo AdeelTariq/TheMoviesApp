@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.HomeSection;
 import com.winterparadox.themovieapp.common.beans.Movie;
-import com.winterparadox.themovieapp.common.room.AppDatabase;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,14 +24,14 @@ import static com.winterparadox.themovieapp.common.beans.HomeSection.SECTION_UPC
 public class HomePresenterImpl extends HomePresenter {
 
     private HomeApiInteractor api;
-    private AppDatabase database;
+    private HomeDatabaseInteractor database;
     private Scheduler mainScheduler;
     private Disposable popularDisposable;
     private Disposable upcomingDisposable;
 
 
-    public HomePresenterImpl (HomeApiInteractor api, AppDatabase database, Scheduler
-            mainScheduler) {
+    public HomePresenterImpl (HomeApiInteractor api, HomeDatabaseInteractor database,
+                              Scheduler mainScheduler) {
 
         this.api = api;
         this.database = database;
@@ -56,10 +55,10 @@ public class HomePresenterImpl extends HomePresenter {
             upcomingDisposable.dispose ();
         }
 
-        loadMovies (database.recentlyViewedDao ().getRecent (4),
+        loadMovies (database.getHomeRecents (),
                 SECTION_RECENT, view.recentlyTitle ());
 
-        loadMovies (database.favoriteDao ().getHomeFavorites (4),
+        loadMovies (database.getHomeFavorites (),
                 SECTION_FAVORITES, view.favoriteTitle ());
 
         popularDisposable = loadMovies (api.popularMovies (),

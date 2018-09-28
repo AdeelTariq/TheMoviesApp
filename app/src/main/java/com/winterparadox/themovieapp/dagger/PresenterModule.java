@@ -1,39 +1,49 @@
 package com.winterparadox.themovieapp.dagger;
 
 import com.winterparadox.themovieapp.charts.ChartsApiInteractor;
+import com.winterparadox.themovieapp.charts.ChartsDatabaseInteractor;
 import com.winterparadox.themovieapp.charts.ChartsPresenter;
 import com.winterparadox.themovieapp.charts.ChartsPresenterImpl;
 import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListApiInteractor;
 import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListPresenter;
 import com.winterparadox.themovieapp.charts.chartMovieList.ChartMovieListPresenterImpl;
-import com.winterparadox.themovieapp.common.room.AppDatabase;
+import com.winterparadox.themovieapp.createList.CreateListDatabaseInteractor;
 import com.winterparadox.themovieapp.createList.CreateListDialogPresenter;
 import com.winterparadox.themovieapp.createList.CreateListDialogPresenterImpl;
+import com.winterparadox.themovieapp.favorites.FavoritesDatabaseInteractor;
 import com.winterparadox.themovieapp.favorites.FavoritesPresenter;
 import com.winterparadox.themovieapp.favorites.FavoritesPresenterImpl;
 import com.winterparadox.themovieapp.home.HomeApiInteractor;
+import com.winterparadox.themovieapp.home.HomeDatabaseInteractor;
 import com.winterparadox.themovieapp.home.HomePresenter;
 import com.winterparadox.themovieapp.home.HomePresenterImpl;
 import com.winterparadox.themovieapp.hostAndSearch.HostApiInteractor;
+import com.winterparadox.themovieapp.hostAndSearch.HostDatabaseInteractor;
 import com.winterparadox.themovieapp.hostAndSearch.HostPresenter;
 import com.winterparadox.themovieapp.hostAndSearch.HostPresenterImpl;
 import com.winterparadox.themovieapp.hostAndSearch.searchResults.SearchResultApiInteractor;
 import com.winterparadox.themovieapp.hostAndSearch.searchResults.SearchResultPresenter;
 import com.winterparadox.themovieapp.hostAndSearch.searchResults.SearchResultPresenterImpl;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsApiInteractor;
+import com.winterparadox.themovieapp.movieDetails.MovieDetailsDatabaseInteractor;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsPresenter;
 import com.winterparadox.themovieapp.movieDetails.MovieDetailsPresenterImpl;
+import com.winterparadox.themovieapp.movieDetails.addToList.UserListDialogDatabaseInteractor;
 import com.winterparadox.themovieapp.movieDetails.addToList.UserListDialogPresenter;
 import com.winterparadox.themovieapp.movieDetails.addToList.UserListDialogPresenterImpl;
 import com.winterparadox.themovieapp.personDetails.PersonApiInteractor;
 import com.winterparadox.themovieapp.personDetails.PersonDetailsPresenter;
 import com.winterparadox.themovieapp.personDetails.PersonDetailsPresenterImpl;
+import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedDatabaseInteractor;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedPresenter;
 import com.winterparadox.themovieapp.recentlyViewed.RecentlyViewedPresenterImpl;
+import com.winterparadox.themovieapp.userLists.UserListsDatabaseInteractor;
 import com.winterparadox.themovieapp.userLists.UserListsPresenter;
 import com.winterparadox.themovieapp.userLists.UserListsPresenterImpl;
+import com.winterparadox.themovieapp.userLists.renameList.RenameListDatabaseInteractor;
 import com.winterparadox.themovieapp.userLists.renameList.RenameListDialogPresenter;
 import com.winterparadox.themovieapp.userLists.renameList.RenameListDialogPresenterImpl;
+import com.winterparadox.themovieapp.userLists.userMovieList.UserMovieListDatabaseInteractor;
 import com.winterparadox.themovieapp.userLists.userMovieList.UserMovieListPresenter;
 import com.winterparadox.themovieapp.userLists.userMovieList.UserMovieListPresenterImpl;
 
@@ -52,7 +62,8 @@ public class PresenterModule {
 
     @Provides
     public HomePresenter provideHomePresenter (HomeApiInteractor apiInteractor,
-                                               AppDatabase database, Scheduler mainScheduler) {
+                                               HomeDatabaseInteractor database,
+                                               Scheduler mainScheduler) {
         return new HomePresenterImpl (apiInteractor, database, mainScheduler);
     }
 
@@ -60,29 +71,30 @@ public class PresenterModule {
     public MovieDetailsPresenter provideMovieDetailsPresenter (Scheduler mainScheduler,
                                                                MovieDetailsApiInteractor
                                                                        apiInteractor,
-                                                               AppDatabase database) {
+                                                               MovieDetailsDatabaseInteractor
+                                                                           database) {
         return new MovieDetailsPresenterImpl (apiInteractor, mainScheduler, database);
     }
 
     @Singleton
     @Provides
-    public RecentlyViewedPresenter provideRecentlyViewedPresenter (AppDatabase database,
+    public RecentlyViewedPresenter provideRecentlyViewedPresenter (RecentlyViewedDatabaseInteractor database,
                                                                    Scheduler mainScheduler) {
         return new RecentlyViewedPresenterImpl (database, mainScheduler);
     }
 
     @Singleton
     @Provides
-    public FavoritesPresenter provideFavoritePresenter (AppDatabase database,
+    public FavoritesPresenter provideFavoritePresenter (FavoritesDatabaseInteractor database,
                                                         Scheduler mainScheduler) {
         return new FavoritesPresenterImpl (database, mainScheduler);
     }
 
     @Provides
     public HostPresenter provideHostPresenter (HostApiInteractor api,
-                                               AppDatabase database,
+                                               HostDatabaseInteractor chartsDatabase,
                                                Scheduler mainScheduler) {
-        return new HostPresenterImpl (api, database, mainScheduler);
+        return new HostPresenterImpl (api, chartsDatabase, mainScheduler);
     }
 
 
@@ -95,7 +107,7 @@ public class PresenterModule {
     @Singleton
     @Provides
     public ChartsPresenter provideChartsPresenter (ChartsApiInteractor api,
-                                                   AppDatabase appDatabase,
+                                                   ChartsDatabaseInteractor appDatabase,
                                                    Scheduler mainScheduler) {
         return new ChartsPresenterImpl (api, appDatabase, mainScheduler);
     }
@@ -110,30 +122,30 @@ public class PresenterModule {
 
     @Provides
     @Singleton
-    public UserListsPresenter provideUserListPresenter (AppDatabase database,
+    public UserListsPresenter provideUserListPresenter (UserListsDatabaseInteractor database,
                                                         Scheduler mainScheduler) {
         return new UserListsPresenterImpl (database, mainScheduler);
     }
 
     @Provides
-    public UserListDialogPresenter provideUserListDialogPresenter (AppDatabase database) {
+    public UserListDialogPresenter provideUserListDialogPresenter (UserListDialogDatabaseInteractor database) {
         return new UserListDialogPresenterImpl (database);
     }
 
     @Provides
     @Singleton
-    public UserMovieListPresenter provideUserMovieListPresenter (AppDatabase database,
+    public UserMovieListPresenter provideUserMovieListPresenter (UserMovieListDatabaseInteractor database,
                                                                  Scheduler mainScheduler) {
         return new UserMovieListPresenterImpl (database, mainScheduler);
     }
 
     @Provides
-    public CreateListDialogPresenter provideCreateListPresenter (AppDatabase database) {
+    public CreateListDialogPresenter provideCreateListPresenter (CreateListDatabaseInteractor database) {
         return new CreateListDialogPresenterImpl (database);
     }
 
     @Provides
-    public RenameListDialogPresenter provideRenameListPresenter (AppDatabase database) {
+    public RenameListDialogPresenter provideRenameListPresenter (RenameListDatabaseInteractor database) {
         return new RenameListDialogPresenterImpl (database);
     }
 

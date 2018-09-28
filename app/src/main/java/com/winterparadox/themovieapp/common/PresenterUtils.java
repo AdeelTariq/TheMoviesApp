@@ -1,7 +1,8 @@
 package com.winterparadox.themovieapp.common;
 
+import com.winterparadox.themovieapp.charts.ChartsDatabaseInteractor;
 import com.winterparadox.themovieapp.common.beans.Chart;
-import com.winterparadox.themovieapp.common.room.AppDatabase;
+import com.winterparadox.themovieapp.hostAndSearch.HostDatabaseInteractor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,11 +37,11 @@ public class PresenterUtils {
 
 
     @NonNull
-    public static Disposable createChartss (Single<List<Chart>> generes,
-                                            Function<Chart, SingleSource<? extends Chart>>
+    public static Disposable createCharts (Single<List<Chart>> generes,
+                                           Function<Chart, SingleSource<? extends Chart>>
                                                     backDropFunction,
-                                            AppDatabase database,
-                                            List<String> defaultCharts) {
+                                           Object database,
+                                           List<String> defaultCharts) {
         return generes
                 .map (charts -> {       // add gather charts and genres
                     for ( int i = defaultCharts.size () - 1; i >= 0; i-- ) {
@@ -53,8 +54,15 @@ public class PresenterUtils {
                 }).toObservable ()
                 .flatMapIterable (charts -> charts)
                 .flatMapSingle (chart -> {          // save to database if not already saved
-                    database.chartDao ().insert (chart);
-                    return database.chartDao ().getChart (chart.id);
+                    if ( database instanceof ChartsDatabaseInteractor ) {
+                        ((ChartsDatabaseInteractor) database).insert (chart);
+                        return ((ChartsDatabaseInteractor) database).getChart (chart.id);
+                    }
+                    if ( database instanceof HostDatabaseInteractor ) {
+                        ((HostDatabaseInteractor) database).insert (chart);
+                        return ((HostDatabaseInteractor) database).getChart (chart.id);
+                    }
+                    throw new IllegalArgumentException ("Wrong interactor class");
                 })
                 // check if any userList's backdrop image is missing
                 .filter (chart -> chart.backDropPath == null)
@@ -63,8 +71,15 @@ public class PresenterUtils {
                 .flatMapSingle (backDropFunction)
                 .delay (300, TimeUnit.MILLISECONDS) // delay to avoid api limit
                 // and then save
-                .map (chart -> database.chartDao ().update (chart))
-
+                .map (chart -> {
+                    if ( database instanceof ChartsDatabaseInteractor ) {
+                        return ((ChartsDatabaseInteractor) database).update (chart);
+                    }
+                    if ( database instanceof HostDatabaseInteractor ) {
+                        return ((HostDatabaseInteractor) database).update (chart);
+                    }
+                    throw new IllegalArgumentException ("Wrong interactor class");
+                })
                 .subscribe (aLong -> {
                 }, Throwable::printStackTrace);
     }

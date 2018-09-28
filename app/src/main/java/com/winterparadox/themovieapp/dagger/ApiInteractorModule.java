@@ -30,7 +30,7 @@ import dagger.Provides;
  * Created by Adeel on 10/1/2017.
  */
 @Module
-public class InteractorModule {
+public class ApiInteractorModule {
 
 
     @Provides

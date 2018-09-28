@@ -27,7 +27,8 @@ import dagger.Component;
 
 @Singleton
 @Component(modules = {AppModule.class, ApiServiceModule.class, PresenterModule.class,
-        InteractorModule.class, ObjectsModule.class})
+        ApiInteractorModule.class, ObjectsModule.class, DaoModule.class,
+        DatabaseInteractorModule.class})
 public interface AppComponent {
 
     void inject (App app);

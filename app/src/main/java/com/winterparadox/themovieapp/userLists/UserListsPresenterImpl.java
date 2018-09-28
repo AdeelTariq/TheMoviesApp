@@ -5,12 +5,10 @@ import android.annotation.SuppressLint;
 import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.UserList;
-import com.winterparadox.themovieapp.common.room.AppDatabase;
 
 import java.util.HashMap;
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 
@@ -18,12 +16,12 @@ public class UserListsPresenterImpl extends UserListsPresenter {
 
     private static final String VISIBLE_ITEM = "visibleItem";
 
-    private final AppDatabase database;
+    private final UserListsDatabaseInteractor database;
     private final Scheduler mainScheduler;
 
     private HashMap<String, Object> savedState = new HashMap<> ();
 
-    public UserListsPresenterImpl (AppDatabase database,
+    public UserListsPresenterImpl (UserListsDatabaseInteractor database,
                                    Scheduler mainScheduler) {
         this.database = database;
         this.mainScheduler = mainScheduler;
@@ -44,25 +42,21 @@ public class UserListsPresenterImpl extends UserListsPresenter {
     @SuppressLint("CheckResult")
     private void loadData () {
 
-        database.userListDao ()
-                .anyListExists ()
+        database.anyUserListExists ()
                 .map (anyExists -> {
                     if ( !anyExists ) {
                         if ( view != null ) {
                             List<String> defaultLists = view.getDefaultLists ();
-                            for ( String defaultList : defaultLists ) {
-                                database.userListDao ().insertList (new UserList (defaultList));
-                            }
+                            database.createDefaultUserLists (defaultLists);
                         }
                     }
                     return anyExists;
                 })
-                .flatMapPublisher (b -> database.userListDao ().getUserLists ())
+                .flatMapPublisher (b -> database.getUserLists ())
                 .map (userLists -> {
                     for ( UserList userList : userLists ) {
-                        if ( database.userListDao ().anyItemExists (userList.id) ) {
-                            Movie movie = database.userListDao ()
-                                    .getTopListMovie (userList.id).blockingGet ();
+                        if ( !database.isListEmpty (userList) ) {
+                            Movie movie = database.getTopMovieFromList (userList);
                             userList.backDropPath = movie.backdropPath;
                         }
                     }
@@ -89,17 +83,12 @@ public class UserListsPresenterImpl extends UserListsPresenter {
 
     @Override
     public void duplicateList (UserList list) {
-        Completable.fromAction (() -> database.userListDao ()
-                .duplicateListItems (list))
-                .subscribeOn (Schedulers.io ()).subscribe ();
+        database.duplicateListItems (list).subscribe ();
     }
 
     @Override
     public void deleteList (UserList list) {
-        Completable.fromAction (() -> {
-            database.userListDao ().deleteListItems (list.id);
-            database.userListDao ().deleteList (list);
-        }).subscribeOn (Schedulers.io ()).subscribe ();
+        database.deleteList (list).subscribe ();
     }
 
     @Override

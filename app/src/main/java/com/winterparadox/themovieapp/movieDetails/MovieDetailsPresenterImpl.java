@@ -4,22 +4,17 @@ import android.annotation.SuppressLint;
 
 import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.PresenterUtils;
-import com.winterparadox.themovieapp.common.beans.Favorite;
 import com.winterparadox.themovieapp.common.beans.GenresItem;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.Person;
-import com.winterparadox.themovieapp.common.beans.RecentlyViewed;
 import com.winterparadox.themovieapp.common.beans.RegionItem;
 import com.winterparadox.themovieapp.common.beans.ReleaseDatesItem;
 import com.winterparadox.themovieapp.common.beans.UserList;
-import com.winterparadox.themovieapp.common.room.AppDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import io.reactivex.Completable;
-import io.reactivex.CompletableSource;
 import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 
@@ -28,12 +23,12 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
     private static final String US = "US";
     private final MovieDetailsApiInteractor api;
     private final Scheduler mainScheduler;
-    private AppDatabase database;
+    private MovieDetailsDatabaseInteractor database;
     private boolean isFavorite;
 
     public MovieDetailsPresenterImpl (MovieDetailsApiInteractor api,
                                       Scheduler mainScheduler,
-                                      AppDatabase database) {
+                                      MovieDetailsDatabaseInteractor database) {
         this.api = api;
         this.mainScheduler = mainScheduler;
         this.database = database;
@@ -44,14 +39,10 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
     void attachView (MovieDetailsView view, Movie movie, Navigator nav) {
         super.attachView (view, movie, nav);
 
-        Completable.fromAction (() -> database.movieDao ().insertAll (movie))
-                .andThen ((CompletableSource) cs -> database.recentlyViewedDao ()
-                        .insertAll (new RecentlyViewed (System.currentTimeMillis (), movie)))
-                .subscribeOn (Schedulers.io ()).subscribe ();
+        database.addToCache (movie).andThen (database.addToRecentlyViewed (movie))
+                .subscribe ();
 
-        database.favoriteDao ()
-                .isFavorite (movie.id)
-                .subscribeOn (Schedulers.io ())
+        database.isFavorite (movie)
                 .observeOn (mainScheduler)
                 .subscribe (isFav -> {
                     isFavorite = isFav;
@@ -128,15 +119,11 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
         isFavorite = isFav;
         // save to database
         if ( isFavorite ) {
-            Completable.fromAction (() -> database.favoriteDao ()
-                    .insertAll (new Favorite (System.currentTimeMillis (), movie)))
-                    .subscribeOn (Schedulers.io ())
+            database.addToFavorite (movie)
                     .observeOn (mainScheduler)
                     .subscribe ();
         } else {
-            Completable.fromAction (() -> database.favoriteDao ()
-                    .deleteAll (new Favorite (0, movie)))
-                    .subscribeOn (Schedulers.io ())
+            database.unFavorite (movie)
                     .observeOn (mainScheduler)
                     .subscribe ();
         }
@@ -159,25 +146,21 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
     @SuppressLint("CheckResult")
     @Override
     public void onAddToListClicked () {
-        database.userListDao ()
-                .anyListExists ()
+        database.anyUserListExists ()
                 .map (anyExists -> {
                     if ( !anyExists ) {
                         if ( view != null ) {
                             List<String> defaultLists = view.getDefaultLists ();
-                            for ( String defaultList : defaultLists ) {
-                                database.userListDao ().insertList (new UserList (defaultList));
-                            }
+                            database.createDefaultUserLists (defaultLists);
                         }
                     }
                     return anyExists;
                 })
-                .flatMap (b -> database.userListDao ().getUserListsOnce ())
+                .flatMap (b -> database.getUserLists ())
                 .toObservable ()
                 .flatMapIterable (userLists -> userLists)
                 .map (userList -> {
-                    userList.isAdded = database.userListDao ()
-                            .isInList (movie.id, userList.id);
+                    userList.isAdded = database.isMovieInList (movie.id, userList.id);
                     return userList;
                 })
                 .toList ()

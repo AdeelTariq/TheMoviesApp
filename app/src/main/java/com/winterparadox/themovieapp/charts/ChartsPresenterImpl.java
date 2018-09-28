@@ -5,14 +5,12 @@ import android.annotation.SuppressLint;
 import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.PresenterUtils;
 import com.winterparadox.themovieapp.common.beans.Chart;
-import com.winterparadox.themovieapp.common.room.AppDatabase;
 
 import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 import static com.winterparadox.themovieapp.common.beans.Chart.CHART_LATEST;
 import static com.winterparadox.themovieapp.common.beans.Chart.CHART_POPULAR;
@@ -22,7 +20,7 @@ public class ChartsPresenterImpl extends ChartsPresenter {
 
     private static final String VISIBLE_ITEM = "visibleItem";
 
-    private final AppDatabase database;
+    private final ChartsDatabaseInteractor database;
     private final Scheduler mainScheduler;
     private Disposable chartsDisposable;
     private ChartsApiInteractor api;
@@ -30,7 +28,7 @@ public class ChartsPresenterImpl extends ChartsPresenter {
     private HashMap<String, Object> savedState = new HashMap<> ();
 
     public ChartsPresenterImpl (ChartsApiInteractor api,
-                                AppDatabase database,
+                                ChartsDatabaseInteractor database,
                                 Scheduler mainScheduler) {
         this.api = api;
         this.database = database;
@@ -52,9 +50,7 @@ public class ChartsPresenterImpl extends ChartsPresenter {
     @SuppressLint("CheckResult")
     private void loadData () {
 
-        database.chartDao ()
-                .getCharts ()
-                .subscribeOn (Schedulers.io ())
+        database.getCharts ()
                 .observeOn (mainScheduler)
                 .subscribe (charts -> {
                     if ( view != null ) {
@@ -89,7 +85,7 @@ public class ChartsPresenterImpl extends ChartsPresenter {
 
         if ( view != null ) {
             List<String> defaultCharts = view.getDefaultCharts ();
-            chartsDisposable = PresenterUtils.createChartss (api.generes (),
+            chartsDisposable = PresenterUtils.createCharts (api.generes (),
                     chart -> {
                         if ( chart.id == CHART_POPULAR ) {
                             return api.popularMovieBackdrop (chart);

@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.PresenterUtils;
 import com.winterparadox.themovieapp.common.beans.Movie;
-import com.winterparadox.themovieapp.common.room.AppDatabase;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,13 +20,14 @@ import static com.winterparadox.themovieapp.common.beans.Chart.CHART_TOP_RATED;
 public class HostPresenterImpl extends HostPresenter {
 
     private HostApiInteractor api;
-    private final AppDatabase database;
+    private final HostDatabaseInteractor database;
     private final Scheduler mainScheduler;
     private Disposable favMenuDisposable;
     private Disposable recentMenuDisposable;
     private Disposable chartsDisposable;
 
-    public HostPresenterImpl (HostApiInteractor api, AppDatabase database,
+    public HostPresenterImpl (HostApiInteractor api,
+                              HostDatabaseInteractor database,
                               Scheduler mainScheduler) {
         this.api = api;
         this.database = database;
@@ -40,9 +40,7 @@ public class HostPresenterImpl extends HostPresenter {
 
         fetchChartData ();
 
-        favMenuDisposable = database.favoriteDao ()
-                .anyExists ()
-                .subscribeOn (Schedulers.io ())
+        favMenuDisposable = database.anyFavoriteExists ()
                 .observeOn (mainScheduler)
                 .subscribe (anyExists -> {
                     if ( view != null ) {
@@ -50,9 +48,7 @@ public class HostPresenterImpl extends HostPresenter {
                     }
                 });
 
-        recentMenuDisposable = database.recentlyViewedDao ()
-                .anyExists ()
-                .subscribeOn (Schedulers.io ())
+        recentMenuDisposable = database.anyRecentyViewedExists ()
                 .observeOn (mainScheduler)
                 .subscribe (anyExists -> {
                     if ( view != null ) {
@@ -70,7 +66,7 @@ public class HostPresenterImpl extends HostPresenter {
 
         if ( view != null ) {
             List<String> defaultCharts = view.getDefaultCharts ();
-            chartsDisposable = PresenterUtils.createChartss (api.generes (),
+            chartsDisposable = PresenterUtils.createCharts (api.generes (),
                     chart -> {
                         if ( chart.id == CHART_POPULAR ) {
                             return api.popularMovieBackdrop (chart);
@@ -94,8 +90,7 @@ public class HostPresenterImpl extends HostPresenter {
             return;
         }
 
-        database.movieDao ()
-                .search ("%" + query + "%", 10)
+        database.getSuggestios (query)
                 .map (movies -> {
                     Collections.sort (movies,
                             (o1, o2) -> Integer.compare (o1.title.indexOf (query),

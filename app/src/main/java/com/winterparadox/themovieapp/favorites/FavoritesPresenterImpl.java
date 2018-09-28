@@ -4,26 +4,23 @@ import android.annotation.SuppressLint;
 
 import com.winterparadox.themovieapp.arch.Navigator;
 import com.winterparadox.themovieapp.common.PresenterUtils;
-import com.winterparadox.themovieapp.common.beans.Favorite;
 import com.winterparadox.themovieapp.common.beans.Movie;
-import com.winterparadox.themovieapp.common.room.AppDatabase;
 
 import java.util.HashMap;
 
-import io.reactivex.Completable;
 import io.reactivex.Scheduler;
-import io.reactivex.schedulers.Schedulers;
 
 public class FavoritesPresenterImpl extends FavoritesPresenter {
 
     private static final String VISIBLE_ITEM = "visibleItem";
 
-    private final AppDatabase database;
+    private final FavoritesDatabaseInteractor database;
     private final Scheduler mainScheduler;
 
     private HashMap<String, Object> savedState = new HashMap<> ();
 
-    public FavoritesPresenterImpl (AppDatabase database, Scheduler mainScheduler) {
+    public FavoritesPresenterImpl (FavoritesDatabaseInteractor database,
+                                   Scheduler mainScheduler) {
 
         this.database = database;
         this.mainScheduler = mainScheduler;
@@ -36,9 +33,7 @@ public class FavoritesPresenterImpl extends FavoritesPresenter {
 
         view.showProgress ();
 
-        database.favoriteDao ()
-                .getFavorites ()
-                .subscribeOn (Schedulers.io ())
+        database.getFavorites ()
                 .observeOn (mainScheduler)
                 .subscribe ((movies, throwable) -> {
                     if ( throwable != null ) {
@@ -70,9 +65,7 @@ public class FavoritesPresenterImpl extends FavoritesPresenter {
 
     @Override
     void unFavorite (Movie movie) {
-        Completable.fromAction (() -> database.favoriteDao ()
-                .deleteAll (new Favorite (0, movie)))
-                .subscribeOn (Schedulers.io ()).subscribe ();
+        database.unFavorite (movie).subscribe ();
     }
 
     @Override

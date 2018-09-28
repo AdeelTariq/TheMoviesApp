@@ -3,16 +3,15 @@ package com.winterparadox.themovieapp.createList;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.UserList;
 import com.winterparadox.themovieapp.common.beans.UserListItem;
-import com.winterparadox.themovieapp.common.room.AppDatabase;
 
 import io.reactivex.Completable;
 import io.reactivex.schedulers.Schedulers;
 
 public class CreateListDialogPresenterImpl extends CreateListDialogPresenter {
 
-    private AppDatabase database;
+    private CreateListDatabaseInteractor database;
 
-    public CreateListDialogPresenterImpl (AppDatabase database) {
+    public CreateListDialogPresenterImpl (CreateListDatabaseInteractor database) {
 
         this.database = database;
     }
@@ -24,10 +23,10 @@ public class CreateListDialogPresenterImpl extends CreateListDialogPresenter {
         }
 
         Completable.fromAction (() -> {
-            long id = database.userListDao ().insertList (new UserList (name));
+            long id = database.createList (new UserList (name));
 
             if ( movieId != Movie.NONE ) {
-                database.userListDao ().addToList (new UserListItem (id, movieId));
+                database.addToList (new UserListItem (id, movieId));
             }
         }).subscribeOn (Schedulers.io ())
                 .subscribe ();
