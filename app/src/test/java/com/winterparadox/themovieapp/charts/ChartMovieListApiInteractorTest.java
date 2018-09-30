@@ -11,7 +11,9 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Single;
 import io.reactivex.observers.TestObserver;
@@ -39,13 +41,19 @@ public class ChartMovieListApiInteractorTest {
         int PAGE = 6;
 
         MoviesResponse response = new MoviesResponse ();
-        TestObserver<List<Movie>> subscriber = new TestObserver<> ();
+        response.results = new ArrayList<> ();
+        response.results.add (new Movie ());
+
         given (chartsApiService.topRated (anyInt ()))
                 .willReturn (Single.just (response));
+
+        TestObserver<List<Movie>> subscriber = new TestObserver<> ();
 
         interactor.topRatedMovies (PAGE).subscribe (subscriber);
 
         then (chartsApiService).should ().topRated (PAGE + 1);
+        subscriber.awaitDone (5000, TimeUnit.MILLISECONDS);
+        subscriber.assertValue (response.results);
     }
 
     @Test
@@ -53,13 +61,19 @@ public class ChartMovieListApiInteractorTest {
         int PAGE = 900;
 
         MoviesResponse response = new MoviesResponse ();
-        TestObserver<List<Movie>> subscriber = new TestObserver<> ();
+        response.results = new ArrayList<> ();
+        response.results.add (new Movie ());
+
         given (chartsApiService.latest (anyInt ()))
                 .willReturn (Single.just (response));
+
+        TestObserver<List<Movie>> subscriber = new TestObserver<> ();
 
         interactor.latestMovies (PAGE).subscribe (subscriber);
 
         then (chartsApiService).should ().latest (PAGE + 1);
+        subscriber.awaitDone (5000, TimeUnit.MILLISECONDS);
+        subscriber.assertValue (response.results);
     }
 
     @Test
@@ -67,13 +81,20 @@ public class ChartMovieListApiInteractorTest {
         int PAGE = 6;
 
         MoviesResponse response = new MoviesResponse ();
-        TestObserver<List<Movie>> subscriber = new TestObserver<> ();
+        response.results = new ArrayList<> ();
+        response.results.add (new Movie ());
+        response.results.add (new Movie ());
+
         given (chartsApiService.popular (anyInt ()))
                 .willReturn (Single.just (response));
+
+        TestObserver<List<Movie>> subscriber = new TestObserver<> ();
 
         interactor.popularMovies (PAGE).subscribe (subscriber);
 
         then (chartsApiService).should ().popular (PAGE + 1);
+        subscriber.awaitDone (5000, TimeUnit.MILLISECONDS);
+        subscriber.assertValue (response.results);
     }
 
     @Test
@@ -82,13 +103,18 @@ public class ChartMovieListApiInteractorTest {
         int PAGE = 4;
 
         MoviesResponse response = new MoviesResponse ();
-        TestObserver<List<Movie>> subscriber = new TestObserver<> ();
+        response.results = new ArrayList<> ();
+
         given (chartsApiService.topRatedInGenre (anyLong (), anyInt ()))
                 .willReturn (Single.just (response));
+
+        TestObserver<List<Movie>> subscriber = new TestObserver<> ();
 
         interactor.topRatedInGenre (CHART_ID, PAGE).subscribe (subscriber);
 
         then (chartsApiService).should ().topRatedInGenre (CHART_ID, PAGE + 1);
+        subscriber.awaitDone (5000, TimeUnit.MILLISECONDS);
+        subscriber.assertValue (response.results);
     }
 
 }

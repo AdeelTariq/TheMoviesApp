@@ -59,7 +59,7 @@ public class PresenterUtils {
                         return ((ChartsDatabaseInteractor) database).getChart (chart.id);
                     }
                     if ( database instanceof HostDatabaseInteractor ) {
-                        ((HostDatabaseInteractor) database).insert (chart);
+                        ((HostDatabaseInteractor) database).insertChart (chart);
                         return ((HostDatabaseInteractor) database).getChart (chart.id);
                     }
                     throw new IllegalArgumentException ("Wrong interactor class");
@@ -76,7 +76,7 @@ public class PresenterUtils {
                         return ((ChartsDatabaseInteractor) database).update (chart);
                     }
                     if ( database instanceof HostDatabaseInteractor ) {
-                        return ((HostDatabaseInteractor) database).update (chart);
+                        return ((HostDatabaseInteractor) database).updateChart (chart);
                     }
                     throw new IllegalArgumentException ("Wrong interactor class");
                 })

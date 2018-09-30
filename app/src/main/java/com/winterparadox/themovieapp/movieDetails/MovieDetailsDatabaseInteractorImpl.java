@@ -44,11 +44,6 @@ public class MovieDetailsDatabaseInteractorImpl implements MovieDetailsDatabaseI
     }
 
     @Override
-    public Single<Boolean> isFavorite (Movie movie) {
-        return favoriteDao.isFavorite (movie.id).subscribeOn (Schedulers.io ());
-    }
-
-    @Override
     public Completable addToFavorite (Movie movie) {
         return Completable.fromAction (() -> favoriteDao
                 .insertAll (new Favorite (System.currentTimeMillis (), movie)))
@@ -62,15 +57,13 @@ public class MovieDetailsDatabaseInteractorImpl implements MovieDetailsDatabaseI
     }
 
     @Override
-    public Single<Boolean> anyUserListExists () {
-        return userListDao.anyListExists ().subscribeOn (Schedulers.io ());
+    public Single<Boolean> isFavorite (Movie movie) {
+        return favoriteDao.isFavorite (movie.id).subscribeOn (Schedulers.io ());
     }
 
     @Override
-    public void createDefaultUserLists (List<String> defaultLists) {
-        for ( String defaultList : defaultLists ) {
-            userListDao.insertList (new UserList (defaultList));
-        }
+    public Single<Boolean> anyUserListExists () {
+        return userListDao.anyListExists ().subscribeOn (Schedulers.io ());
     }
 
     @Override
@@ -81,5 +74,15 @@ public class MovieDetailsDatabaseInteractorImpl implements MovieDetailsDatabaseI
     @Override
     public boolean isMovieInList (long movieId, long listId) {
         return userListDao.isInList (movieId, listId);
+    }
+
+    @Override
+    public void createDefaultUserLists (List<String> defaultLists) {
+        UserList[] userLists = new UserList[defaultLists.size ()];
+        for ( int i = 0; i < defaultLists.size (); i++ ) {
+            String defaultList = defaultLists.get (i);
+            userLists[i] = new UserList (defaultList);
+        }
+        userListDao.insertAllLists (userLists);
     }
 }

@@ -10,9 +10,9 @@ import io.reactivex.Single;
 
 public interface HostDatabaseInteractor {
 
-    Long insert (Chart chart);
+    Long insertChart (Chart chart);
 
-    Long update (Chart chart);
+    Long updateChart (Chart chart);
 
     Single<Chart> getChart (long id);
 
@@ -20,5 +20,5 @@ public interface HostDatabaseInteractor {
 
     Flowable<Boolean> anyRecentyViewedExists ();
 
-    Single<List<Movie>> getSuggestios (String query);
+    Single<List<Movie>> getSuggestions (String query);
 }

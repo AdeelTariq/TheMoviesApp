@@ -32,17 +32,16 @@ public class UserMovieListDatabaseInteractorImpl implements UserMovieListDatabas
     }
 
     @Override
-    public Completable saveListOrder (UserList userList, List<Object> movies) {
+    public Completable saveListOrder (UserList userList, List<Movie> movies) {
         return Completable.fromAction (() -> {
+            UserListItem[] userListItems = new UserListItem[movies.size ()];
             for ( int i = 0, moviesSize = movies.size (); i < moviesSize; i++ ) {
-                Object movie = movies.get (i);
-                if ( !(movie instanceof Movie) ) {
-                    continue;
-                }
-                UserListItem listItem = new UserListItem (userList.id, ((Movie) movie).id);
+                Movie movie = movies.get (i);
+                UserListItem listItem = new UserListItem (userList.id, movie.id);
                 listItem.order = i;
-                userListDao.addToList (listItem);
+                userListItems[i] = listItem;
             }
+            userListDao.addAllToList (userListItems);
         }).subscribeOn (Schedulers.io ());
     }
 }

@@ -90,7 +90,7 @@ public class HostPresenterImpl extends HostPresenter {
             return;
         }
 
-        database.getSuggestios (query)
+        database.getSuggestions (query)
                 .map (movies -> {
                     Collections.sort (movies,
                             (o1, o2) -> Integer.compare (o1.title.indexOf (query),

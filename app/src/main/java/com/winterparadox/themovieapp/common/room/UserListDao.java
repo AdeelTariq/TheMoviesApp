@@ -46,6 +46,9 @@ public abstract class UserListDao {
     @Insert(onConflict = IGNORE)
     public abstract Long insertList (UserList list);
 
+    @Insert(onConflict = IGNORE)
+    public abstract Long[] insertAllLists (UserList... list);
+
     @Insert(onConflict = REPLACE)
     public abstract Long updateList (UserList list);
 
@@ -54,6 +57,9 @@ public abstract class UserListDao {
 
     @Insert(onConflict = REPLACE)
     public abstract Long addToList (UserListItem listItem);
+
+    @Insert(onConflict = REPLACE)
+    public abstract Long[] addAllToList (UserListItem... listItem);
 
     @Delete
     public abstract void removeFromList (UserListItem listItem);

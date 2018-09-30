@@ -25,9 +25,12 @@ public class UserListsDatabaseInteractorImpl implements UserListsDatabaseInterac
 
     @Override
     public void createDefaultUserLists (List<String> defaultLists) {
-        for ( String defaultList : defaultLists ) {
-            userListDao.insertList (new UserList (defaultList));
+        UserList[] userLists = new UserList[defaultLists.size ()];
+        for ( int i = 0; i < defaultLists.size (); i++ ) {
+            String defaultList = defaultLists.get (i);
+            userLists[i] = new UserList (defaultList);
         }
+        userListDao.insertAllLists (userLists);
     }
 
     @Override

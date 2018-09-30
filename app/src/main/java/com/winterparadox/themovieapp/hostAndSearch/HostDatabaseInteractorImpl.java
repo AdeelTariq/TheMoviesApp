@@ -30,18 +30,24 @@ public class HostDatabaseInteractorImpl implements HostDatabaseInteractor {
     }
 
     @Override
-    public Long insert (Chart chart) {
+    public Long insertChart (Chart chart) {
         return chartDao.insert (chart);
     }
 
     @Override
-    public Long update (Chart chart) {
+    public Long updateChart (Chart chart) {
         return chartDao.update (chart);
     }
 
     @Override
     public Single<Chart> getChart (long id) {
         return chartDao.getChart (id).subscribeOn (Schedulers.io ());
+    }
+
+    @Override
+    public Single<List<Movie>> getSuggestions (String query) {
+        return movieDao.search ("%" + query + "%", 10)
+                .subscribeOn (Schedulers.io ());
     }
 
     @Override
@@ -52,11 +58,5 @@ public class HostDatabaseInteractorImpl implements HostDatabaseInteractor {
     @Override
     public Flowable<Boolean> anyRecentyViewedExists () {
         return recentlyViewedDao.anyExists ().subscribeOn (Schedulers.io ());
-    }
-
-    @Override
-    public Single<List<Movie>> getSuggestios (String query) {
-        return movieDao.search ("%" + query + "%", 10)
-                .subscribeOn (Schedulers.io ());
     }
 }

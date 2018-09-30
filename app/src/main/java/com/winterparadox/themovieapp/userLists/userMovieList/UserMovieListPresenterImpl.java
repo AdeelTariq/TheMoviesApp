@@ -7,6 +7,7 @@ import com.winterparadox.themovieapp.common.PresenterUtils;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.UserList;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -71,7 +72,14 @@ public class UserMovieListPresenterImpl extends UserMovieListPresenter {
 
     @Override
     public void saveListOrder (List<Object> movies) {
-        database.saveListOrder (userList, movies).subscribe ();
+        ArrayList<Movie> list = new ArrayList<> ();
+        for ( Object movie : movies ) {
+            if ( !(movie instanceof Movie) ) {
+                continue;
+            }
+            list.add (((Movie) movie));
+        }
+        database.saveListOrder (userList, list).subscribe ();
     }
 
     @Override

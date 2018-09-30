@@ -7,6 +7,7 @@ import com.winterparadox.themovieapp.common.Singleton;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
@@ -101,6 +102,14 @@ public class Movie implements Serializable {
 
     @Ignore
     public String year;
+
+    public Movie () {
+    }
+
+    @VisibleForTesting
+    public Movie (long id) {
+        this.id = id;
+    }
 
     @Override
     public int hashCode () {

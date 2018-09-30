@@ -14,5 +14,5 @@ public interface UserMovieListDatabaseInteractor {
 
     Completable deleteFromList (UserList userList, Movie movie);
 
-    Completable saveListOrder (UserList userList, List<Object> movies);
+    Completable saveListOrder (UserList userList, List<Movie> movies);
 }

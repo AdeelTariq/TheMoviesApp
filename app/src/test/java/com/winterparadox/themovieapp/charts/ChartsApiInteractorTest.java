@@ -11,7 +11,9 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Single;
 import io.reactivex.observers.TestObserver;
@@ -39,12 +41,16 @@ public class ChartsApiInteractorTest {
     @Test
     public void genres_shouldReturnFromConfigService () {
         GenresResponse response = new GenresResponse ();
+        response.genres = new ArrayList<> ();
+
         TestObserver<List<Chart>> subscriber = new TestObserver<> ();
         given (configurationApiService.genres ()).willReturn (Single.just (response));
 
         interactor.generes ().subscribe (subscriber);
 
         then (configurationApiService).should ().genres ();
+        subscriber.awaitDone (5000, TimeUnit.MILLISECONDS);
+        subscriber.assertValue (response.genres);
     }
 
 
@@ -59,6 +65,8 @@ public class ChartsApiInteractorTest {
         interactor.popularMovieBackdrop (chart).subscribe (subscriber);
 
         then (chartsApiService).should ().popular (1);
+        subscriber.awaitDone (5000, TimeUnit.MILLISECONDS);
+        subscriber.assertValue (chart);
     }
 
     @Test
@@ -72,6 +80,8 @@ public class ChartsApiInteractorTest {
         interactor.latestMovieBackdrop (chart).subscribe (subscriber);
 
         then (chartsApiService).should ().latest (1);
+        subscriber.awaitDone (5000, TimeUnit.MILLISECONDS);
+        subscriber.assertValue (chart);
     }
 
     @Test
@@ -85,6 +95,8 @@ public class ChartsApiInteractorTest {
         interactor.topRatedMovieBackdrop (chart).subscribe (subscriber);
 
         then (chartsApiService).should ().topRated (1);
+        subscriber.awaitDone (5000, TimeUnit.MILLISECONDS);
+        subscriber.assertValue (chart);
     }
 
     @Test
@@ -101,6 +113,8 @@ public class ChartsApiInteractorTest {
         interactor.genreMovieBackdrop (chart).subscribe (subscriber);
 
         then (chartsApiService).should ().topRatedInGenre (CHART_ID, 1);
+        subscriber.awaitDone (5000, TimeUnit.MILLISECONDS);
+        subscriber.assertValue (chart);
     }
 
 }

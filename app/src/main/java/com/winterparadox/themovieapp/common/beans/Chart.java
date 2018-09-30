@@ -2,6 +2,7 @@ package com.winterparadox.themovieapp.common.beans;
 
 import java.io.Serializable;
 
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -26,5 +27,13 @@ public class Chart implements Serializable {
 
         this.id = id;
         this.name = name;
+    }
+
+    @Override
+    public boolean equals (@Nullable Object obj) {
+        if ( obj instanceof Chart ) {
+            return id == ((Chart) obj).id;
+        }
+        return super.equals (obj);
     }
 }

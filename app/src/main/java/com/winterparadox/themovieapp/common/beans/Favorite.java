@@ -1,5 +1,6 @@
 package com.winterparadox.themovieapp.common.beans;
 
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -23,5 +24,13 @@ public class Favorite {
 
         this.time = time;
         this.movieId = movie.id;
+    }
+
+    @Override
+    public boolean equals (@Nullable Object obj) {
+        if ( obj instanceof Favorite ) {
+            return movieId == ((Favorite) obj).movieId;
+        }
+        return super.equals (obj);
     }
 }
