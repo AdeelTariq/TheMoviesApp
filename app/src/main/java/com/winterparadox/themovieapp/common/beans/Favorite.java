@@ -1,6 +1,7 @@
 package com.winterparadox.themovieapp.common.beans;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -24,6 +25,12 @@ public class Favorite {
 
         this.time = time;
         this.movieId = movie.id;
+    }
+
+    @VisibleForTesting
+    public Favorite (long movieId) {
+        this.time = System.currentTimeMillis ();
+        this.movieId = movieId;
     }
 
     @Override

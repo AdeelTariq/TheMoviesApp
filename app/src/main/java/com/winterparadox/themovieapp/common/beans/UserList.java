@@ -33,7 +33,7 @@ public class UserList implements Serializable {
     @Override
     public boolean equals (@Nullable Object obj) {
         if ( obj instanceof UserList ) {
-            return name.equals (((UserList) obj).name);
+            return name.equals (((UserList) obj).name) && id == ((UserList) obj).id;
         }
         return super.equals (obj);
     }

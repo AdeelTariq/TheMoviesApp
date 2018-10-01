@@ -16,9 +16,6 @@ public interface MovieDao {
     @Query("SELECT * FROM Movie")
     Single<List<Movie>> getAll ();
 
-    @Query("SELECT * FROM Movie WHERE id IN (:movieIds)")
-    Single<List<Movie>> loadAllByIds (int[] movieIds);
-
     @Query("SELECT * FROM Movie WHERE title LIKE :query LIMIT :count")
     Single<List<Movie>> search (String query, int count);
 
