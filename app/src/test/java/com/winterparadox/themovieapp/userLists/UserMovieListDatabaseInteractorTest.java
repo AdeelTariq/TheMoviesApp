@@ -1,9 +1,11 @@
-package com.winterparadox.themovieapp.userLists.userMovieList;
+package com.winterparadox.themovieapp.userLists;
 
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.UserList;
 import com.winterparadox.themovieapp.common.beans.UserListItem;
 import com.winterparadox.themovieapp.common.room.UserListDao;
+import com.winterparadox.themovieapp.userLists.userMovieList.UserMovieListDatabaseInteractor;
+import com.winterparadox.themovieapp.userLists.userMovieList.UserMovieListDatabaseInteractorImpl;
 
 import org.junit.Before;
 import org.junit.Test;

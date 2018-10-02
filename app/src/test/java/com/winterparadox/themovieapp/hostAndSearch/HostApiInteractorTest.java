@@ -1,4 +1,4 @@
-package com.winterparadox.themovieapp.charts;
+package com.winterparadox.themovieapp.hostAndSearch;
 
 import com.winterparadox.themovieapp.common.apiServices.ChartsApiService;
 import com.winterparadox.themovieapp.common.apiServices.ConfigurationApiService;
@@ -6,6 +6,7 @@ import com.winterparadox.themovieapp.common.beans.Chart;
 import com.winterparadox.themovieapp.common.beans.GenresResponse;
 import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.MoviesResponse;
+import com.winterparadox.themovieapp.common.beans.SearchResponse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,22 +22,24 @@ import io.reactivex.observers.TestObserver;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
-public class ChartsApiInteractorTest {
+public class HostApiInteractorTest {
 
-    @Mock
-    ChartsApiService chartsApiService;
-    @Mock
-    ConfigurationApiService configurationApiService;
+    @Mock ChartsApiService chartsApiService;
 
-    ChartsApiInteractor interactor;
+    @Mock ConfigurationApiService configService;
+
+    @Mock SearchApiService searchApiService;
+
+    HostApiInteractor interactor;
 
     @Before
     public void setup () {
         MockitoAnnotations.initMocks (this);
-        interactor = new ChartsApiInteractorImpl (configurationApiService, chartsApiService);
+        interactor = new HostApiInteractorImpl (configService, chartsApiService, searchApiService);
     }
 
     @Test
@@ -45,14 +48,15 @@ public class ChartsApiInteractorTest {
         response.genres = new ArrayList<> ();
 
         TestObserver<List<Chart>> subscriber = new TestObserver<> ();
-        given (configurationApiService.genres ()).willReturn (Single.just (response));
+        given (configService.genres ()).willReturn (Single.just (response));
 
-        interactor.generes ().subscribe (subscriber);
+        interactor.genres ().subscribe (subscriber);
 
-        then (configurationApiService).should ().genres ();
+        then (configService).should ().genres ();
         subscriber.awaitDone (5000, TimeUnit.MILLISECONDS);
         subscriber.assertValue (response.genres);
     }
+
 
     @Test
     public void popularMovieBackdrop_shouldReturnFromChartsService () {
@@ -137,4 +141,23 @@ public class ChartsApiInteractorTest {
         subscriber.assertValue (chart);
     }
 
+    @Test
+    public void search_shouldReturnFromSearchService () {
+        SearchResponse response = new SearchResponse ();
+        response.results = new ArrayList<> ();
+        response.results.add (new Movie ());
+        response.results.add (new Movie ());
+
+        TestObserver<List<Movie>> subscriber = new TestObserver<> ();
+        int page = 1;
+        String query = "movie";
+        given (searchApiService.search (anyString (), anyInt ()))
+                .willReturn (Single.just (response));
+
+        interactor.search (query).subscribe (subscriber);
+
+        then (searchApiService).should ().search (query, page);
+        subscriber.awaitDone (5000, TimeUnit.MILLISECONDS);
+        subscriber.assertValue (response.results);
+    }
 }

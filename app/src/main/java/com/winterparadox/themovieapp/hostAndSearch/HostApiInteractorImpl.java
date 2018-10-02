@@ -25,7 +25,7 @@ public class HostApiInteractorImpl implements HostApiInteractor {
     }
 
     @Override
-    public Single<List<Chart>> generes () {
+    public Single<List<Chart>> genres () {
         return configService.genres ()
                 .subscribeOn (Schedulers.io ())
                 .map (genresResponse -> genresResponse.genres);

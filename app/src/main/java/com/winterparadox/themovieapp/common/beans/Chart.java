@@ -32,7 +32,9 @@ public class Chart implements Serializable {
     @Override
     public boolean equals (@Nullable Object obj) {
         if ( obj instanceof Chart ) {
-            return id == ((Chart) obj).id;
+            return id == ((Chart) obj).id &&
+                    name.equals (((Chart) obj).name) &&
+                    backDropPath.equals (((Chart) obj).backDropPath);
         }
         return super.equals (obj);
     }

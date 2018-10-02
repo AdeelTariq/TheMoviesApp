@@ -15,7 +15,7 @@ public class PersonApiInteractorImpl implements PersonApiInteractor {
     }
 
     @Override
-    public Single<Person> personDetails (int id) {
+    public Single<Person> personDetails (long id) {
         return service.personDetails (id)
                 .subscribeOn (Schedulers.io ());
     }

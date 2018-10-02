@@ -78,11 +78,9 @@ public class ApiInteractorModule {
 
     @Provides
     @Singleton
-    public SearchResultApiInteractor provideSearchResultApiInteractor (ChartsApiService
-                                                                                   chartsService,
-                                                                       SearchApiService
+    public SearchResultApiInteractor provideSearchResultApiInteractor (SearchApiService
                                                                                searchView) {
-        return new SearchResultApiInteractorImpl (chartsService, searchView);
+        return new SearchResultApiInteractorImpl (searchView);
     }
 
 }

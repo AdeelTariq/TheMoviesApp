@@ -66,7 +66,7 @@ public class HostPresenterImpl extends HostPresenter {
 
         if ( view != null ) {
             List<String> defaultCharts = view.getDefaultCharts ();
-            chartsDisposable = PresenterUtils.createCharts (api.generes (),
+            chartsDisposable = PresenterUtils.createCharts (api.genres (),
                     chart -> {
                         if ( chart.id == CHART_POPULAR ) {
                             return api.popularMovieBackdrop (chart);

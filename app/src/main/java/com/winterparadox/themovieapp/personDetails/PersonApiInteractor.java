@@ -6,5 +6,5 @@ import io.reactivex.Single;
 
 public interface PersonApiInteractor {
 
-    Single<Person> personDetails (int id);
+    Single<Person> personDetails (long id);
 }

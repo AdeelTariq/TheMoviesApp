@@ -1,7 +1,9 @@
-package com.winterparadox.themovieapp.userLists.renameList;
+package com.winterparadox.themovieapp.userLists;
 
 import com.winterparadox.themovieapp.common.beans.UserList;
 import com.winterparadox.themovieapp.common.room.UserListDao;
+import com.winterparadox.themovieapp.userLists.renameList.RenameListDatabaseInteractor;
+import com.winterparadox.themovieapp.userLists.renameList.RenameListDatabaseInteractorImpl;
 
 import org.junit.Before;
 import org.junit.Test;

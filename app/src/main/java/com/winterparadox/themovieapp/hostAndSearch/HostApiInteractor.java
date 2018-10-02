@@ -9,7 +9,7 @@ import io.reactivex.Single;
 
 public interface HostApiInteractor {
 
-    Single<List<Chart>> generes ();
+    Single<List<Chart>> genres ();
 
     Single<Chart> popularMovieBackdrop (Chart chart);
 

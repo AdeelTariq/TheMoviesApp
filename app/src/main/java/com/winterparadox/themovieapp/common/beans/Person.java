@@ -26,7 +26,7 @@ public class Person implements Serializable {
     public String profilePath;
 
     @SerializedName("id")
-    public int id;
+    public long id;
 
     @SerializedName("adult")
     public boolean adult;
