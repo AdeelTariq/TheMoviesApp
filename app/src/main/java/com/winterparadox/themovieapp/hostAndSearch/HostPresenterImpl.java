@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Scheduler;
+import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -38,8 +39,6 @@ public class HostPresenterImpl extends HostPresenter {
     public void attachView (HostView view, Navigator navigator) {
         super.attachView (view, navigator);
 
-        fetchChartData ();
-
         favMenuDisposable = database.anyFavoriteExists ()
                 .observeOn (mainScheduler)
                 .subscribe (anyExists -> {
@@ -64,22 +63,31 @@ public class HostPresenterImpl extends HostPresenter {
             chartsDisposable.dispose ();
         }
 
-        if ( view != null ) {
-            List<String> defaultCharts = view.getDefaultCharts ();
-            chartsDisposable = PresenterUtils.createCharts (api.genres (),
-                    chart -> {
-                        if ( chart.id == CHART_POPULAR ) {
-                            return api.popularMovieBackdrop (chart);
-                        } else if ( chart.id == CHART_LATEST ) {
-                            return api.latestMovieBackdrop (chart);
-                        } else if ( chart.id == CHART_TOP_RATED ) {
-                            return api.topRatedMovieBackdrop (chart);
-                        } else {
-                            return api.genreMovieBackdrop (chart);
-                        }
-
-                    }, database, defaultCharts);
+        if ( view == null ) {
+            return;
         }
+
+        List<String> defaultCharts = view.getDefaultCharts ();
+        chartsDisposable = PresenterUtils.createCharts (api.genres (),
+                chart -> {
+                    database.insertChart (chart);
+                    return database.getChart (chart.id);
+                },
+                chart -> {
+                    if ( chart.id == CHART_POPULAR ) {
+                        return api.popularMovieBackdrop (chart);
+                    } else if ( chart.id == CHART_LATEST ) {
+                        return api.latestMovieBackdrop (chart);
+                    } else if ( chart.id == CHART_TOP_RATED ) {
+                        return api.topRatedMovieBackdrop (chart);
+                    } else {
+                        return api.genreMovieBackdrop (chart);
+                    }
+                }
+                , chart -> {
+                    Long id = database.updateChart (chart);
+                    return Single.just (id);
+                }, defaultCharts);
     }
 
     @SuppressLint("CheckResult")
@@ -93,8 +101,9 @@ public class HostPresenterImpl extends HostPresenter {
         database.getSuggestions (query)
                 .map (movies -> {
                     Collections.sort (movies,
-                            (o1, o2) -> Integer.compare (o1.title.indexOf (query),
-                                    o2.title.indexOf (query)));
+                            (o1, o2) -> Integer.compare (
+                                    o1.title.toUpperCase ().indexOf (query.toUpperCase ()),
+                                    o2.title.toUpperCase ().indexOf (query.toUpperCase ())));
                     return movies;
                 })
                 .subscribeOn (Schedulers.io ())
@@ -103,6 +112,7 @@ public class HostPresenterImpl extends HostPresenter {
                     if ( view != null ) {
                         view.showSuggestions (movies);
                     }
+                }, throwable -> {
                 });
     }
 

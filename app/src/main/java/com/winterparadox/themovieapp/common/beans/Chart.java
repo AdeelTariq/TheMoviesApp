@@ -23,7 +23,7 @@ public class Chart implements Serializable {
     }
 
     @Ignore
-    public Chart (int id, String name) {
+    public Chart (long id, String name) {
 
         this.id = id;
         this.name = name;
@@ -34,7 +34,7 @@ public class Chart implements Serializable {
         if ( obj instanceof Chart ) {
             return id == ((Chart) obj).id &&
                     name.equals (((Chart) obj).name) &&
-                    backDropPath.equals (((Chart) obj).backDropPath);
+                    (backDropPath != null && backDropPath.equals (((Chart) obj).backDropPath));
         }
         return super.equals (obj);
     }

@@ -21,7 +21,6 @@ public class FavoritesPresenterImpl extends FavoritesPresenter {
 
     public FavoritesPresenterImpl (FavoritesDatabaseInteractor database,
                                    Scheduler mainScheduler) {
-
         this.database = database;
         this.mainScheduler = mainScheduler;
     }

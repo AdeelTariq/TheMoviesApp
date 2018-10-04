@@ -120,6 +120,7 @@ public class HostActivity extends AppCompatActivity implements HostView, Navigat
         frontSheet.setOnClickListener ((v) -> closeBackdrop ());
 
         presenter.attachView (this, this);
+        presenter.fetchChartData ();
 
         if ( savedInstanceState == null ) {
             getSupportFragmentManager ().beginTransaction ()

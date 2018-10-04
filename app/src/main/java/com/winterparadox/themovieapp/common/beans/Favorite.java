@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -21,6 +22,7 @@ public class Favorite {
     public Favorite () {
     }
 
+    @Ignore
     public Favorite (long time, Movie movie) {
 
         this.time = time;
@@ -28,6 +30,7 @@ public class Favorite {
     }
 
     @VisibleForTesting
+    @Ignore
     public Favorite (long movieId) {
         this.time = System.currentTimeMillis ();
         this.movieId = movieId;

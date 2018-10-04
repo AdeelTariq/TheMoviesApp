@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Scheduler;
+import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 
 import static com.winterparadox.themovieapp.common.beans.Chart.CHART_LATEST;
@@ -85,7 +86,11 @@ public class ChartsPresenterImpl extends ChartsPresenter {
 
         if ( view != null ) {
             List<String> defaultCharts = view.getDefaultCharts ();
-            chartsDisposable = PresenterUtils.createCharts (api.generes (),
+            chartsDisposable = PresenterUtils.createCharts (api.genres (),
+                    chart -> {
+                        database.insert (chart);
+                        return database.getChart (chart.id);
+                    },
                     chart -> {
                         if ( chart.id == CHART_POPULAR ) {
                             return api.popularMovieBackdrop (chart);
@@ -97,7 +102,10 @@ public class ChartsPresenterImpl extends ChartsPresenter {
                             return api.genreMovieBackdrop (chart);
                         }
 
-                    }, database, defaultCharts);
+                    }, chart -> {
+                        Long id = database.update (chart);
+                        return Single.just (id);
+                    }, defaultCharts);
         }
     }
 

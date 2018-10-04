@@ -9,7 +9,10 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.assertEquals;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.observers.TestObserver;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -33,12 +36,15 @@ public class CreateListDatabaseInteractorTest {
         given (dao.insertList (any (UserList.class)))
                 .willReturn (value);
 
+        TestObserver<Long> subscriber = new TestObserver<> ();
+
         UserList userList = new UserList ();
 
-        long returnedId = interactor.createList (userList);
+        interactor.createList (userList).subscribe (subscriber);
 
+        subscriber.awaitDone (500, TimeUnit.MILLISECONDS);
         then (dao).should ().insertList (userList);
-        assertEquals ("Wrong id returned", value, returnedId);
+        subscriber.assertResult (value);
     }
 
     @Test
@@ -49,9 +55,8 @@ public class CreateListDatabaseInteractorTest {
 
         UserListItem userListItem = new UserListItem ();
 
-        long returnedId = interactor.addToList (userListItem);
+        interactor.addToList (userListItem).subscribe ();
 
         then (dao).should ().addToList (userListItem);
-        assertEquals ("Wrong id returned", value, returnedId);
     }
 }

@@ -13,7 +13,7 @@ public interface ChartsApiInteractor {
      *
      * @return genre list
      */
-    Single<List<Chart>> generes ();
+    Single<List<Chart>> genres ();
 
     /**
      * Get the backdrop image of most popular movie

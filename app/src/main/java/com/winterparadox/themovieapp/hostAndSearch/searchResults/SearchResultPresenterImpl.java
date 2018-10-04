@@ -40,7 +40,7 @@ public class SearchResultPresenterImpl extends SearchResultPresenter {
             List items = ((List) savedState.get (ITEMS));
             int visiblePos = (int) savedState.get (VISIBLE_ITEM);
             int page = (items.size () / 20) - 1;
-
+            if ( page < 0 ) page = 0;
             if ( view != null ) {
                 view.restoreMovies (visiblePos, items, page);
             }

@@ -47,7 +47,7 @@ public class ChartsApiInteractorTest {
         TestObserver<List<Chart>> subscriber = new TestObserver<> ();
         given (configurationApiService.genres ()).willReturn (Single.just (response));
 
-        interactor.generes ().subscribe (subscriber);
+        interactor.genres ().subscribe (subscriber);
 
         then (configurationApiService).should ().genres ();
         subscriber.awaitDone (5000, TimeUnit.MILLISECONDS);

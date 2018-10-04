@@ -107,8 +107,22 @@ public class Movie implements Serializable {
     }
 
     @VisibleForTesting
+    @Ignore
     public Movie (long id) {
         this.id = id;
+    }
+
+    @VisibleForTesting
+    @Ignore
+    public Movie (long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
+    @VisibleForTesting
+    @Ignore
+    public Movie (String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     @Override

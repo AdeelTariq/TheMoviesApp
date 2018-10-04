@@ -4,6 +4,10 @@ import com.winterparadox.themovieapp.common.beans.UserList;
 import com.winterparadox.themovieapp.common.beans.UserListItem;
 import com.winterparadox.themovieapp.common.room.UserListDao;
 
+import io.reactivex.Completable;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
+
 public class CreateListDatabaseInteractorImpl implements CreateListDatabaseInteractor {
 
     private UserListDao userListDao;
@@ -14,12 +18,13 @@ public class CreateListDatabaseInteractorImpl implements CreateListDatabaseInter
     }
 
     @Override
-    public Long createList (UserList list) {
-        return userListDao.insertList (list);
+    public Single<Long> createList (UserList list) {
+        return Single.fromCallable (() -> userListDao.insertList (list))
+                .subscribeOn (Schedulers.io ());
     }
 
     @Override
-    public Long addToList (UserListItem listItem) {
-        return userListDao.addToList (listItem);
+    public Completable addToList (UserListItem listItem) {
+        return Completable.fromAction (() -> userListDao.addToList (listItem));
     }
 }

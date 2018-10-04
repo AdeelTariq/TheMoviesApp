@@ -5,7 +5,6 @@ import com.winterparadox.themovieapp.common.beans.UserList;
 import com.winterparadox.themovieapp.common.beans.UserListItem;
 
 import io.reactivex.Completable;
-import io.reactivex.schedulers.Schedulers;
 
 public class CreateListDialogPresenterImpl extends CreateListDialogPresenter {
 
@@ -22,13 +21,12 @@ public class CreateListDialogPresenterImpl extends CreateListDialogPresenter {
             return;
         }
 
-        Completable.fromAction (() -> {
-            long id = database.createList (new UserList (name));
-
-            if ( movieId != Movie.NONE ) {
-                database.addToList (new UserListItem (id, movieId));
-            }
-        }).subscribeOn (Schedulers.io ())
-                .subscribe ();
+        database.createList (new UserList (name))
+                .flatMapCompletable (id -> {
+                    if ( movieId == Movie.NONE ) {
+                        return Completable.complete ();
+                    }
+                    return database.addToList (new UserListItem (id, movieId));
+                }).subscribe ();
     }
 }

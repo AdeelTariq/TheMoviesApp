@@ -1,8 +1,6 @@
 package com.winterparadox.themovieapp.common;
 
-import com.winterparadox.themovieapp.charts.ChartsDatabaseInteractor;
 import com.winterparadox.themovieapp.common.beans.Chart;
-import com.winterparadox.themovieapp.hostAndSearch.HostDatabaseInteractor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,49 +35,36 @@ public class PresenterUtils {
 
 
     @NonNull
-    public static Disposable createCharts (Single<List<Chart>> generes,
+    public static Disposable createCharts (Single<List<Chart>> genres,
                                            Function<Chart, SingleSource<? extends Chart>>
-                                                    backDropFunction,
-                                           Object database,
+                                                   saveAndLoadFunction,
+                                           Function<Chart, SingleSource<? extends Chart>>
+                                                   backDropFunction,
+                                           Function<Chart, SingleSource<? extends Long>>
+                                                   updateBackDropFunction,
                                            List<String> defaultCharts) {
-        return generes
-                .map (charts -> {       // add gather charts and genres
+
+        return genres.map (
+                charts -> {       // add gather charts and genres
+                    ArrayList<Chart> charts1 = new ArrayList<> (charts);
                     for ( int i = defaultCharts.size () - 1; i >= 0; i-- ) {
                         String defaultChart = defaultCharts.get (i);
-                        charts.add (0, new Chart (i, defaultChart));
+                        charts1.add (0, new Chart (i, defaultChart));
                     }
+                    return charts1;
 
-                    return charts;
-
-                }).toObservable ()
-                .flatMapIterable (charts -> charts)
-                .flatMapSingle (chart -> {          // save to database if not already saved
-                    if ( database instanceof ChartsDatabaseInteractor ) {
-                        ((ChartsDatabaseInteractor) database).insert (chart);
-                        return ((ChartsDatabaseInteractor) database).getChart (chart.id);
-                    }
-                    if ( database instanceof HostDatabaseInteractor ) {
-                        ((HostDatabaseInteractor) database).insertChart (chart);
-                        return ((HostDatabaseInteractor) database).getChart (chart.id);
-                    }
-                    throw new IllegalArgumentException ("Wrong interactor class");
                 })
+                .toObservable ()
+                .flatMapIterable (charts -> charts)
+                // save to database if not already saved
+                .flatMapSingle (saveAndLoadFunction)
                 // check if any userList's backdrop image is missing
                 .filter (chart -> chart.backDropPath == null)
 
                 // download the backdrop image path
                 .flatMapSingle (backDropFunction)
-                .delay (300, TimeUnit.MILLISECONDS) // delay to avoid api limit
-                // and then save
-                .map (chart -> {
-                    if ( database instanceof ChartsDatabaseInteractor ) {
-                        return ((ChartsDatabaseInteractor) database).update (chart);
-                    }
-                    if ( database instanceof HostDatabaseInteractor ) {
-                        return ((HostDatabaseInteractor) database).updateChart (chart);
-                    }
-                    throw new IllegalArgumentException ("Wrong interactor class");
-                })
+                .delay (300, TimeUnit.MILLISECONDS)
+                .flatMapSingle (updateBackDropFunction)
                 .subscribe (aLong -> {
                 }, Throwable::printStackTrace);
     }
