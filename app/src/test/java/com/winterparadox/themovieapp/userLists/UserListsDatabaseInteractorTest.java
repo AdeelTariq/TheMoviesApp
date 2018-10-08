@@ -110,7 +110,7 @@ public class UserListsDatabaseInteractorTest {
         Long listId = 700L;
         userList.id = listId;
 
-        Movie movie = new Movie ();
+        Movie movie = new Movie (900L);
 
         given (dao.getTopListMovie (anyLong ()))
                 .willReturn (Single.just (movie));
@@ -118,7 +118,6 @@ public class UserListsDatabaseInteractorTest {
         Movie value = interactor.getTopMovieFromList (userList);
 
         then (dao).should ().getTopListMovie (listId);
-
         assertEquals ("Wrong value returned", movie, value);
     }
 

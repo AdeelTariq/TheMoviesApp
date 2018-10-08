@@ -34,7 +34,7 @@ public class Chart implements Serializable {
         if ( obj instanceof Chart ) {
             return id == ((Chart) obj).id &&
                     name.equals (((Chart) obj).name) &&
-                    (backDropPath != null && backDropPath.equals (((Chart) obj).backDropPath));
+                    (backDropPath == null || backDropPath.equals (((Chart) obj).backDropPath));
         }
         return super.equals (obj);
     }

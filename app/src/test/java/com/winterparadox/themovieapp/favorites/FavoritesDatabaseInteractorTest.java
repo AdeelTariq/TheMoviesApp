@@ -59,6 +59,7 @@ public class FavoritesDatabaseInteractorTest {
 
         interactor.unFavorite (movie).subscribe (subscriber);
 
+        subscriber.awaitDone (5000, TimeUnit.MILLISECONDS);
         then (dao).should ().deleteAll (new Favorite (0, movie));
         subscriber.assertComplete ();
     }

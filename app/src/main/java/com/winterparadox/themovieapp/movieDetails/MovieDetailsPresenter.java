@@ -14,6 +14,8 @@ public abstract class MovieDetailsPresenter extends BasePresenter<MovieDetailsVi
         super.attachView (view, navigator);
     }
 
+    abstract void fetchAdditionalDetails ();
+
     abstract boolean isMovieFav ();
 
     abstract void setMovieFav (boolean isFav);

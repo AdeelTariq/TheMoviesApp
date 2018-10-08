@@ -141,11 +141,6 @@ public class UserMovieListFragment extends Fragment implements UserMovieListView
     @Override
     public void onDestroyView () {
         super.onDestroyView ();
-        if ( recyclerView.getRecyclerView ().getLayoutManager () != null ) {
-            int visibleItemPosition = ((GridLayoutManager) recyclerView.getRecyclerView ()
-                    .getLayoutManager ()).findLastCompletelyVisibleItemPosition ();
-            presenter.saveState (visibleItemPosition);
-        }
         presenter.detachView ();
         unbinder.unbind ();
     }

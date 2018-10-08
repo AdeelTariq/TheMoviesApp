@@ -133,7 +133,8 @@ public class Movie implements Serializable {
     @Override
     public boolean equals (Object obj) {
         if ( obj instanceof Movie ) {
-            return ((Movie) obj).id == id;
+            return ((Movie) obj).id == id &&
+                    (year == null || year.equals (((Movie) obj).year));
         }
         return super.equals (obj);
     }

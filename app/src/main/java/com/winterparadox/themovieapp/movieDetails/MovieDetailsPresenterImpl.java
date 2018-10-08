@@ -54,12 +54,11 @@ public class MovieDetailsPresenterImpl extends MovieDetailsPresenter {
 
         view.showMovie (movie, String.format (Locale.getDefault (),
                 "(%s)", PresenterUtils.yearFromDateString (movie.releaseDate)));
-
-        fetchAdditionalDetails ();
     }
 
     @SuppressLint("CheckResult")
-    private void fetchAdditionalDetails () {
+    @Override
+    public void fetchAdditionalDetails () {
         view.showProgress ();
         api.movieDetails (movie.id)
                 .observeOn (mainScheduler)

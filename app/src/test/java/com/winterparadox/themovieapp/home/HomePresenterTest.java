@@ -45,7 +45,7 @@ public class HomePresenterTest {
     }
 
     @Test
-    public void fetchData_loadDataAndShow () {
+    public void fetchData_loadDataAndShow () throws InterruptedException {
         String fav = "Fav";
         given (view.favoriteTitle ()).willReturn (fav);
         String recent = "Recent";
@@ -77,6 +77,8 @@ public class HomePresenterTest {
         presenter.attachView (view, navigator);
         presenter.fetchData ();
 
+        Thread.sleep (1000);
+
         verify (view).showProgress ();
         verify (view).clearView ();
         verify (database).getHomeRecents ();
@@ -92,7 +94,7 @@ public class HomePresenterTest {
     }
 
     @Test
-    public void fetchData_shouldCheckSize () {
+    public void fetchData_shouldCheckSize () throws InterruptedException {
         String fav = "Fav";
         given (view.favoriteTitle ()).willReturn (fav);
         String recent = "Recent";
@@ -119,6 +121,8 @@ public class HomePresenterTest {
 
         presenter.attachView (view, navigator);
         presenter.fetchData ();
+
+        Thread.sleep (1000);
 
         verify (view).showProgress ();
         verify (view).clearView ();

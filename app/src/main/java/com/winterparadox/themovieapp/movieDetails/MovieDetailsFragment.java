@@ -206,6 +206,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsView,
         btnFavorite.invalidate ();
 
         presenter.attachView (this, movie, ((Navigator) getActivity ()));
+        presenter.fetchAdditionalDetails ();
 
         return view;
     }

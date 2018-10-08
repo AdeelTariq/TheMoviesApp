@@ -20,8 +20,6 @@ public abstract class UserMovieListPresenter extends BasePresenter<UserMovieList
 
     public abstract void onMovieClicked (Movie movie, Object element);
 
-    public abstract void saveState (int visibleItemPosition);
-
     public abstract void onDiscoverClick ();
 
     public abstract void deleteMovie (Movie movie);

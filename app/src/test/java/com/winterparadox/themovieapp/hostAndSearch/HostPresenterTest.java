@@ -172,7 +172,7 @@ public class HostPresenterTest {
     }
 
     @Test
-    public void getSuggestions_shouldSearchDatabase () {
+    public void getSuggestions_shouldSearchDatabase () throws InterruptedException {
         given (database.anyFavoriteExists ()).willReturn (Flowable.just (true));
         given (database.anyRecentyViewedExists ()).willReturn (Flowable.just (false));
 
@@ -194,10 +194,14 @@ public class HostPresenterTest {
         presenter.attachView (view, navigator);
         presenter.getSuggestions (movie);
 
+        Thread.sleep (1000);
+
         verify (database).getSuggestions (movie);
         verify (view).showSuggestions (moviesSorted);
 
         presenter.getSuggestions ("mo");
+
+        Thread.sleep (1000);
 
         verify (view).clearSuggestions ();
     }

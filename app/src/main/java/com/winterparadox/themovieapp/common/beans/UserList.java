@@ -3,6 +3,7 @@ package com.winterparadox.themovieapp.common.beans;
 import java.io.Serializable;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
@@ -29,6 +30,14 @@ public class UserList implements Serializable {
     public UserList (String name) {
         this.name = name;
     }
+
+    @VisibleForTesting
+    @Ignore
+    public UserList (long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
 
     @Override
     public boolean equals (@Nullable Object obj) {

@@ -8,18 +8,14 @@ import com.winterparadox.themovieapp.common.beans.Movie;
 import com.winterparadox.themovieapp.common.beans.UserList;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Scheduler;
 
 public class UserMovieListPresenterImpl extends UserMovieListPresenter {
 
-    private static final String VISIBLE_ITEM = "visiblePos";
-
     private Scheduler mainScheduler;
 
-    private HashMap<String, Object> savedState = new HashMap<> ();
     private UserMovieListDatabaseInteractor database;
 
     public UserMovieListPresenterImpl (UserMovieListDatabaseInteractor database,
@@ -34,11 +30,6 @@ public class UserMovieListPresenterImpl extends UserMovieListPresenter {
         super.attachView (view, list, navigator);
 
         fetchData ();
-    }
-
-    @Override
-    public void saveState (int visibleItemPosition) {
-        savedState.put (VISIBLE_ITEM, visibleItemPosition);
     }
 
     @SuppressLint("CheckResult")

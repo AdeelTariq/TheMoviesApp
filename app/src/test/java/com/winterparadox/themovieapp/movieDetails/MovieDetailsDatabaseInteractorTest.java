@@ -78,8 +78,8 @@ public class MovieDetailsDatabaseInteractorTest {
 
         interactor.addToRecentlyViewed (movie).subscribe (subscriber);
 
-        then (recentlyViewedDao).should ().insertAll (new RecentlyViewed (0, movie));
         subscriber.awaitDone (5000, TimeUnit.MILLISECONDS);
+        then (recentlyViewedDao).should ().insertAll (new RecentlyViewed (0, movie));
         subscriber.assertComplete ();
     }
 
@@ -96,8 +96,8 @@ public class MovieDetailsDatabaseInteractorTest {
 
         interactor.addToFavorite (movie).subscribe (subscriber);
 
-        then (favoriteDao).should ().insertAll (new Favorite (0, movie));
         subscriber.awaitDone (5000, TimeUnit.MILLISECONDS);
+        then (favoriteDao).should ().insertAll (new Favorite (0, movie));
         subscriber.assertComplete ();
     }
 
