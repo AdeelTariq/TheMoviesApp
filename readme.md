@@ -8,4 +8,4 @@ and helps user organise movie lists etc.
 
 The app is built with MVP arch pattern and source code is structured with package by feature. 
 RxJava2,  Dagger2, Room, Butterknife, and Retrofit are some of libraries uses. Lottie is used for
- animated icons and Glide for image loading.  
+ animated icons, Glide for image loading and Mockito for testing.
