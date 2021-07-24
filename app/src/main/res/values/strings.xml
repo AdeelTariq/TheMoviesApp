@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">The Movies App</string>
+    <string name="app_name">MovieMeister</string>
     <string name="search_hint">Search for a movie…</string>
     <string name="recently_viewed">Recently Viewed</string>
     <string name="favorites">Favorites</string>

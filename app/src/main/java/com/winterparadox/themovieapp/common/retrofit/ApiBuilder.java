@@ -44,24 +44,6 @@ public class ApiBuilder {
         }
 
         // cache control
-        Interceptor interceptor = chain -> {
-            Request request = chain.request ();
-
-            // Add Cache Control only for GET methods
-            if ( request.method ().equals ("GET") ) {
-                if ( NetworkUtils.isConnected (context) ) {
-                    // 1 day
-                    request = request.newBuilder ()
-                            .header ("Cache-Control", "only-if-cached")
-                            .build ();
-                }
-            }
-            Response originalResponse = chain.proceed (request);
-            return originalResponse.newBuilder ()
-                    .header ("Cache-Control", "max-age=600")
-                    .build ();
-        };
-
         Interceptor interceptorOffline = chain -> {
             Request request = chain.request ();
 
@@ -80,7 +62,6 @@ public class ApiBuilder {
                     .build ();
         };
 
-        httpClient.addNetworkInterceptor (interceptor);
         httpClient.addInterceptor (interceptorOffline);
 
         httpClient.cache (new Cache (context.getCacheDir (), 10 * 1024 * 1024));
